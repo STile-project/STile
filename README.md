@@ -48,6 +48,6 @@ codegen_c.cc:   replace the file sparsetir-artifact/3rdparty/SparseTIR/src/targe
 
 ## How to run the experiments:
 
-Enter the Docker container of SparseTIR, and directly run the scripts in SPMM and SDDMM
+Enter the Docker container of [sparsetir-artifact](https://github.com/uwsampl/sparsetir-artifact/tree/main), and directly run the scripts in SPMM and SDDMM
 
 
