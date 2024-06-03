@@ -518,8 +518,7 @@ def fix_atomic_BSDDMM(ori_code):
     ori_code = ori_code.split('\n')
     new_code = list()
 
-    # 决定换一种实现方式，按照每组thread block的类型来分别处理，这样会更简单一点
-    # 但是感觉还是不方便，还是算了。
+
 
     var_start, var_end, comp_start, comp_end = None, None, None, None
     variables, computation = None, None
