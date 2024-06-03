@@ -40,6 +40,9 @@ def get_dataset(dataset_name: str):
     elif dataset_name == "products":
         products = DglNodePropPredDataset(name="ogbn-products", root=ogb_path)
         return products[0][0].int()
+    elif dataset_name == "mag":
+        mag = DglNodePropPredDataset(name="ogbn-mag", root=ogb_path)
+        return mag[0][0].int()
     elif dataset_name == "ppi":
         ppi = dgl.data.PPIDataset()
         g = dgl.batch(ppi).int()
@@ -56,6 +59,9 @@ def get_dataset(dataset_name: str):
     elif dataset_name == "GDELT":
         GDELT = dgl.data.GDELTDataset()
         return GDELT[2303].int()
+    elif dataset_name == "FraudAmazon":
+        FraudAmazon = dgl.data.FraudAmazonDataset()
+        return FraudAmazon[0].int()
     else:
         raise KeyError("Unknown dataset: {}".format(dataset_name))
 
