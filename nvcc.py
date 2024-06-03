@@ -223,11 +223,14 @@ def fix_atomic_BSPMM(ori_code):
     alloc_SMEM = False
     for line in ori_code:
         if (find_read_SMEM_A) and ((('C_local' in line) and ('=' in line)) or ('C[' in line)):
+            # 说明已经过了一个tile在load data到shared memory的阶段，已经开始进行计算了
             read_SMEM_A_cnt += 1
             find_read_SMEM_A = False
 
         # ==================================================
+        # 首先处理一开始的shared memory的声明
         if ('__shared__' in line):
+            # 此处是shared memory的声明
             if not alloc_SMEM:
                 new_line = f"__shared__ {os.environ['MydtypeIn']} In_shared[{A_ell_max_shared}];\n"
                 new_code.append(new_line)
@@ -239,8 +242,18 @@ def fix_atomic_BSPMM(ori_code):
 
 
         # ==================================================
+        # FOR TC tiles
+        # if ('__shared__' in line) and (TC_C_SMEM!=None):
+        #     if ('C_shared' in line):
+        #         # 因为我们会主动添加一行C_shared的声明语句
+        #         continue
+        #     if not alloc_TC_C_SMEM:
+        #         new_line = f'__shared__ half C_shared[{TC_C_SMEM}];\n'
+        #         new_code.append(new_line)
+        #         alloc_TC_C_SMEM = True
 
         if ('B +' in line) and ('shared' in line):
+            # 把data从B load 进B_shared
             pos0 = line.find('_shared')
             pos1 = line.find('+')
             new_line = f'{line[:pos0 - 1]}In_shared {line[pos1:]}\n'
@@ -248,6 +261,7 @@ def fix_atomic_BSPMM(ori_code):
             continue
 
         if ('nvcuda::wmma::load_matrix_sync' in line) and ('B_shared' in line):
+            # 把data从B shared load进 B_shared_fragment
             pos0 = line.find('&')
             pos1 = line[pos0:].find('_shared') + pos0
             pos2 = line[pos0:].find('[') + pos0
@@ -267,6 +281,7 @@ def fix_atomic_BSPMM(ori_code):
                 new_line = f'nvcuda::wmma::store_matrix_sync((&(C_shared{line[pos1:]}\n'            
                 new_code.append(new_line)
             else:
+                # 没有使用C_shared，而是直接写回global
                 new_code.append(line+'\n')
                 assert not C_store_atomics[C_store_count], "Should use atomic but directly write back to GMEM."
                 C_store_count += 1
@@ -274,6 +289,7 @@ def fix_atomic_BSPMM(ori_code):
 
 
         if ('C[' in line) and ('shared' in line) and ('B[' not in line):
+            # 应该是要做atomicAdd把C从shared memory写回global memory的时候
             # new_line = 'atomicAdd(C + ((((((I_indices0[0] * 8192) + (ax1_ax2_fused_0 * 2048)) + ((((int)threadIdx.x) >> 3) * 512)) + (((int)blockIdx.x) * 16)) + ((((int)threadIdx.x) & 7) * 2)) + ax1_ax2_fused_2), C_shared[(((ax1_ax2_fused_0 * 64) + (((int)threadIdx.x) * 2)) + ax1_ax2_fused_2)]);'
             # new_code.append(new_line)
             # continue
@@ -310,6 +326,23 @@ def fix_atomic_BSPMM(ori_code):
         #     continue
 
         # ==================================================
+        # FOR ELL TILE，因为CSR TILE不使用shared memory
+        # if ('__shared__' in line) and ('A_shared[' in line):
+        #     # this line declares A_shared
+        #     pos0 = line.find('[')
+        #     pos1 = line.find(']')
+        #     new_line = f"{line[:pos0+1]}{A_ell_max_shared}{line[pos1:]}\n"
+        #     if '*' in new_line:
+        #         # 在C++的cuda生成的时候，直接用了print data type，但是对于shared memory，会print指针，其实不应该是指针
+        #         pos2 = line.find('*')
+        #         new_line = new_line[:pos2] + new_line[pos2+1:]
+        #     # 尝试在存储shared memory data的时候引入一点偏移，以避免bank conflict
+        #     # pos0 = new_line.find('A_shared')
+        #     # new_line = new_line[:pos0]+'A_shared_prim'+new_line[pos0+len('A_shared'):]
+        #     new_code.append(new_line)
+        #     # pos0 = new_line.find(' A_shared')
+        #     # new_var_line = f"{new_line[:pos0]}* A_shared;\nA_shared = &A_shared_prim[1];\n"
+        #     # new_code.append(new_var_line)
         if ('shared' in line) and ('=' in line) and ('C' not in line):
             # load data A from input to shared memory
             # e.g., A_shared[((int)threadIdx.x)] = A0[((((int)blockIdx.x) * 512) + ((int)threadIdx.x))];
@@ -356,17 +389,20 @@ def fix_atomic_BSPMM(ori_code):
             # compute C_local
             look_for_atomic_store = True
             if 'shared' in line:
+                # 需要修正shared memory名称
                 pos0 = line.find('+')
                 pos2 = line[pos0:].find('[') + pos0
                 new_line = f'{line[:pos0]}+ (In_shared{line[pos2:]}\n'
                 new_code.append(new_line)
                 # print("find one C local")
             else:
+                # 没有使用shared memory，不做任何改变
                 new_code.append(line+'\n')
         
         elif 'C[' in line:
             # store C_local back to C
             if look_for_atomic_store:
+                # 默认使用了C_local，所以不需要修正shared memory名称
                 if C_store_atomics[C_store_count]:
                     # find the position of '='
                     pos0 = line.find('C[')
@@ -379,6 +415,7 @@ def fix_atomic_BSPMM(ori_code):
                     end = line[pos2:]
                     # 
                     new_line = f"{start}atomicAdd(C + {address}, {val}){end}\n"
+                    # new_line = f"{start}atomicAdd(C + {address}, {val}){end}\n" + 'if ((I_out0[iblk0_0]==3263)&&(((int)threadIdx.x)==0)) {printf("output %f\\n", __half2float(C_local0[0]));}\n'
                     new_code.append(new_line)
                 else:
                     new_code.append(line+'\n')
@@ -386,11 +423,13 @@ def fix_atomic_BSPMM(ori_code):
                 look_for_atomic_store = False
             else:
                 if ('B' in line) and ('_shared' in line):
+                    # 需要修正shared memory名称
                     pos0 = line.find('_shared')
                     pos1 = line[pos0:].find('[') + pos0
                     new_line = f'{line[:pos0-1]}In_shared{line[pos1:]}\n'
                     new_code.append(new_line)
                 else:
+                    # 初始化C 或者是 计算/存回C但是没有使用任何local memory / shared memory
                     new_code.append(line+'\n')
         else:
             new_code.append(line+'\n')
@@ -415,7 +454,15 @@ def deal_with_blockid_offset(code):
     
     for line in code[start:]:
         if '-' in line:
-           pos0 = line.find('-')
+            # 这一行有blockid x带来的index offset需要处理
+            # [((((((int)blockIdx.x) * 16) + (ax0_ax1_fused_0 * 8)) + (((int)threadIdx.x) >> 2)) - 18498688)]
+            # or [block num 为1]
+            # for (int ax2_0 = 0; ax2_0 < 3; ++ax2_0) {
+            #   nvcuda::wmma::store_matrix_sync((&(C1[(ax2_0 * 16)])), C1_wmma_accumulator[((ax2_0 + 822) - (((int)blockIdx.x) * 3))], 48, nvcuda::wmma::mem_row_major);
+            # }
+            # or [block num 为1 且 无需循环写回]
+            # nvcuda::wmma::store_matrix_sync((&(C1[0])), C1_wmma_accumulator[(1156168 - ((int)blockIdx.x))], 16, nvcuda::wmma::mem_row_major);
+            pos0 = line.find('-')
             pos1 = line[pos0:].find(')')+pos0
             pos2 = line.find('((int)blockIdx.x)')
             pos3 = line[pos2+len('((int)blockIdx.x)'):].find('*')+pos2+len('((int)blockIdx.x)')
@@ -430,6 +477,7 @@ def deal_with_blockid_offset(code):
                 new_line = f"{line[:pos2]}(((int)blockIdx.x) - {new_offset}){line[pos2+len('((int)blockIdx.x)'):pos0 ]}{line[pos1:]}"
                 new_code.append(new_line)
             else:
+                # 先获取循环iter名称，如果有的话
                 itername = None
                 if 'for' in new_code[-1]:
                     pos0 = new_code[-1].find('int') + len('int')
@@ -470,6 +518,8 @@ def fix_atomic_BSDDMM(ori_code):
     ori_code = ori_code.split('\n')
     new_code = list()
 
+    # 决定换一种实现方式，按照每组thread block的类型来分别处理，这样会更简单一点
+    # 但是感觉还是不方便，还是算了。
 
     var_start, var_end, comp_start, comp_end = None, None, None, None
     variables, computation = None, None
@@ -482,6 +532,7 @@ def fix_atomic_BSDDMM(ori_code):
                     computation = ''.join(lines[i+1:])
                     break
 
+        # 先找到声明变量和1D tile的计算模块的区间
         for i, line in enumerate(ori_code):
             if 'main_kernel' in line:
                 var_start = i+1
@@ -510,7 +561,11 @@ def fix_atomic_BSDDMM(ori_code):
                 continue
 
         # ===========================================================================
+        # 处理TC tile
+
+        # 对使用的shared memory进行声明
         if ('__shared__' in line) and (not declare_sharemem):
+            # 因为1D tile 不使用shared memory，所以我们只针对TC tile进行声明
             if int(os.environ['A_SMEM'])>0:
                 new_code.append(f"__shared__ {os.environ['MydtypeIn']} A_shared[{os.environ['A_SMEM']}];\n")
             if int(os.environ['B_SMEM'])>0:
@@ -520,6 +575,7 @@ def fix_atomic_BSDDMM(ori_code):
             declare_sharemem = True
             continue
 
+        # 把B从global memory load 进 shared memory
         if (('B[' in line) or ('B +' in line)) and ('=' in line) and ('shared' in line) and ('C' not in line) and ('B_shared_wmma_matrix_b' not in line):
             assert 'A_shared' in line, line
             pos0 = line.find('A_shared')
@@ -528,6 +584,7 @@ def fix_atomic_BSDDMM(ori_code):
             new_code.append(new_line)
             continue
 
+        # 把B从shared memory load进fragment
         if ('load_matrix_sync' in line) and ('B_shared_wmma_matrix_b' in line):
             pos0 = line.find('A_shared')
             pos1 = pos0 + len('A_shared')
@@ -535,13 +592,16 @@ def fix_atomic_BSDDMM(ori_code):
             new_code.append(new_line)
             continue
 
+        # 把结果存回shared memory
         if ('store_matrix_sync' in line) and ('A_shared' in line):
+            # 因为我们还实现了一个不会在写回的时候remap的TC tile版本，所以如果line中没有用到shared memory的话，那就不会修改这一行
             pos0 = line.find('A_shared')
             pos1 = pos0 + len('A_shared')
             new_line = f"{line[:pos0]}C_shared{line[pos1:]}\n"
             new_code.append(new_line)
             continue
 
+        # 把结果存回global memory
         if ('C' in line) and ('A_shared' in line) and ('mma_sync' not in line):
             pos0 = line.find('A_shared')
             pos1 =  pos0 + len('A_shared')
@@ -583,9 +643,11 @@ def fix_atomic(ori_code):
 @tvm._ffi.register_func
 def tvm_callback_cuda_compile(code):
     """use nvcc to generate fatbin code for better optimization"""
+    # <fjz> start------------
     # print("fix atomic bug---type of code: ", type(code))
     if 'MyFileID' in os.environ:
         code = fix_atomic(code)
+    # <fjz> end--------------
 
     ptx = compile_cuda(code, target_format="fatbin")
     return ptx
