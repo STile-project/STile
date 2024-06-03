@@ -1,0 +1,2160 @@
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert0_2.txt
+Problem size: M: 192, N: 768, nnz: 63488, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0704638 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert0_4.txt
+Problem size: M: 192, N: 768, nnz: 63488, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0575103 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert0_8.txt
+Problem size: M: 192, N: 768, nnz: 63488, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0455198 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert1_2.txt
+Problem size: M: 192, N: 768, nnz: 66560, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0703879 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert1_4.txt
+Problem size: M: 192, N: 768, nnz: 66560, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0578983 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert1_8.txt
+Problem size: M: 192, N: 768, nnz: 66560, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0454399 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert2_2.txt
+Problem size: M: 192, N: 768, nnz: 64512, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0702899 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert2_4.txt
+Problem size: M: 192, N: 768, nnz: 64512, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0579323 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert2_8.txt
+Problem size: M: 192, N: 768, nnz: 64512, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0459598 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert3_2.txt
+Problem size: M: 768, N: 192, nnz: 62464, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0576241 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert3_4.txt
+Problem size: M: 768, N: 192, nnz: 62464, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0450759 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert3_8.txt
+Problem size: M: 768, N: 192, nnz: 62464, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.036448 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert4_2.txt
+Problem size: M: 3072, N: 768, nnz: 503808, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.270096 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert4_4.txt
+Problem size: M: 3072, N: 768, nnz: 503808, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.159282 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert4_8.txt
+Problem size: M: 3072, N: 768, nnz: 503808, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.103642 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert5_2.txt
+Problem size: M: 768, N: 3072, nnz: 396288, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.21399 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert5_4.txt
+Problem size: M: 768, N: 3072, nnz: 396288, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.126118 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert5_8.txt
+Problem size: M: 768, N: 3072, nnz: 396288, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.085044 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert6_2.txt
+Problem size: M: 128, N: 768, nnz: 63488, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0625079 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert6_4.txt
+Problem size: M: 128, N: 768, nnz: 63488, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0445019 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert6_8.txt
+Problem size: M: 128, N: 768, nnz: 63488, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0380278 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert7_2.txt
+Problem size: M: 128, N: 768, nnz: 66560, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0649181 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert7_4.txt
+Problem size: M: 128, N: 768, nnz: 66560, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0460058 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert7_8.txt
+Problem size: M: 128, N: 768, nnz: 66560, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0375378 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert8_2.txt
+Problem size: M: 128, N: 768, nnz: 40960, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0519019 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert8_4.txt
+Problem size: M: 128, N: 768, nnz: 40960, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0447399 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert8_8.txt
+Problem size: M: 128, N: 768, nnz: 40960, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0361439 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert9_2.txt
+Problem size: M: 768, N: 128, nnz: 38912, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0436459 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert9_4.txt
+Problem size: M: 768, N: 128, nnz: 38912, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0389719 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert9_8.txt
+Problem size: M: 768, N: 128, nnz: 38912, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0360299 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert10_2.txt
+Problem size: M: 3072, N: 768, nnz: 304128, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.185714 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert10_4.txt
+Problem size: M: 3072, N: 768, nnz: 304128, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.117084 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert10_8.txt
+Problem size: M: 3072, N: 768, nnz: 304128, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.070102 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert11_2.txt
+Problem size: M: 768, N: 3072, nnz: 230400, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.13879 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert11_4.txt
+Problem size: M: 768, N: 3072, nnz: 230400, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.102256 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert11_8.txt
+Problem size: M: 768, N: 3072, nnz: 230400, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0652161 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert12_2.txt
+Problem size: M: 192, N: 768, nnz: 91136, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0717819 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert12_4.txt
+Problem size: M: 192, N: 768, nnz: 91136, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0504222 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert12_8.txt
+Problem size: M: 192, N: 768, nnz: 91136, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0403661 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert13_2.txt
+Problem size: M: 192, N: 768, nnz: 99328, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0841899 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert13_4.txt
+Problem size: M: 192, N: 768, nnz: 99328, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0586403 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert13_8.txt
+Problem size: M: 192, N: 768, nnz: 99328, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0450559 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert14_2.txt
+Problem size: M: 192, N: 768, nnz: 67584, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0705239 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert14_4.txt
+Problem size: M: 192, N: 768, nnz: 67584, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0575423 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert14_8.txt
+Problem size: M: 192, N: 768, nnz: 67584, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0450779 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert15_2.txt
+Problem size: M: 768, N: 192, nnz: 62464, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0701159 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert15_4.txt
+Problem size: M: 768, N: 192, nnz: 62464, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0496962 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert15_8.txt
+Problem size: M: 768, N: 192, nnz: 62464, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0401081 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert16_2.txt
+Problem size: M: 3072, N: 768, nnz: 354304, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.226274 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert16_4.txt
+Problem size: M: 3072, N: 768, nnz: 354304, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.136156 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert16_8.txt
+Problem size: M: 3072, N: 768, nnz: 354304, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0905121 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert17_2.txt
+Problem size: M: 768, N: 3072, nnz: 247808, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.154208 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert17_4.txt
+Problem size: M: 768, N: 3072, nnz: 247808, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.102258 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert17_8.txt
+Problem size: M: 768, N: 3072, nnz: 247808, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0674638 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert18_2.txt
+Problem size: M: 256, N: 768, nnz: 81920, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0876579 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert18_4.txt
+Problem size: M: 256, N: 768, nnz: 81920, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0587343 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert18_8.txt
+Problem size: M: 256, N: 768, nnz: 81920, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0459258 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert19_2.txt
+Problem size: M: 256, N: 768, nnz: 91136, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.088714 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert19_4.txt
+Problem size: M: 256, N: 768, nnz: 91136, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0577303 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert19_8.txt
+Problem size: M: 256, N: 768, nnz: 91136, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0444058 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert20_2.txt
+Problem size: M: 256, N: 768, nnz: 69632, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0689357 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert20_4.txt
+Problem size: M: 256, N: 768, nnz: 69632, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0578443 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert20_8.txt
+Problem size: M: 256, N: 768, nnz: 69632, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0451559 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert21_2.txt
+Problem size: M: 768, N: 256, nnz: 65536, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0695838 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert21_4.txt
+Problem size: M: 768, N: 256, nnz: 65536, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0506842 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert21_8.txt
+Problem size: M: 768, N: 256, nnz: 65536, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0413142 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert22_2.txt
+Problem size: M: 3072, N: 768, nnz: 246784, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.17899 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert22_4.txt
+Problem size: M: 3072, N: 768, nnz: 246784, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.10231 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert22_8.txt
+Problem size: M: 3072, N: 768, nnz: 246784, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0640181 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert23_2.txt
+Problem size: M: 768, N: 3072, nnz: 181248, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.13874 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert23_4.txt
+Problem size: M: 768, N: 3072, nnz: 181248, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0923099 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert23_8.txt
+Problem size: M: 768, N: 3072, nnz: 181248, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.057422 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert24_2.txt
+Problem size: M: 128, N: 768, nnz: 40960, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.048216 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert24_4.txt
+Problem size: M: 128, N: 768, nnz: 40960, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.043594 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert24_8.txt
+Problem size: M: 128, N: 768, nnz: 40960, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.039916 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert25_2.txt
+Problem size: M: 128, N: 768, nnz: 44032, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0573923 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert25_4.txt
+Problem size: M: 128, N: 768, nnz: 44032, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0495422 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert25_8.txt
+Problem size: M: 128, N: 768, nnz: 44032, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.03976 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert26_2.txt
+Problem size: M: 128, N: 768, nnz: 36864, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0573303 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert26_4.txt
+Problem size: M: 128, N: 768, nnz: 36864, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0490502 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert26_8.txt
+Problem size: M: 128, N: 768, nnz: 36864, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.039458 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert27_2.txt
+Problem size: M: 768, N: 128, nnz: 32768, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0538219 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert27_4.txt
+Problem size: M: 768, N: 128, nnz: 32768, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0447581 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert27_8.txt
+Problem size: M: 768, N: 128, nnz: 32768, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.039638 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert28_2.txt
+Problem size: M: 3072, N: 768, nnz: 239616, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.174032 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert28_4.txt
+Problem size: M: 3072, N: 768, nnz: 239616, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.102116 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert28_8.txt
+Problem size: M: 3072, N: 768, nnz: 239616, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.063482 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert29_2.txt
+Problem size: M: 768, N: 3072, nnz: 182272, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.125032 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert29_4.txt
+Problem size: M: 768, N: 3072, nnz: 182272, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0827799 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert29_8.txt
+Problem size: M: 768, N: 3072, nnz: 182272, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0526722 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert30_2.txt
+Problem size: M: 256, N: 768, nnz: 43008, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0527818 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert30_4.txt
+Problem size: M: 256, N: 768, nnz: 43008, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0444859 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert30_8.txt
+Problem size: M: 256, N: 768, nnz: 43008, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0393959 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert31_2.txt
+Problem size: M: 256, N: 768, nnz: 52224, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0693458 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert31_4.txt
+Problem size: M: 256, N: 768, nnz: 52224, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0557843 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert31_8.txt
+Problem size: M: 256, N: 768, nnz: 52224, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0448419 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert32_2.txt
+Problem size: M: 256, N: 768, nnz: 49152, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0685598 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert32_4.txt
+Problem size: M: 256, N: 768, nnz: 49152, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0494702 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert32_8.txt
+Problem size: M: 256, N: 768, nnz: 49152, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0408801 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert33_2.txt
+Problem size: M: 768, N: 256, nnz: 51200, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0587563 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert33_4.txt
+Problem size: M: 768, N: 256, nnz: 51200, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0490562 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert33_8.txt
+Problem size: M: 768, N: 256, nnz: 51200, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0403021 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert34_2.txt
+Problem size: M: 3072, N: 768, nnz: 201728, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.155496 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert34_4.txt
+Problem size: M: 3072, N: 768, nnz: 201728, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.099722 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert34_8.txt
+Problem size: M: 3072, N: 768, nnz: 201728, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0624839 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert35_2.txt
+Problem size: M: 768, N: 3072, nnz: 163840, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.114928 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert35_4.txt
+Problem size: M: 768, N: 3072, nnz: 163840, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0844178 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert35_8.txt
+Problem size: M: 768, N: 3072, nnz: 163840, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.055584 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert36_2.txt
+Problem size: M: 128, N: 768, nnz: 16384, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.04205 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert36_4.txt
+Problem size: M: 128, N: 768, nnz: 16384, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0423801 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert36_8.txt
+Problem size: M: 128, N: 768, nnz: 16384, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.039962 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert37_2.txt
+Problem size: M: 128, N: 768, nnz: 22528, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.047506 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert37_4.txt
+Problem size: M: 128, N: 768, nnz: 22528, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0429401 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert37_8.txt
+Problem size: M: 128, N: 768, nnz: 22528, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.039708 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert38_2.txt
+Problem size: M: 128, N: 768, nnz: 20480, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.047704 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert38_4.txt
+Problem size: M: 128, N: 768, nnz: 20480, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0432401 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert38_8.txt
+Problem size: M: 128, N: 768, nnz: 20480, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.039656 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert39_2.txt
+Problem size: M: 768, N: 128, nnz: 18432, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0462838 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert39_4.txt
+Problem size: M: 768, N: 128, nnz: 18432, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.042164 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert39_8.txt
+Problem size: M: 768, N: 128, nnz: 18432, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.039714 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert40_2.txt
+Problem size: M: 3072, N: 768, nnz: 201728, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.1534 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert40_4.txt
+Problem size: M: 3072, N: 768, nnz: 201728, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0994379 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert40_8.txt
+Problem size: M: 3072, N: 768, nnz: 201728, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0622419 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert41_2.txt
+Problem size: M: 768, N: 3072, nnz: 173056, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.123484 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert41_4.txt
+Problem size: M: 768, N: 3072, nnz: 173056, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0884799 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert41_8.txt
+Problem size: M: 768, N: 3072, nnz: 173056, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0570982 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert42_2.txt
+Problem size: M: 320, N: 768, nnz: 48128, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0682738 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert42_4.txt
+Problem size: M: 320, N: 768, nnz: 48128, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0492422 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert42_8.txt
+Problem size: M: 320, N: 768, nnz: 48128, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0410962 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert43_2.txt
+Problem size: M: 320, N: 768, nnz: 62464, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0712099 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert43_4.txt
+Problem size: M: 320, N: 768, nnz: 62464, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0523362 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert43_8.txt
+Problem size: M: 320, N: 768, nnz: 62464, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0455219 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert44_2.txt
+Problem size: M: 320, N: 768, nnz: 61440, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0715719 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert44_4.txt
+Problem size: M: 320, N: 768, nnz: 61440, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0538122 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert44_8.txt
+Problem size: M: 320, N: 768, nnz: 61440, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0449859 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert45_2.txt
+Problem size: M: 768, N: 320, nnz: 57344, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0693697 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert45_4.txt
+Problem size: M: 768, N: 320, nnz: 57344, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0502762 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert45_8.txt
+Problem size: M: 768, N: 320, nnz: 57344, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0409301 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert46_2.txt
+Problem size: M: 3072, N: 768, nnz: 172032, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.143788 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert46_4.txt
+Problem size: M: 3072, N: 768, nnz: 172032, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.094264 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert46_8.txt
+Problem size: M: 3072, N: 768, nnz: 172032, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0615019 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert47_2.txt
+Problem size: M: 768, N: 3072, nnz: 134144, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.10221 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert47_4.txt
+Problem size: M: 768, N: 3072, nnz: 134144, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.07509 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert47_8.txt
+Problem size: M: 768, N: 3072, nnz: 134144, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0549679 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert48_2.txt
+Problem size: M: 192, N: 768, nnz: 22528, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.047526 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert48_4.txt
+Problem size: M: 192, N: 768, nnz: 22528, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0423021 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert48_8.txt
+Problem size: M: 192, N: 768, nnz: 22528, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0399601 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert49_2.txt
+Problem size: M: 192, N: 768, nnz: 23552, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.047556 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert49_4.txt
+Problem size: M: 192, N: 768, nnz: 23552, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0423721 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert49_8.txt
+Problem size: M: 192, N: 768, nnz: 23552, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0390319 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert50_2.txt
+Problem size: M: 192, N: 768, nnz: 23552, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0464618 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert50_4.txt
+Problem size: M: 192, N: 768, nnz: 23552, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0461258 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert50_8.txt
+Problem size: M: 192, N: 768, nnz: 23552, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0391779 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert51_2.txt
+Problem size: M: 768, N: 192, nnz: 19456, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0439459 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert51_4.txt
+Problem size: M: 768, N: 192, nnz: 19456, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0405961 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert51_8.txt
+Problem size: M: 768, N: 192, nnz: 19456, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0360979 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert52_2.txt
+Problem size: M: 3072, N: 768, nnz: 34816, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.075008 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert52_4.txt
+Problem size: M: 3072, N: 768, nnz: 34816, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0590421 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert52_8.txt
+Problem size: M: 3072, N: 768, nnz: 34816, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0462781 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert53_2.txt
+Problem size: M: 768, N: 3072, nnz: 25600, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0486002 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert53_4.txt
+Problem size: M: 768, N: 3072, nnz: 25600, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0438239 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert53_8.txt
+Problem size: M: 768, N: 3072, nnz: 25600, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0400561 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert54_2.txt
+Problem size: M: 256, N: 768, nnz: 45056, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0592783 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert54_4.txt
+Problem size: M: 256, N: 768, nnz: 45056, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0490382 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert54_8.txt
+Problem size: M: 256, N: 768, nnz: 45056, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0401561 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert55_2.txt
+Problem size: M: 256, N: 768, nnz: 48128, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0573443 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert55_4.txt
+Problem size: M: 256, N: 768, nnz: 48128, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0486302 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert55_8.txt
+Problem size: M: 256, N: 768, nnz: 48128, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0404941 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert56_2.txt
+Problem size: M: 256, N: 768, nnz: 13312, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0410641 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert56_4.txt
+Problem size: M: 256, N: 768, nnz: 13312, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0425041 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert56_8.txt
+Problem size: M: 256, N: 768, nnz: 13312, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.039474 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert57_2.txt
+Problem size: M: 768, N: 256, nnz: 11264, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.043432 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert57_4.txt
+Problem size: M: 768, N: 256, nnz: 11264, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0425041 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert57_8.txt
+Problem size: M: 768, N: 256, nnz: 11264, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0384978 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert58_2.txt
+Problem size: M: 3072, N: 768, nnz: 22528, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0676279 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert58_4.txt
+Problem size: M: 3072, N: 768, nnz: 22528, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0552481 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert58_8.txt
+Problem size: M: 3072, N: 768, nnz: 22528, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0442781 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert59_2.txt
+Problem size: M: 768, N: 3072, nnz: 12288, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.047608 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert59_4.txt
+Problem size: M: 768, N: 3072, nnz: 12288, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0431301 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert59_8.txt
+Problem size: M: 768, N: 3072, nnz: 12288, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.040578 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert60_2.txt
+Problem size: M: 192, N: 768, nnz: 23552, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.047588 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert60_4.txt
+Problem size: M: 192, N: 768, nnz: 23552, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.047558 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert60_8.txt
+Problem size: M: 192, N: 768, nnz: 23552, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0403281 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert61_2.txt
+Problem size: M: 192, N: 768, nnz: 22528, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.047716 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert61_4.txt
+Problem size: M: 192, N: 768, nnz: 22528, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.047444 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert61_8.txt
+Problem size: M: 192, N: 768, nnz: 22528, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0402421 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert62_2.txt
+Problem size: M: 192, N: 768, nnz: 10240, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0415701 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert62_4.txt
+Problem size: M: 192, N: 768, nnz: 10240, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.042026 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert62_8.txt
+Problem size: M: 192, N: 768, nnz: 10240, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.03957 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert63_2.txt
+Problem size: M: 768, N: 192, nnz: 15360, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0469079 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert63_4.txt
+Problem size: M: 768, N: 192, nnz: 15360, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0427641 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert63_8.txt
+Problem size: M: 768, N: 192, nnz: 15360, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.039654 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert64_2.txt
+Problem size: M: 3072, N: 768, nnz: 70656, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.100138 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert64_4.txt
+Problem size: M: 3072, N: 768, nnz: 70656, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0768461 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert64_8.txt
+Problem size: M: 3072, N: 768, nnz: 70656, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.057416 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert65_2.txt
+Problem size: M: 768, N: 3072, nnz: 44032, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0589182 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert65_4.txt
+Problem size: M: 768, N: 3072, nnz: 44032, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0491342 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert65_8.txt
+Problem size: M: 768, N: 3072, nnz: 44032, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0442858 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert66_2.txt
+Problem size: M: 192, N: 768, nnz: 20480, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0472219 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert66_4.txt
+Problem size: M: 192, N: 768, nnz: 20480, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.047642 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert66_8.txt
+Problem size: M: 192, N: 768, nnz: 20480, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.039582 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert67_2.txt
+Problem size: M: 192, N: 768, nnz: 17408, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0442359 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert67_4.txt
+Problem size: M: 192, N: 768, nnz: 17408, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.04186 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert67_8.txt
+Problem size: M: 192, N: 768, nnz: 17408, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0387659 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert68_2.txt
+Problem size: M: 192, N: 768, nnz: 6144, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0409342 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert68_4.txt
+Problem size: M: 192, N: 768, nnz: 6144, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.041802 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert68_8.txt
+Problem size: M: 192, N: 768, nnz: 6144, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.039452 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert69_2.txt
+Problem size: M: 768, N: 192, nnz: 8192, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0412321 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert69_4.txt
+Problem size: M: 768, N: 192, nnz: 8192, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.041926 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert69_8.txt
+Problem size: M: 768, N: 192, nnz: 8192, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0391779 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert70_2.txt
+Problem size: M: 3072, N: 768, nnz: 81920, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.10479 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert70_4.txt
+Problem size: M: 3072, N: 768, nnz: 81920, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.08134 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert70_8.txt
+Problem size: M: 3072, N: 768, nnz: 81920, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0601481 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert71_2.txt
+Problem size: M: 768, N: 3072, nnz: 55296, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0572843 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert71_4.txt
+Problem size: M: 768, N: 3072, nnz: 55296, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0490642 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert71_8.txt
+Problem size: M: 768, N: 3072, nnz: 55296, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0407261 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured0_2.txt
+Problem size: M: 768, N: 768, nnz: 5862, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0486061 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured0_4.txt
+Problem size: M: 768, N: 768, nnz: 11440, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.047662 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured0_8.txt
+Problem size: M: 768, N: 768, nnz: 22616, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0432021 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured1_2.txt
+Problem size: M: 768, N: 768, nnz: 5838, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0465958 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured1_4.txt
+Problem size: M: 768, N: 768, nnz: 11280, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.047102 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured1_8.txt
+Problem size: M: 768, N: 768, nnz: 21720, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0437419 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured2_2.txt
+Problem size: M: 768, N: 768, nnz: 6812, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0474819 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured2_4.txt
+Problem size: M: 768, N: 768, nnz: 13440, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.046476 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured2_8.txt
+Problem size: M: 768, N: 768, nnz: 26432, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.04131 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured3_2.txt
+Problem size: M: 768, N: 768, nnz: 6496, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0403901 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured3_4.txt
+Problem size: M: 768, N: 768, nnz: 11092, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0400641 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured3_8.txt
+Problem size: M: 768, N: 768, nnz: 17320, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0377758 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured4_2.txt
+Problem size: M: 3072, N: 768, nnz: 701318, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.386837 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured4_4.txt
+Problem size: M: 3072, N: 768, nnz: 1186400, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.304271 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured4_8.txt
+Problem size: M: 3072, N: 768, nnz: 1775688, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.242872 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured5_2.txt
+Problem size: M: 768, N: 3072, nnz: 510514, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.264256 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured5_4.txt
+Problem size: M: 768, N: 3072, nnz: 842912, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.220183 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured5_8.txt
+Problem size: M: 768, N: 3072, nnz: 1250992, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.169902 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured6_2.txt
+Problem size: M: 768, N: 768, nnz: 34860, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.064938 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured6_4.txt
+Problem size: M: 768, N: 768, nnz: 59192, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0578138 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured6_8.txt
+Problem size: M: 768, N: 768, nnz: 91400, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0499001 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured7_2.txt
+Problem size: M: 768, N: 768, nnz: 35454, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.065038 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured7_4.txt
+Problem size: M: 768, N: 768, nnz: 60132, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0577058 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured7_8.txt
+Problem size: M: 768, N: 768, nnz: 92328, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0564919 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured8_2.txt
+Problem size: M: 768, N: 768, nnz: 25686, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.064074 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured8_4.txt
+Problem size: M: 768, N: 768, nnz: 48148, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0573282 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured8_8.txt
+Problem size: M: 768, N: 768, nnz: 85640, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0508079 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured9_2.txt
+Problem size: M: 768, N: 768, nnz: 27608, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0462058 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured9_4.txt
+Problem size: M: 768, N: 768, nnz: 46708, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0461198 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured9_8.txt
+Problem size: M: 768, N: 768, nnz: 72288, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0403901 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured10_2.txt
+Problem size: M: 3072, N: 768, nnz: 758496, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.417769 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured10_4.txt
+Problem size: M: 3072, N: 768, nnz: 1269220, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.324079 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured10_8.txt
+Problem size: M: 3072, N: 768, nnz: 1844576, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.246767 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured11_2.txt
+Problem size: M: 768, N: 3072, nnz: 508038, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.26263 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured11_4.txt
+Problem size: M: 768, N: 3072, nnz: 837472, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.217218 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured11_8.txt
+Problem size: M: 768, N: 3072, nnz: 1238024, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.16939 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured12_2.txt
+Problem size: M: 768, N: 768, nnz: 30936, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0637479 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured12_4.txt
+Problem size: M: 768, N: 768, nnz: 52380, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0618561 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured12_8.txt
+Problem size: M: 768, N: 768, nnz: 81016, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0539239 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured13_2.txt
+Problem size: M: 768, N: 768, nnz: 31390, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0706758 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured13_4.txt
+Problem size: M: 768, N: 768, nnz: 52808, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0611921 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured13_8.txt
+Problem size: M: 768, N: 768, nnz: 81184, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0540319 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured14_2.txt
+Problem size: M: 768, N: 768, nnz: 21450, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0595981 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured14_4.txt
+Problem size: M: 768, N: 768, nnz: 40408, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0549862 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured14_8.txt
+Problem size: M: 768, N: 768, nnz: 71680, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0471319 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured15_2.txt
+Problem size: M: 768, N: 768, nnz: 21180, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0459338 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured15_4.txt
+Problem size: M: 768, N: 768, nnz: 35920, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0426341 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured15_8.txt
+Problem size: M: 768, N: 768, nnz: 54856, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.03991 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured16_2.txt
+Problem size: M: 3072, N: 768, nnz: 727318, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.407126 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured16_4.txt
+Problem size: M: 3072, N: 768, nnz: 1222288, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.313503 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured16_8.txt
+Problem size: M: 3072, N: 768, nnz: 1808496, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.244188 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured17_2.txt
+Problem size: M: 768, N: 3072, nnz: 475940, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.248323 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured17_4.txt
+Problem size: M: 768, N: 3072, nnz: 784676, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.207783 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured17_8.txt
+Problem size: M: 768, N: 3072, nnz: 1169008, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.162608 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured18_2.txt
+Problem size: M: 768, N: 768, nnz: 42274, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0685041 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured18_4.txt
+Problem size: M: 768, N: 768, nnz: 73072, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0615099 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured18_8.txt
+Problem size: M: 768, N: 768, nnz: 116168, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0503342 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured19_2.txt
+Problem size: M: 768, N: 768, nnz: 46016, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.07813 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured19_4.txt
+Problem size: M: 768, N: 768, nnz: 79388, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0694779 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured19_8.txt
+Problem size: M: 768, N: 768, nnz: 126304, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0560379 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured20_2.txt
+Problem size: M: 768, N: 768, nnz: 35738, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0684878 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured20_4.txt
+Problem size: M: 768, N: 768, nnz: 65908, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.064246 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured20_8.txt
+Problem size: M: 768, N: 768, nnz: 114432, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0533239 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured21_2.txt
+Problem size: M: 768, N: 768, nnz: 35374, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.047806 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured21_4.txt
+Problem size: M: 768, N: 768, nnz: 62036, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0481981 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured21_8.txt
+Problem size: M: 768, N: 768, nnz: 99984, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0438439 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured22_2.txt
+Problem size: M: 3072, N: 768, nnz: 686920, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.388329 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured22_4.txt
+Problem size: M: 3072, N: 768, nnz: 1164716, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.302331 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured22_8.txt
+Problem size: M: 3072, N: 768, nnz: 1743816, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.23649 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured23_2.txt
+Problem size: M: 768, N: 3072, nnz: 428544, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.228142 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured23_4.txt
+Problem size: M: 768, N: 3072, nnz: 711156, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.185695 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured23_8.txt
+Problem size: M: 768, N: 3072, nnz: 1068408, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.154352 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured24_2.txt
+Problem size: M: 768, N: 768, nnz: 24726, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.057378 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured24_4.txt
+Problem size: M: 768, N: 768, nnz: 43116, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0591822 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured24_8.txt
+Problem size: M: 768, N: 768, nnz: 69072, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0525579 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured25_2.txt
+Problem size: M: 768, N: 768, nnz: 28090, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0669878 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured25_4.txt
+Problem size: M: 768, N: 768, nnz: 48896, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0600662 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured25_8.txt
+Problem size: M: 768, N: 768, nnz: 78024, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0535418 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured26_2.txt
+Problem size: M: 768, N: 768, nnz: 28756, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0658379 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured26_4.txt
+Problem size: M: 768, N: 768, nnz: 52724, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0569502 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured26_8.txt
+Problem size: M: 768, N: 768, nnz: 90480, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0490019 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured27_2.txt
+Problem size: M: 768, N: 768, nnz: 28240, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0465318 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured27_4.txt
+Problem size: M: 768, N: 768, nnz: 50996, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0469779 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured27_8.txt
+Problem size: M: 768, N: 768, nnz: 84664, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0404301 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured28_2.txt
+Problem size: M: 3072, N: 768, nnz: 618184, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.364989 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured28_4.txt
+Problem size: M: 3072, N: 768, nnz: 1066448, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.279728 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured28_8.txt
+Problem size: M: 3072, N: 768, nnz: 1634488, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.223201 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured29_2.txt
+Problem size: M: 768, N: 3072, nnz: 357758, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.198506 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured29_4.txt
+Problem size: M: 768, N: 3072, nnz: 598348, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.161893 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured29_8.txt
+Problem size: M: 768, N: 3072, nnz: 914512, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.135352 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured30_2.txt
+Problem size: M: 768, N: 768, nnz: 17008, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0442661 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured30_4.txt
+Problem size: M: 768, N: 768, nnz: 32132, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0423561 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured30_8.txt
+Problem size: M: 768, N: 768, nnz: 58208, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.039192 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured31_2.txt
+Problem size: M: 768, N: 768, nnz: 22638, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0516422 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured31_4.txt
+Problem size: M: 768, N: 768, nnz: 42224, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.047288 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured31_8.txt
+Problem size: M: 768, N: 768, nnz: 75320, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0406741 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured32_2.txt
+Problem size: M: 768, N: 768, nnz: 25578, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0527561 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured32_4.txt
+Problem size: M: 768, N: 768, nnz: 47844, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0532281 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured32_8.txt
+Problem size: M: 768, N: 768, nnz: 85312, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0454239 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured33_2.txt
+Problem size: M: 768, N: 768, nnz: 24642, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0462818 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured33_4.txt
+Problem size: M: 768, N: 768, nnz: 44964, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0462938 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured33_8.txt
+Problem size: M: 768, N: 768, nnz: 76880, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0404421 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured34_2.txt
+Problem size: M: 3072, N: 768, nnz: 559288, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.344879 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured34_4.txt
+Problem size: M: 3072, N: 768, nnz: 972604, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.260562 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured34_8.txt
+Problem size: M: 3072, N: 768, nnz: 1536448, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.21446 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured35_2.txt
+Problem size: M: 768, N: 3072, nnz: 316208, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.180318 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured35_4.txt
+Problem size: M: 768, N: 3072, nnz: 537864, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.149553 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured35_8.txt
+Problem size: M: 768, N: 3072, nnz: 836008, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.125546 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured36_2.txt
+Problem size: M: 768, N: 768, nnz: 15278, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.041778 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured36_4.txt
+Problem size: M: 768, N: 768, nnz: 29224, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.041944 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured36_8.txt
+Problem size: M: 768, N: 768, nnz: 53680, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.039928 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured37_2.txt
+Problem size: M: 768, N: 768, nnz: 18506, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0477742 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured37_4.txt
+Problem size: M: 768, N: 768, nnz: 35300, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0432861 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured37_8.txt
+Problem size: M: 768, N: 768, nnz: 64960, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0403901 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured38_2.txt
+Problem size: M: 768, N: 768, nnz: 16088, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0456801 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured38_4.txt
+Problem size: M: 768, N: 768, nnz: 30796, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.04785 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured38_8.txt
+Problem size: M: 768, N: 768, nnz: 57248, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0446619 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured39_2.txt
+Problem size: M: 768, N: 768, nnz: 15088, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0412701 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured39_4.txt
+Problem size: M: 768, N: 768, nnz: 28180, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0425241 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured39_8.txt
+Problem size: M: 768, N: 768, nnz: 49088, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0386738 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured40_2.txt
+Problem size: M: 3072, N: 768, nnz: 462628, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.285918 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured40_4.txt
+Problem size: M: 3072, N: 768, nnz: 825712, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.230143 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured40_8.txt
+Problem size: M: 3072, N: 768, nnz: 1346904, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.193794 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured41_2.txt
+Problem size: M: 768, N: 3072, nnz: 257280, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.151302 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured41_4.txt
+Problem size: M: 768, N: 3072, nnz: 437068, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.13041 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured41_8.txt
+Problem size: M: 768, N: 3072, nnz: 680440, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.104102 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured42_2.txt
+Problem size: M: 768, N: 768, nnz: 15334, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0462101 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured42_4.txt
+Problem size: M: 768, N: 768, nnz: 29248, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.042124 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured42_8.txt
+Problem size: M: 768, N: 768, nnz: 53080, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.039318 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured43_2.txt
+Problem size: M: 768, N: 768, nnz: 20488, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0581702 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured43_4.txt
+Problem size: M: 768, N: 768, nnz: 39052, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0504202 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured43_8.txt
+Problem size: M: 768, N: 768, nnz: 70056, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0447679 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured44_2.txt
+Problem size: M: 768, N: 768, nnz: 24636, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0569281 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured44_4.txt
+Problem size: M: 768, N: 768, nnz: 46088, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0530181 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured44_8.txt
+Problem size: M: 768, N: 768, nnz: 80248, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0465779 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured45_2.txt
+Problem size: M: 768, N: 768, nnz: 20302, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0462158 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured45_4.txt
+Problem size: M: 768, N: 768, nnz: 37500, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0427961 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured45_8.txt
+Problem size: M: 768, N: 768, nnz: 64936, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0401241 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured46_2.txt
+Problem size: M: 3072, N: 768, nnz: 329988, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.235452 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured46_4.txt
+Problem size: M: 3072, N: 768, nnz: 609652, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.183072 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured46_8.txt
+Problem size: M: 3072, N: 768, nnz: 1051968, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.158212 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured47_2.txt
+Problem size: M: 768, N: 3072, nnz: 186608, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.125578 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured47_4.txt
+Problem size: M: 768, N: 3072, nnz: 317904, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.101188 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured47_8.txt
+Problem size: M: 768, N: 3072, nnz: 497776, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0914622 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured48_2.txt
+Problem size: M: 768, N: 768, nnz: 11622, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.04191 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured48_4.txt
+Problem size: M: 768, N: 768, nnz: 22096, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0457439 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured48_8.txt
+Problem size: M: 768, N: 768, nnz: 40312, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.041364 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured49_2.txt
+Problem size: M: 768, N: 768, nnz: 14184, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.050174 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured49_4.txt
+Problem size: M: 768, N: 768, nnz: 26732, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0479321 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured49_8.txt
+Problem size: M: 768, N: 768, nnz: 48504, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0439739 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured50_2.txt
+Problem size: M: 768, N: 768, nnz: 12126, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0474059 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured50_4.txt
+Problem size: M: 768, N: 768, nnz: 23164, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.047592 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured50_8.txt
+Problem size: M: 768, N: 768, nnz: 42656, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0435979 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured51_2.txt
+Problem size: M: 768, N: 768, nnz: 10268, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0406061 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured51_4.txt
+Problem size: M: 768, N: 768, nnz: 19068, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.042192 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured51_8.txt
+Problem size: M: 768, N: 768, nnz: 33400, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.039608 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured52_2.txt
+Problem size: M: 3072, N: 768, nnz: 207598, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.175574 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured52_4.txt
+Problem size: M: 3072, N: 768, nnz: 394848, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.13761 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured52_8.txt
+Problem size: M: 3072, N: 768, nnz: 714224, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.118122 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured53_2.txt
+Problem size: M: 768, N: 3072, nnz: 121506, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0956059 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured53_4.txt
+Problem size: M: 768, N: 3072, nnz: 206928, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0949219 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured53_8.txt
+Problem size: M: 768, N: 3072, nnz: 324832, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0683057 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured54_2.txt
+Problem size: M: 768, N: 768, nnz: 24330, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.063416 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured54_4.txt
+Problem size: M: 768, N: 768, nnz: 42448, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0582522 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured54_8.txt
+Problem size: M: 768, N: 768, nnz: 66560, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0527619 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured55_2.txt
+Problem size: M: 768, N: 768, nnz: 22496, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0593281 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured55_4.txt
+Problem size: M: 768, N: 768, nnz: 39344, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0570002 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured55_8.txt
+Problem size: M: 768, N: 768, nnz: 62632, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0511939 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured56_2.txt
+Problem size: M: 768, N: 768, nnz: 5786, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0475999 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured56_4.txt
+Problem size: M: 768, N: 768, nnz: 11112, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0473501 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured56_8.txt
+Problem size: M: 768, N: 768, nnz: 19832, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0438859 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured57_2.txt
+Problem size: M: 768, N: 768, nnz: 5358, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.039562 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured57_4.txt
+Problem size: M: 768, N: 768, nnz: 9048, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0404441 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured57_8.txt
+Problem size: M: 768, N: 768, nnz: 13840, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0379638 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured58_2.txt
+Problem size: M: 3072, N: 768, nnz: 58934, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0967159 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured58_4.txt
+Problem size: M: 3072, N: 768, nnz: 115040, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0945479 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured58_8.txt
+Problem size: M: 3072, N: 768, nnz: 224992, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0690038 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured59_2.txt
+Problem size: M: 768, N: 3072, nnz: 33746, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.055936 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured59_4.txt
+Problem size: M: 768, N: 3072, nnz: 58384, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0564902 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured59_8.txt
+Problem size: M: 768, N: 3072, nnz: 93672, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0451779 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured60_2.txt
+Problem size: M: 768, N: 768, nnz: 16748, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0532041 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured60_4.txt
+Problem size: M: 768, N: 768, nnz: 31384, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0487681 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured60_8.txt
+Problem size: M: 768, N: 768, nnz: 56024, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0445919 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured61_2.txt
+Problem size: M: 768, N: 768, nnz: 16152, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.051908 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured61_4.txt
+Problem size: M: 768, N: 768, nnz: 30216, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0481081 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured61_8.txt
+Problem size: M: 768, N: 768, nnz: 53872, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0440399 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured62_2.txt
+Problem size: M: 768, N: 768, nnz: 5852, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0482141 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured62_4.txt
+Problem size: M: 768, N: 768, nnz: 11524, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0477181 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured62_8.txt
+Problem size: M: 768, N: 768, nnz: 22368, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0435539 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured63_2.txt
+Problem size: M: 768, N: 768, nnz: 5328, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0390119 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured63_4.txt
+Problem size: M: 768, N: 768, nnz: 9012, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0404041 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured63_8.txt
+Problem size: M: 768, N: 768, nnz: 13864, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0387098 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured64_2.txt
+Problem size: M: 3072, N: 768, nnz: 51902, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0934319 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured64_4.txt
+Problem size: M: 3072, N: 768, nnz: 102168, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.089556 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured64_8.txt
+Problem size: M: 3072, N: 768, nnz: 199008, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0681417 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured65_2.txt
+Problem size: M: 768, N: 3072, nnz: 26942, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0559961 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured65_4.txt
+Problem size: M: 768, N: 3072, nnz: 46728, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0511641 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured65_8.txt
+Problem size: M: 768, N: 3072, nnz: 74848, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0450339 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured66_2.txt
+Problem size: M: 768, N: 768, nnz: 7014, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.042854 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured66_4.txt
+Problem size: M: 768, N: 768, nnz: 13100, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.042254 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured66_8.txt
+Problem size: M: 768, N: 768, nnz: 23424, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.043056 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured67_2.txt
+Problem size: M: 768, N: 768, nnz: 8286, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0452979 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured67_4.txt
+Problem size: M: 768, N: 768, nnz: 15356, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.045314 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured67_8.txt
+Problem size: M: 768, N: 768, nnz: 27040, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0441379 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured68_2.txt
+Problem size: M: 768, N: 768, nnz: 5760, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0463499 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured68_4.txt
+Problem size: M: 768, N: 768, nnz: 11044, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.045362 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured68_8.txt
+Problem size: M: 768, N: 768, nnz: 20600, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0426539 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured69_2.txt
+Problem size: M: 768, N: 768, nnz: 5526, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.039874 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured69_4.txt
+Problem size: M: 768, N: 768, nnz: 9748, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0412161 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured69_8.txt
+Problem size: M: 768, N: 768, nnz: 16008, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0389579 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured70_2.txt
+Problem size: M: 3072, N: 768, nnz: 34096, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0729339 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured70_4.txt
+Problem size: M: 3072, N: 768, nnz: 67740, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.074332 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured70_8.txt
+Problem size: M: 3072, N: 768, nnz: 133776, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0644221 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured71_2.txt
+Problem size: M: 768, N: 3072, nnz: 22330, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0505899 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured71_4.txt
+Problem size: M: 768, N: 3072, nnz: 40128, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.047858 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pruned_bert_unstructured71_8.txt
+Problem size: M: 768, N: 3072, nnz: 66352, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0447019 ms
+

@@ -1,0 +1,15 @@
+data_for_Magicube/out.web-NotreDame0_2.txt
+data_for_Magicube/out.web-NotreDame0_4.txt
+data_for_Magicube/out.web-NotreDame0_8.txt
+data_for_Magicube/out.web-NotreDame0_16.txt
+data_for_Magicube/out.web-NotreDame0_32.txt
+data_for_Magicube/strided0_2.txt
+data_for_Magicube/strided0_4.txt
+data_for_Magicube/strided0_8.txt
+data_for_Magicube/strided0_16.txt
+data_for_Magicube/strided0_32.txt
+data_for_Magicube/logsparse0_2.txt
+data_for_Magicube/logsparse0_4.txt
+data_for_Magicube/logsparse0_8.txt
+data_for_Magicube/logsparse0_16.txt
+data_for_Magicube/logsparse0_32.txt

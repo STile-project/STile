@@ -1,0 +1,525 @@
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/citeseer2.txt
+Problem size: M: 3328, N: 3327, nnz: 18178, K: 32, Vec_length: 2
+vectorSparse SDDMM runtime 0.148068 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/citeseer4.txt
+Problem size: M: 3328, N: 3327, nnz: 35956, K: 32, Vec_length: 4
+vectorSparse SDDMM runtime 0.0701339 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/citeseer8.txt
+Problem size: M: 3328, N: 3327, nnz: 71400, K: 32, Vec_length: 8
+vectorSparse SDDMM runtime 0.0373899 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/cora2.txt
+Problem size: M: 2708, N: 2708, nnz: 20410, K: 32, Vec_length: 2
+vectorSparse SDDMM runtime 0.0914722 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/cora4.txt
+Problem size: M: 2708, N: 2708, nnz: 39900, K: 32, Vec_length: 4
+vectorSparse SDDMM runtime 0.0483201 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/cora8.txt
+Problem size: M: 2712, N: 2708, nnz: 78088, K: 32, Vec_length: 8
+vectorSparse SDDMM runtime 0.0287682 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/ppi2.txt
+Problem size: M: 44906, N: 44906, nnz: 2449208, K: 32, Vec_length: 2
+vectorSparse SDDMM runtime 23.3766 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/ppi4.txt
+Problem size: M: 44908, N: 44906, nnz: 4672000, K: 32, Vec_length: 4
+vectorSparse SDDMM runtime 11.6819 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/ppi8.txt
+Problem size: M: 44912, N: 44906, nnz: 8748328, K: 32, Vec_length: 8
+vectorSparse SDDMM runtime 5.85527 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pubmed2.txt
+Problem size: M: 19718, N: 19717, nnz: 176938, K: 32, Vec_length: 2
+vectorSparse SDDMM runtime 4.51153 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pubmed4.txt
+Problem size: M: 19720, N: 19717, nnz: 352888, K: 32, Vec_length: 4
+vectorSparse SDDMM runtime 2.26093 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pubmed8.txt
+Problem size: M: 19720, N: 19717, nnz: 703712, K: 32, Vec_length: 8
+vectorSparse SDDMM runtime 1.13439 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/arxiv2.txt
+Problem size: M: 169344, N: 169343, nnz: 2325556, K: 32, Vec_length: 2
+vectorSparse SDDMM runtime 332.03 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/arxiv4.txt
+Problem size: M: 169344, N: 169343, nnz: 4624912, K: 32, Vec_length: 4
+vectorSparse SDDMM runtime 166.083 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/arxiv8.txt
+Problem size: M: 169344, N: 169343, nnz: 9159608, K: 32, Vec_length: 8
+vectorSparse SDDMM runtime 83.0593 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/proteins2.txt
+Problem size: M: 132534, N: 132534, nnz: 142583252, K: 32, Vec_length: 2
+vectorSparse SDDMM runtime 203.501 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/proteins4.txt
+Problem size: M: 132536, N: 132534, nnz: 250918060, K: 32, Vec_length: 4
+vectorSparse SDDMM runtime 101.831 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/proteins8.txt
+Problem size: M: 132536, N: 132534, nnz: 425091800, K: 32, Vec_length: 8
+vectorSparse SDDMM runtime 52.0177 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/reddit2.txt
+Problem size: M: 232966, N: 232965, nnz: 194441058, K: 32, Vec_length: 2
+vectorSparse SDDMM runtime 628.597 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/reddit4.txt
+Problem size: M: 232968, N: 232965, nnz: 325896300, K: 32, Vec_length: 4
+vectorSparse SDDMM runtime 314.458 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/reddit8.txt
+Problem size: M: 232968, N: 232965, nnz: 539779560, K: 32, Vec_length: 8
+vectorSparse SDDMM runtime 158.59 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/citeseer2.txt
+Problem size: M: 3328, N: 3327, nnz: 18178, K: 64, Vec_length: 2
+vectorSparse SDDMM runtime 0.13474 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/citeseer4.txt
+Problem size: M: 3328, N: 3327, nnz: 35956, K: 64, Vec_length: 4
+vectorSparse SDDMM runtime 0.0693378 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/citeseer8.txt
+Problem size: M: 3328, N: 3327, nnz: 71400, K: 64, Vec_length: 8
+vectorSparse SDDMM runtime 0.0370459 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/cora2.txt
+Problem size: M: 2708, N: 2708, nnz: 20410, K: 64, Vec_length: 2
+vectorSparse SDDMM runtime 0.0906242 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/cora4.txt
+Problem size: M: 2708, N: 2708, nnz: 39900, K: 64, Vec_length: 4
+vectorSparse SDDMM runtime 0.0480381 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/cora8.txt
+Problem size: M: 2712, N: 2708, nnz: 78088, K: 64, Vec_length: 8
+vectorSparse SDDMM runtime 0.026582 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/ppi2.txt
+Problem size: M: 44906, N: 44906, nnz: 2449208, K: 64, Vec_length: 2
+vectorSparse SDDMM runtime 23.4919 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/ppi4.txt
+Problem size: M: 44908, N: 44906, nnz: 4672000, K: 64, Vec_length: 4
+vectorSparse SDDMM runtime 11.7944 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/ppi8.txt
+Problem size: M: 44912, N: 44906, nnz: 8748328, K: 64, Vec_length: 8
+vectorSparse SDDMM runtime 5.99453 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pubmed2.txt
+Problem size: M: 19718, N: 19717, nnz: 176938, K: 64, Vec_length: 2
+vectorSparse SDDMM runtime 4.54349 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pubmed4.txt
+Problem size: M: 19720, N: 19717, nnz: 352888, K: 64, Vec_length: 4
+vectorSparse SDDMM runtime 2.27507 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pubmed8.txt
+Problem size: M: 19720, N: 19717, nnz: 703712, K: 64, Vec_length: 8
+vectorSparse SDDMM runtime 1.14642 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/arxiv2.txt
+Problem size: M: 169344, N: 169343, nnz: 2325556, K: 64, Vec_length: 2
+vectorSparse SDDMM runtime 332.25 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/arxiv4.txt
+Problem size: M: 169344, N: 169343, nnz: 4624912, K: 64, Vec_length: 4
+vectorSparse SDDMM runtime 166.246 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/arxiv8.txt
+Problem size: M: 169344, N: 169343, nnz: 9159608, K: 64, Vec_length: 8
+vectorSparse SDDMM runtime 83.219 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/proteins2.txt
+Problem size: M: 132534, N: 132534, nnz: 142583252, K: 64, Vec_length: 2
+vectorSparse SDDMM runtime 210.395 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/proteins4.txt
+Problem size: M: 132536, N: 132534, nnz: 250918060, K: 64, Vec_length: 4
+vectorSparse SDDMM runtime 107.933 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/proteins8.txt
+Problem size: M: 132536, N: 132534, nnz: 425091800, K: 64, Vec_length: 8
+vectorSparse SDDMM runtime 58.3749 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/reddit2.txt
+Problem size: M: 232966, N: 232965, nnz: 194441058, K: 64, Vec_length: 2
+vectorSparse SDDMM runtime 637.701 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/reddit4.txt
+Problem size: M: 232968, N: 232965, nnz: 325896300, K: 64, Vec_length: 4
+vectorSparse SDDMM runtime 321.763 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/reddit8.txt
+Problem size: M: 232968, N: 232965, nnz: 539779560, K: 64, Vec_length: 8
+vectorSparse SDDMM runtime 166.214 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/citeseer2.txt
+Problem size: M: 3328, N: 3327, nnz: 18178, K: 128, Vec_length: 2
+vectorSparse SDDMM runtime 0.135724 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/citeseer4.txt
+Problem size: M: 3328, N: 3327, nnz: 35956, K: 128, Vec_length: 4
+vectorSparse SDDMM runtime 0.0692438 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/citeseer8.txt
+Problem size: M: 3328, N: 3327, nnz: 71400, K: 128, Vec_length: 8
+vectorSparse SDDMM runtime 0.0371139 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/cora2.txt
+Problem size: M: 2708, N: 2708, nnz: 20410, K: 128, Vec_length: 2
+vectorSparse SDDMM runtime 0.0906922 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/cora4.txt
+Problem size: M: 2708, N: 2708, nnz: 39900, K: 128, Vec_length: 4
+vectorSparse SDDMM runtime 0.047794 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/cora8.txt
+Problem size: M: 2712, N: 2708, nnz: 78088, K: 128, Vec_length: 8
+vectorSparse SDDMM runtime 0.0292742 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/ppi2.txt
+Problem size: M: 44906, N: 44906, nnz: 2449208, K: 128, Vec_length: 2
+vectorSparse SDDMM runtime 23.641 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/ppi4.txt
+Problem size: M: 44908, N: 44906, nnz: 4672000, K: 128, Vec_length: 4
+vectorSparse SDDMM runtime 11.9289 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/ppi8.txt
+Problem size: M: 44912, N: 44906, nnz: 8748328, K: 128, Vec_length: 8
+vectorSparse SDDMM runtime 6.1279 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pubmed2.txt
+Problem size: M: 19718, N: 19717, nnz: 176938, K: 128, Vec_length: 2
+vectorSparse SDDMM runtime 4.57046 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pubmed4.txt
+Problem size: M: 19720, N: 19717, nnz: 352888, K: 128, Vec_length: 4
+vectorSparse SDDMM runtime 2.28789 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pubmed8.txt
+Problem size: M: 19720, N: 19717, nnz: 703712, K: 128, Vec_length: 8
+vectorSparse SDDMM runtime 1.15716 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/arxiv2.txt
+Problem size: M: 169344, N: 169343, nnz: 2325556, K: 128, Vec_length: 2
+vectorSparse SDDMM runtime 332.5 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/arxiv4.txt
+Problem size: M: 169344, N: 169343, nnz: 4624912, K: 128, Vec_length: 4
+vectorSparse SDDMM runtime 166.362 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/arxiv8.txt
+Problem size: M: 169344, N: 169343, nnz: 9159608, K: 128, Vec_length: 8
+vectorSparse SDDMM runtime 83.3678 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/proteins2.txt
+Problem size: M: 132534, N: 132534, nnz: 142583252, K: 128, Vec_length: 2
+vectorSparse SDDMM runtime 218.029 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/proteins4.txt
+Problem size: M: 132536, N: 132534, nnz: 250918060, K: 128, Vec_length: 4
+vectorSparse SDDMM runtime 114.472 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/proteins8.txt
+Problem size: M: 132536, N: 132534, nnz: 425091800, K: 128, Vec_length: 8
+vectorSparse SDDMM runtime 65.1513 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/reddit2.txt
+Problem size: M: 232966, N: 232965, nnz: 194441058, K: 128, Vec_length: 2
+vectorSparse SDDMM runtime 647.567 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/reddit4.txt
+Problem size: M: 232968, N: 232965, nnz: 325896300, K: 128, Vec_length: 4
+vectorSparse SDDMM runtime 329.605 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/reddit8.txt
+Problem size: M: 232968, N: 232965, nnz: 539779560, K: 128, Vec_length: 8
+vectorSparse SDDMM runtime 174.306 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/citeseer2.txt
+Problem size: M: 3328, N: 3327, nnz: 18178, K: 256, Vec_length: 2
+vectorSparse SDDMM runtime 0.137916 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/citeseer4.txt
+Problem size: M: 3328, N: 3327, nnz: 35956, K: 256, Vec_length: 4
+vectorSparse SDDMM runtime 0.0693258 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/citeseer8.txt
+Problem size: M: 3328, N: 3327, nnz: 71400, K: 256, Vec_length: 8
+vectorSparse SDDMM runtime 0.0370019 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/cora2.txt
+Problem size: M: 2708, N: 2708, nnz: 20410, K: 256, Vec_length: 2
+vectorSparse SDDMM runtime 0.0905 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/cora4.txt
+Problem size: M: 2708, N: 2708, nnz: 39900, K: 256, Vec_length: 4
+vectorSparse SDDMM runtime 0.04763 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/cora8.txt
+Problem size: M: 2712, N: 2708, nnz: 78088, K: 256, Vec_length: 8
+vectorSparse SDDMM runtime 0.026582 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/ppi2.txt
+Problem size: M: 44906, N: 44906, nnz: 2449208, K: 256, Vec_length: 2
+vectorSparse SDDMM runtime 23.9542 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/ppi4.txt
+Problem size: M: 44908, N: 44906, nnz: 4672000, K: 256, Vec_length: 4
+vectorSparse SDDMM runtime 12.2153 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/ppi8.txt
+Problem size: M: 44912, N: 44906, nnz: 8748328, K: 256, Vec_length: 8
+vectorSparse SDDMM runtime 6.44337 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pubmed2.txt
+Problem size: M: 19718, N: 19717, nnz: 176938, K: 256, Vec_length: 2
+vectorSparse SDDMM runtime 4.63289 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pubmed4.txt
+Problem size: M: 19720, N: 19717, nnz: 352888, K: 256, Vec_length: 4
+vectorSparse SDDMM runtime 2.31833 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pubmed8.txt
+Problem size: M: 19720, N: 19717, nnz: 703712, K: 256, Vec_length: 8
+vectorSparse SDDMM runtime 1.18269 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/arxiv2.txt
+Problem size: M: 169344, N: 169343, nnz: 2325556, K: 256, Vec_length: 2
+vectorSparse SDDMM runtime 333.125 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/arxiv4.txt
+Problem size: M: 169344, N: 169343, nnz: 4624912, K: 256, Vec_length: 4
+vectorSparse SDDMM runtime 166.758 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/arxiv8.txt
+Problem size: M: 169344, N: 169343, nnz: 9159608, K: 256, Vec_length: 8
+vectorSparse SDDMM runtime 83.7057 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/proteins2.txt
+Problem size: M: 132534, N: 132534, nnz: 142583252, K: 256, Vec_length: 2
+vectorSparse SDDMM runtime 233.414 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/proteins4.txt
+Problem size: M: 132536, N: 132534, nnz: 250918060, K: 256, Vec_length: 4
+vectorSparse SDDMM runtime 127.803 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/proteins8.txt
+Problem size: M: 132536, N: 132534, nnz: 425091800, K: 256, Vec_length: 8
+vectorSparse SDDMM runtime 78.7817 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/reddit2.txt
+Problem size: M: 232966, N: 232965, nnz: 194441058, K: 256, Vec_length: 2
+vectorSparse SDDMM runtime 667.817 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/reddit4.txt
+Problem size: M: 232968, N: 232965, nnz: 325896300, K: 256, Vec_length: 4
+vectorSparse SDDMM runtime 345.518 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/reddit8.txt
+Problem size: M: 232968, N: 232965, nnz: 539779560, K: 256, Vec_length: 8
+vectorSparse SDDMM runtime 190.712 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/citeseer2.txt
+Problem size: M: 3328, N: 3327, nnz: 18178, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.14187 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/citeseer4.txt
+Problem size: M: 3328, N: 3327, nnz: 35956, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0693998 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/citeseer8.txt
+Problem size: M: 3328, N: 3327, nnz: 71400, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0411382 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/cora2.txt
+Problem size: M: 2708, N: 2708, nnz: 20410, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.0907903 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/cora4.txt
+Problem size: M: 2708, N: 2708, nnz: 39900, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.0515342 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/cora8.txt
+Problem size: M: 2712, N: 2708, nnz: 78088, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.0415821 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/ppi2.txt
+Problem size: M: 44906, N: 44906, nnz: 2449208, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 24.6287 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/ppi4.txt
+Problem size: M: 44908, N: 44906, nnz: 4672000, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 12.7909 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/ppi8.txt
+Problem size: M: 44912, N: 44906, nnz: 8748328, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 7.04107 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pubmed2.txt
+Problem size: M: 19718, N: 19717, nnz: 176938, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 4.76429 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pubmed4.txt
+Problem size: M: 19720, N: 19717, nnz: 352888, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 2.38637 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pubmed8.txt
+Problem size: M: 19720, N: 19717, nnz: 703712, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 1.24352 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/arxiv2.txt
+Problem size: M: 169344, N: 169343, nnz: 2325556, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 334.578 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/arxiv4.txt
+Problem size: M: 169344, N: 169343, nnz: 4624912, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 167.615 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/arxiv8.txt
+Problem size: M: 169344, N: 169343, nnz: 9159608, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 84.4715 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/proteins2.txt
+Problem size: M: 132534, N: 132534, nnz: 142583252, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 264.511 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/proteins4.txt
+Problem size: M: 132536, N: 132534, nnz: 250918060, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 155.55 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/proteins8.txt
+Problem size: M: 132536, N: 132534, nnz: 425091800, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 106.5 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/reddit2.txt
+Problem size: M: 232966, N: 232965, nnz: 194441058, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 708.577 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/reddit4.txt
+Problem size: M: 232968, N: 232965, nnz: 325896300, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 378.512 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/reddit8.txt
+Problem size: M: 232968, N: 232965, nnz: 539779560, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 225.377 ms
+

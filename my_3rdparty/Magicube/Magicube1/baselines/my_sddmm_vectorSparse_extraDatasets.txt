@@ -1,0 +1,225 @@
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/out.web-NotreDame0_2.txt
+Problem size: M: 325730, N: 325729, nnz: 2187028, K: 32, Vec_length: 2
+vectorSparse SDDMM runtime 1229.67 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/out.web-NotreDame0_4.txt
+Problem size: M: 325732, N: 325729, nnz: 3472116, K: 32, Vec_length: 4
+vectorSparse SDDMM runtime 614.903 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/out.web-NotreDame0_8.txt
+Problem size: M: 325736, N: 325729, nnz: 5933920, K: 32, Vec_length: 8
+vectorSparse SDDMM runtime 307.474 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/strided0_2.txt
+Problem size: M: 4096, N: 4096, nnz: 1012224, K: 32, Vec_length: 2
+vectorSparse SDDMM runtime 0.200393 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/strided0_4.txt
+Problem size: M: 4096, N: 4096, nnz: 1504384, K: 32, Vec_length: 4
+vectorSparse SDDMM runtime 0.102335 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/strided0_8.txt
+Problem size: M: 4096, N: 4096, nnz: 2488704, K: 32, Vec_length: 8
+vectorSparse SDDMM runtime 0.0567322 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/logsparse0_2.txt
+Problem size: M: 4096, N: 4096, nnz: 163854, K: 32, Vec_length: 2
+vectorSparse SDDMM runtime 0.200331 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/logsparse0_4.txt
+Problem size: M: 4096, N: 4096, nnz: 294968, K: 32, Vec_length: 4
+vectorSparse SDDMM runtime 0.102413 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/logsparse0_8.txt
+Problem size: M: 4096, N: 4096, nnz: 524512, K: 32, Vec_length: 8
+vectorSparse SDDMM runtime 0.0546119 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/out.web-NotreDame0_2.txt
+Problem size: M: 325730, N: 325729, nnz: 2187028, K: 64, Vec_length: 2
+vectorSparse SDDMM runtime 1229.93 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/out.web-NotreDame0_4.txt
+Problem size: M: 325732, N: 325729, nnz: 3472116, K: 64, Vec_length: 4
+vectorSparse SDDMM runtime 615.073 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/out.web-NotreDame0_8.txt
+Problem size: M: 325736, N: 325729, nnz: 5933920, K: 64, Vec_length: 8
+vectorSparse SDDMM runtime 307.636 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/strided0_2.txt
+Problem size: M: 4096, N: 4096, nnz: 1012224, K: 64, Vec_length: 2
+vectorSparse SDDMM runtime 0.249069 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/strided0_4.txt
+Problem size: M: 4096, N: 4096, nnz: 1504384, K: 64, Vec_length: 4
+vectorSparse SDDMM runtime 0.138592 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/strided0_8.txt
+Problem size: M: 4096, N: 4096, nnz: 2488704, K: 64, Vec_length: 8
+vectorSparse SDDMM runtime 0.090282 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/logsparse0_2.txt
+Problem size: M: 4096, N: 4096, nnz: 163854, K: 64, Vec_length: 2
+vectorSparse SDDMM runtime 0.209568 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/logsparse0_4.txt
+Problem size: M: 4096, N: 4096, nnz: 294968, K: 64, Vec_length: 4
+vectorSparse SDDMM runtime 0.10947 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/logsparse0_8.txt
+Problem size: M: 4096, N: 4096, nnz: 524512, K: 64, Vec_length: 8
+vectorSparse SDDMM runtime 0.0611598 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/out.web-NotreDame0_2.txt
+Problem size: M: 325730, N: 325729, nnz: 2187028, K: 128, Vec_length: 2
+vectorSparse SDDMM runtime 1230.25 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/out.web-NotreDame0_4.txt
+Problem size: M: 325732, N: 325729, nnz: 3472116, K: 128, Vec_length: 4
+vectorSparse SDDMM runtime 615.275 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/out.web-NotreDame0_8.txt
+Problem size: M: 325736, N: 325729, nnz: 5933920, K: 128, Vec_length: 8
+vectorSparse SDDMM runtime 307.698 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/strided0_2.txt
+Problem size: M: 4096, N: 4096, nnz: 1012224, K: 128, Vec_length: 2
+vectorSparse SDDMM runtime 0.300371 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/strided0_4.txt
+Problem size: M: 4096, N: 4096, nnz: 1504384, K: 128, Vec_length: 4
+vectorSparse SDDMM runtime 0.175939 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/strided0_8.txt
+Problem size: M: 4096, N: 4096, nnz: 2488704, K: 128, Vec_length: 8
+vectorSparse SDDMM runtime 0.124238 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/logsparse0_2.txt
+Problem size: M: 4096, N: 4096, nnz: 163854, K: 128, Vec_length: 2
+vectorSparse SDDMM runtime 0.219657 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/logsparse0_4.txt
+Problem size: M: 4096, N: 4096, nnz: 294968, K: 128, Vec_length: 4
+vectorSparse SDDMM runtime 0.116582 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/logsparse0_8.txt
+Problem size: M: 4096, N: 4096, nnz: 524512, K: 128, Vec_length: 8
+vectorSparse SDDMM runtime 0.0676317 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/out.web-NotreDame0_2.txt
+Problem size: M: 325730, N: 325729, nnz: 2187028, K: 256, Vec_length: 2
+vectorSparse SDDMM runtime 1230.98 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/out.web-NotreDame0_4.txt
+Problem size: M: 325732, N: 325729, nnz: 3472116, K: 256, Vec_length: 4
+vectorSparse SDDMM runtime 615.636 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/out.web-NotreDame0_8.txt
+Problem size: M: 325736, N: 325729, nnz: 5933920, K: 256, Vec_length: 8
+vectorSparse SDDMM runtime 308.006 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/strided0_2.txt
+Problem size: M: 4096, N: 4096, nnz: 1012224, K: 256, Vec_length: 2
+vectorSparse SDDMM runtime 0.406016 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/strided0_4.txt
+Problem size: M: 4096, N: 4096, nnz: 1504384, K: 256, Vec_length: 4
+vectorSparse SDDMM runtime 0.253053 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/strided0_8.txt
+Problem size: M: 4096, N: 4096, nnz: 2488704, K: 256, Vec_length: 8
+vectorSparse SDDMM runtime 0.192864 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/logsparse0_2.txt
+Problem size: M: 4096, N: 4096, nnz: 163854, K: 256, Vec_length: 2
+vectorSparse SDDMM runtime 0.240478 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/logsparse0_4.txt
+Problem size: M: 4096, N: 4096, nnz: 294968, K: 256, Vec_length: 4
+vectorSparse SDDMM runtime 0.130514 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/logsparse0_8.txt
+Problem size: M: 4096, N: 4096, nnz: 524512, K: 256, Vec_length: 8
+vectorSparse SDDMM runtime 0.0805699 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/out.web-NotreDame0_2.txt
+Problem size: M: 325730, N: 325729, nnz: 2187028, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 1232.09 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/out.web-NotreDame0_4.txt
+Problem size: M: 325732, N: 325729, nnz: 3472116, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 616.22 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/out.web-NotreDame0_8.txt
+Problem size: M: 325736, N: 325729, nnz: 5933920, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 308.501 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/strided0_2.txt
+Problem size: M: 4096, N: 4096, nnz: 1012224, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.617315 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/strided0_4.txt
+Problem size: M: 4096, N: 4096, nnz: 1504384, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.405229 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/strided0_8.txt
+Problem size: M: 4096, N: 4096, nnz: 2488704, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.328439 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/logsparse0_2.txt
+Problem size: M: 4096, N: 4096, nnz: 163854, K: 512, Vec_length: 2
+vectorSparse SDDMM runtime 0.281485 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/logsparse0_4.txt
+Problem size: M: 4096, N: 4096, nnz: 294968, K: 512, Vec_length: 4
+vectorSparse SDDMM runtime 0.158518 ms
+
+mma + warp shfl
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/logsparse0_8.txt
+Problem size: M: 4096, N: 4096, nnz: 524512, K: 512, Vec_length: 8
+vectorSparse SDDMM runtime 0.106284 ms
+

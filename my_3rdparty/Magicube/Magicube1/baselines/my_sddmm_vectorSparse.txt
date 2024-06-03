@@ -1,0 +1,80 @@
+mma + warp shfl
+Problem size: M: 3328, N: 3327, nnz: 18178, K: 32
+vectorSparse SDDMM runtime 0.147918 ms
+
+mma + warp shfl
+Problem size: M: 3328, N: 3327, nnz: 35956, K: 32
+vectorSparse SDDMM runtime 0.0768161 ms
+
+mma + warp shfl
+Problem size: M: 3328, N: 3327, nnz: 71400, K: 32
+vectorSparse SDDMM runtime 0.0408021 ms
+
+mma + warp shfl
+Problem size: M: 2708, N: 2708, nnz: 20410, K: 32
+vectorSparse SDDMM runtime 0.100372 ms
+
+mma + warp shfl
+Problem size: M: 2708, N: 2708, nnz: 39900, K: 32
+vectorSparse SDDMM runtime 0.0527898 ms
+
+mma + warp shfl
+Problem size: M: 2712, N: 2708, nnz: 78088, K: 32
+vectorSparse SDDMM runtime 0.0291322 ms
+
+mma + warp shfl
+Problem size: M: 44906, N: 44906, nnz: 2449208, K: 32
+vectorSparse SDDMM runtime 23.3739 ms
+
+mma + warp shfl
+Problem size: M: 44908, N: 44906, nnz: 4672000, K: 32
+vectorSparse SDDMM runtime 11.6894 ms
+
+mma + warp shfl
+Problem size: M: 44912, N: 44906, nnz: 8748328, K: 32
+vectorSparse SDDMM runtime 5.85866 ms
+
+mma + warp shfl
+Problem size: M: 19718, N: 19717, nnz: 176938, K: 32
+vectorSparse SDDMM runtime 4.51492 ms
+
+mma + warp shfl
+Problem size: M: 19720, N: 19717, nnz: 352888, K: 32
+vectorSparse SDDMM runtime 2.25996 ms
+
+mma + warp shfl
+Problem size: M: 19720, N: 19717, nnz: 703712, K: 32
+vectorSparse SDDMM runtime 1.13462 ms
+
+mma + warp shfl
+Problem size: M: 169344, N: 169343, nnz: 2325556, K: 32
+vectorSparse SDDMM runtime 332.12 ms
+
+mma + warp shfl
+Problem size: M: 169344, N: 169343, nnz: 4624912, K: 32
+vectorSparse SDDMM runtime 166.062 ms
+
+mma + warp shfl
+Problem size: M: 169344, N: 169343, nnz: 9159608, K: 32
+vectorSparse SDDMM runtime 83.0493 ms
+
+mma + warp shfl
+Problem size: M: 132534, N: 132534, nnz: 142583252, K: 32
+vectorSparse SDDMM runtime 203.408 ms
+
+mma + warp shfl
+Problem size: M: 132536, N: 132534, nnz: 250918060, K: 32
+vectorSparse SDDMM runtime 101.793 ms
+
+mma + warp shfl
+Problem size: M: 132536, N: 132534, nnz: 425091800, K: 32
+vectorSparse SDDMM runtime 51.9846 ms
+
+mma + warp shfl
+Problem size: M: 232966, N: 232965, nnz: 194441058, K: 32
+vectorSparse SDDMM runtime 628.446 ms
+
+mma + warp shfl
+Problem size: M: 232968, N: 232965, nnz: 325896300, K: 32
+vectorSparse SDDMM runtime 314.464 ms
+

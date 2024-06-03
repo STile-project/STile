@@ -1,0 +1,525 @@
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/citeseer2.txt
+vec_len: 2 m_vec: 1664 m: 3328 n: 32 k: 3327
+Using WMMA 
+vectorSparse SpMM runtime 0.0286741 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/citeseer4.txt
+vec_len: 4 m_vec: 832 m: 3328 n: 32 k: 3327
+Using WMMA 
+vectorSparse SpMM runtime 0.03208 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/citeseer8.txt
+vec_len: 8 m_vec: 416 m: 3328 n: 32 k: 3327
+Using WMMA 
+vectorSparse SpMM runtime 0.0373959 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/cora2.txt
+vec_len: 2 m_vec: 1354 m: 2708 n: 32 k: 2708
+Using WMMA 
+vectorSparse SpMM runtime 0.0440738 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/cora4.txt
+vec_len: 4 m_vec: 677 m: 2708 n: 32 k: 2708
+Using WMMA 
+vectorSparse SpMM runtime 0.0512443 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/cora8.txt
+vec_len: 8 m_vec: 339 m: 2712 n: 32 k: 2708
+Using WMMA 
+vectorSparse SpMM runtime 0.0567042 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/ppi2.txt
+vec_len: 2 m_vec: 22453 m: 44906 n: 32 k: 44906
+Using WMMA 
+vectorSparse SpMM runtime 0.236417 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/ppi4.txt
+vec_len: 4 m_vec: 11227 m: 44908 n: 32 k: 44906
+Using WMMA 
+vectorSparse SpMM runtime 0.27502 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/ppi8.txt
+vec_len: 8 m_vec: 5614 m: 44912 n: 32 k: 44906
+Using WMMA 
+vectorSparse SpMM runtime 0.31868 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pubmed2.txt
+vec_len: 2 m_vec: 9859 m: 19718 n: 32 k: 19717
+Using WMMA 
+vectorSparse SpMM runtime 0.0507642 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pubmed4.txt
+vec_len: 4 m_vec: 4930 m: 19720 n: 32 k: 19717
+Using WMMA 
+vectorSparse SpMM runtime 0.0598581 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pubmed8.txt
+vec_len: 8 m_vec: 2465 m: 19720 n: 32 k: 19717
+Using WMMA 
+vectorSparse SpMM runtime 0.0702679 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/arxiv2.txt
+vec_len: 2 m_vec: 84672 m: 169344 n: 32 k: 169343
+Using WMMA 
+vectorSparse SpMM runtime 0.256808 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/arxiv4.txt
+vec_len: 4 m_vec: 42336 m: 169344 n: 32 k: 169343
+Using WMMA 
+vectorSparse SpMM runtime 0.252005 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/arxiv8.txt
+vec_len: 8 m_vec: 21168 m: 169344 n: 32 k: 169343
+Using WMMA 
+vectorSparse SpMM runtime 0.286642 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/proteins2.txt
+vec_len: 2 m_vec: 66267 m: 132534 n: 32 k: 132534
+Using WMMA 
+vectorSparse SpMM runtime 10.3852 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/proteins4.txt
+vec_len: 4 m_vec: 33134 m: 132536 n: 32 k: 132534
+Using WMMA 
+vectorSparse SpMM runtime 10.7584 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/proteins8.txt
+vec_len: 8 m_vec: 16567 m: 132536 n: 32 k: 132534
+Using WMMA 
+vectorSparse SpMM runtime 11.5414 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/reddit2.txt
+vec_len: 2 m_vec: 116483 m: 232966 n: 32 k: 232965
+Using WMMA 
+vectorSparse SpMM runtime 14.2009 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/reddit4.txt
+vec_len: 4 m_vec: 58242 m: 232968 n: 32 k: 232965
+Using WMMA 
+vectorSparse SpMM runtime 16.6593 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/reddit8.txt
+vec_len: 8 m_vec: 29121 m: 232968 n: 32 k: 232965
+Using WMMA 
+vectorSparse SpMM runtime 22.8503 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/citeseer2.txt
+vec_len: 2 m_vec: 1664 m: 3328 n: 64 k: 3327
+Using WMMA 
+vectorSparse SpMM runtime 0.0288722 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/citeseer4.txt
+vec_len: 4 m_vec: 832 m: 3328 n: 64 k: 3327
+Using WMMA 
+vectorSparse SpMM runtime 0.032294 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/citeseer8.txt
+vec_len: 8 m_vec: 416 m: 3328 n: 64 k: 3327
+Using WMMA 
+vectorSparse SpMM runtime 0.0374019 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/cora2.txt
+vec_len: 2 m_vec: 1354 m: 2708 n: 64 k: 2708
+Using WMMA 
+vectorSparse SpMM runtime 0.0444739 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/cora4.txt
+vec_len: 4 m_vec: 677 m: 2708 n: 64 k: 2708
+Using WMMA 
+vectorSparse SpMM runtime 0.0513182 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/cora8.txt
+vec_len: 8 m_vec: 339 m: 2712 n: 64 k: 2708
+Using WMMA 
+vectorSparse SpMM runtime 0.0568982 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/ppi2.txt
+vec_len: 2 m_vec: 22453 m: 44906 n: 64 k: 44906
+Using WMMA 
+vectorSparse SpMM runtime 0.241349 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/ppi4.txt
+vec_len: 4 m_vec: 11227 m: 44908 n: 64 k: 44906
+Using WMMA 
+vectorSparse SpMM runtime 0.283188 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/ppi8.txt
+vec_len: 8 m_vec: 5614 m: 44912 n: 64 k: 44906
+Using WMMA 
+vectorSparse SpMM runtime 0.329664 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pubmed2.txt
+vec_len: 2 m_vec: 9859 m: 19718 n: 64 k: 19717
+Using WMMA 
+vectorSparse SpMM runtime 0.0510963 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pubmed4.txt
+vec_len: 4 m_vec: 4930 m: 19720 n: 64 k: 19717
+Using WMMA 
+vectorSparse SpMM runtime 0.0601899 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pubmed8.txt
+vec_len: 8 m_vec: 2465 m: 19720 n: 64 k: 19717
+Using WMMA 
+vectorSparse SpMM runtime 0.0708098 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/arxiv2.txt
+vec_len: 2 m_vec: 84672 m: 169344 n: 64 k: 169343
+Using WMMA 
+vectorSparse SpMM runtime 0.268118 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/arxiv4.txt
+vec_len: 4 m_vec: 42336 m: 169344 n: 64 k: 169343
+Using WMMA 
+vectorSparse SpMM runtime 0.260482 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/arxiv8.txt
+vec_len: 8 m_vec: 21168 m: 169344 n: 64 k: 169343
+Using WMMA 
+vectorSparse SpMM runtime 0.311408 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/proteins2.txt
+vec_len: 2 m_vec: 66267 m: 132534 n: 64 k: 132534
+Using WMMA 
+vectorSparse SpMM runtime 10.7562 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/proteins4.txt
+vec_len: 4 m_vec: 33134 m: 132536 n: 64 k: 132534
+Using WMMA 
+vectorSparse SpMM runtime 11.0421 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/proteins8.txt
+vec_len: 8 m_vec: 16567 m: 132536 n: 64 k: 132534
+Using WMMA 
+vectorSparse SpMM runtime 11.7516 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/reddit2.txt
+vec_len: 2 m_vec: 116483 m: 232966 n: 64 k: 232965
+Using WMMA 
+vectorSparse SpMM runtime 14.7685 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/reddit4.txt
+vec_len: 4 m_vec: 58242 m: 232968 n: 64 k: 232965
+Using WMMA 
+vectorSparse SpMM runtime 17.1569 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/reddit8.txt
+vec_len: 8 m_vec: 29121 m: 232968 n: 64 k: 232965
+Using WMMA 
+vectorSparse SpMM runtime 23.275 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/citeseer2.txt
+vec_len: 2 m_vec: 1664 m: 3328 n: 128 k: 3327
+Using WMMA 
+vectorSparse SpMM runtime 0.030408 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/citeseer4.txt
+vec_len: 4 m_vec: 832 m: 3328 n: 128 k: 3327
+Using WMMA 
+vectorSparse SpMM runtime 0.0334599 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/citeseer8.txt
+vec_len: 8 m_vec: 416 m: 3328 n: 128 k: 3327
+Using WMMA 
+vectorSparse SpMM runtime 0.0390519 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/cora2.txt
+vec_len: 2 m_vec: 1354 m: 2708 n: 128 k: 2708
+Using WMMA 
+vectorSparse SpMM runtime 0.0462298 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/cora4.txt
+vec_len: 4 m_vec: 677 m: 2708 n: 128 k: 2708
+Using WMMA 
+vectorSparse SpMM runtime 0.0525798 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/cora8.txt
+vec_len: 8 m_vec: 339 m: 2712 n: 128 k: 2708
+Using WMMA 
+vectorSparse SpMM runtime 0.0580863 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/ppi2.txt
+vec_len: 2 m_vec: 22453 m: 44906 n: 128 k: 44906
+Using WMMA 
+vectorSparse SpMM runtime 0.444855 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/ppi4.txt
+vec_len: 4 m_vec: 11227 m: 44908 n: 128 k: 44906
+Using WMMA 
+vectorSparse SpMM runtime 0.501309 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/ppi8.txt
+vec_len: 8 m_vec: 5614 m: 44912 n: 128 k: 44906
+Using WMMA 
+vectorSparse SpMM runtime 0.564428 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pubmed2.txt
+vec_len: 2 m_vec: 9859 m: 19718 n: 128 k: 19717
+Using WMMA 
+vectorSparse SpMM runtime 0.0703119 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pubmed4.txt
+vec_len: 4 m_vec: 4930 m: 19720 n: 128 k: 19717
+Using WMMA 
+vectorSparse SpMM runtime 0.0789742 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pubmed8.txt
+vec_len: 8 m_vec: 2465 m: 19720 n: 128 k: 19717
+Using WMMA 
+vectorSparse SpMM runtime 0.0906021 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/arxiv2.txt
+vec_len: 2 m_vec: 84672 m: 169344 n: 128 k: 169343
+Using WMMA 
+vectorSparse SpMM runtime 0.546093 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/arxiv4.txt
+vec_len: 4 m_vec: 42336 m: 169344 n: 128 k: 169343
+Using WMMA 
+vectorSparse SpMM runtime 0.512888 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/arxiv8.txt
+vec_len: 8 m_vec: 21168 m: 169344 n: 128 k: 169343
+Using WMMA 
+vectorSparse SpMM runtime 0.602141 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/proteins2.txt
+vec_len: 2 m_vec: 66267 m: 132534 n: 128 k: 132534
+Using WMMA 
+vectorSparse SpMM runtime 21.4776 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/proteins4.txt
+vec_len: 4 m_vec: 33134 m: 132536 n: 128 k: 132534
+Using WMMA 
+vectorSparse SpMM runtime 22.0346 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/proteins8.txt
+vec_len: 8 m_vec: 16567 m: 132536 n: 128 k: 132534
+Using WMMA 
+vectorSparse SpMM runtime 23.3612 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/reddit2.txt
+vec_len: 2 m_vec: 116483 m: 232966 n: 128 k: 232965
+Using WMMA 
+vectorSparse SpMM runtime 29.5216 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/reddit4.txt
+vec_len: 4 m_vec: 58242 m: 232968 n: 128 k: 232965
+Using WMMA 
+vectorSparse SpMM runtime 31.6822 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/reddit8.txt
+vec_len: 8 m_vec: 29121 m: 232968 n: 128 k: 232965
+Using WMMA 
+vectorSparse SpMM runtime 38.4411 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/citeseer2.txt
+vec_len: 2 m_vec: 1664 m: 3328 n: 256 k: 3327
+Using WMMA 
+vectorSparse SpMM runtime 0.035318 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/citeseer4.txt
+vec_len: 4 m_vec: 832 m: 3328 n: 256 k: 3327
+Using WMMA 
+vectorSparse SpMM runtime 0.0362859 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/citeseer8.txt
+vec_len: 8 m_vec: 416 m: 3328 n: 256 k: 3327
+Using WMMA 
+vectorSparse SpMM runtime 0.0416901 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/cora2.txt
+vec_len: 2 m_vec: 1354 m: 2708 n: 256 k: 2708
+Using WMMA 
+vectorSparse SpMM runtime 0.0505922 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/cora4.txt
+vec_len: 4 m_vec: 677 m: 2708 n: 256 k: 2708
+Using WMMA 
+vectorSparse SpMM runtime 0.0553 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/cora8.txt
+vec_len: 8 m_vec: 339 m: 2712 n: 256 k: 2708
+Using WMMA 
+vectorSparse SpMM runtime 0.0601379 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/ppi2.txt
+vec_len: 2 m_vec: 22453 m: 44906 n: 256 k: 44906
+Using WMMA 
+vectorSparse SpMM runtime 0.84387 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/ppi4.txt
+vec_len: 4 m_vec: 11227 m: 44908 n: 256 k: 44906
+Using WMMA 
+vectorSparse SpMM runtime 0.936597 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/ppi8.txt
+vec_len: 8 m_vec: 5614 m: 44912 n: 256 k: 44906
+Using WMMA 
+vectorSparse SpMM runtime 1.08152 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pubmed2.txt
+vec_len: 2 m_vec: 9859 m: 19718 n: 256 k: 19717
+Using WMMA 
+vectorSparse SpMM runtime 0.108162 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pubmed4.txt
+vec_len: 4 m_vec: 4930 m: 19720 n: 256 k: 19717
+Using WMMA 
+vectorSparse SpMM runtime 0.118522 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pubmed8.txt
+vec_len: 8 m_vec: 2465 m: 19720 n: 256 k: 19717
+Using WMMA 
+vectorSparse SpMM runtime 0.136624 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/arxiv2.txt
+vec_len: 2 m_vec: 84672 m: 169344 n: 256 k: 169343
+Using WMMA 
+vectorSparse SpMM runtime 0.992135 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/arxiv4.txt
+vec_len: 4 m_vec: 42336 m: 169344 n: 256 k: 169343
+Using WMMA 
+vectorSparse SpMM runtime 1.01883 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/arxiv8.txt
+vec_len: 8 m_vec: 21168 m: 169344 n: 256 k: 169343
+Using WMMA 
+vectorSparse SpMM runtime 1.18316 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/proteins2.txt
+vec_len: 2 m_vec: 66267 m: 132534 n: 256 k: 132534
+Using WMMA 
+vectorSparse SpMM runtime 42.9216 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/proteins4.txt
+vec_len: 4 m_vec: 33134 m: 132536 n: 256 k: 132534
+Using WMMA 
+vectorSparse SpMM runtime 44.0083 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/proteins8.txt
+vec_len: 8 m_vec: 16567 m: 132536 n: 256 k: 132534
+Using WMMA 
+vectorSparse SpMM runtime 46.5734 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/reddit2.txt
+vec_len: 2 m_vec: 116483 m: 232966 n: 256 k: 232965
+Using WMMA 
+vectorSparse SpMM runtime 59.0027 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/reddit4.txt
+vec_len: 4 m_vec: 58242 m: 232968 n: 256 k: 232965
+Using WMMA 
+vectorSparse SpMM runtime 60.5745 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/reddit8.txt
+vec_len: 8 m_vec: 29121 m: 232968 n: 256 k: 232965
+Using WMMA 
+vectorSparse SpMM runtime 68.2418 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/citeseer2.txt
+vec_len: 2 m_vec: 1664 m: 3328 n: 512 k: 3327
+Using WMMA 
+vectorSparse SpMM runtime 0.0447219 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/citeseer4.txt
+vec_len: 4 m_vec: 832 m: 3328 n: 512 k: 3327
+Using WMMA 
+vectorSparse SpMM runtime 0.0467299 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/citeseer8.txt
+vec_len: 8 m_vec: 416 m: 3328 n: 512 k: 3327
+Using WMMA 
+vectorSparse SpMM runtime 0.0547999 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/cora2.txt
+vec_len: 2 m_vec: 1354 m: 2708 n: 512 k: 2708
+Using WMMA 
+vectorSparse SpMM runtime 0.0598901 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/cora4.txt
+vec_len: 4 m_vec: 677 m: 2708 n: 512 k: 2708
+Using WMMA 
+vectorSparse SpMM runtime 0.0648141 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/cora8.txt
+vec_len: 8 m_vec: 339 m: 2712 n: 512 k: 2708
+Using WMMA 
+vectorSparse SpMM runtime 0.0714839 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/ppi2.txt
+vec_len: 2 m_vec: 22453 m: 44906 n: 512 k: 44906
+Using WMMA 
+vectorSparse SpMM runtime 1.69184 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/ppi4.txt
+vec_len: 4 m_vec: 11227 m: 44908 n: 512 k: 44906
+Using WMMA 
+vectorSparse SpMM runtime 1.8049 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/ppi8.txt
+vec_len: 8 m_vec: 5614 m: 44912 n: 512 k: 44906
+Using WMMA 
+vectorSparse SpMM runtime 2.0574 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pubmed2.txt
+vec_len: 2 m_vec: 9859 m: 19718 n: 512 k: 19717
+Using WMMA 
+vectorSparse SpMM runtime 0.197264 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pubmed4.txt
+vec_len: 4 m_vec: 4930 m: 19720 n: 512 k: 19717
+Using WMMA 
+vectorSparse SpMM runtime 0.209306 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/pubmed8.txt
+vec_len: 8 m_vec: 2465 m: 19720 n: 512 k: 19717
+Using WMMA 
+vectorSparse SpMM runtime 0.23447 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/arxiv2.txt
+vec_len: 2 m_vec: 84672 m: 169344 n: 512 k: 169343
+Using WMMA 
+vectorSparse SpMM runtime 1.98051 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/arxiv4.txt
+vec_len: 4 m_vec: 42336 m: 169344 n: 512 k: 169343
+Using WMMA 
+vectorSparse SpMM runtime 2.03698 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/arxiv8.txt
+vec_len: 8 m_vec: 21168 m: 169344 n: 512 k: 169343
+Using WMMA 
+vectorSparse SpMM runtime 2.28802 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/proteins2.txt
+vec_len: 2 m_vec: 66267 m: 132534 n: 512 k: 132534
+Using WMMA 
+vectorSparse SpMM runtime 85.7574 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/proteins4.txt
+vec_len: 4 m_vec: 33134 m: 132536 n: 512 k: 132534
+Using WMMA 
+vectorSparse SpMM runtime 87.9082 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/proteins8.txt
+vec_len: 8 m_vec: 16567 m: 132536 n: 512 k: 132534
+Using WMMA 
+vectorSparse SpMM runtime 92.9705 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/reddit2.txt
+vec_len: 2 m_vec: 116483 m: 232966 n: 512 k: 232965
+Using WMMA 
+vectorSparse SpMM runtime 117.928 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/reddit4.txt
+vec_len: 4 m_vec: 58242 m: 232968 n: 512 k: 232965
+Using WMMA 
+vectorSparse SpMM runtime 118.29 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/reddit8.txt
+vec_len: 8 m_vec: 29121 m: 232968 n: 512 k: 232965
+Using WMMA 
+vectorSparse SpMM runtime 127.985 ms
+

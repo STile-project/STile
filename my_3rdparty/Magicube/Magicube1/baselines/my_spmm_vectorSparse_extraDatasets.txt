@@ -1,0 +1,225 @@
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/out.web-NotreDame0_2.txt
+vec_len: 2 m_vec: 162865 m: 325730 n: 32 k: 325729
+Using WMMA 
+vectorSparse SpMM runtime 0.909988 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/out.web-NotreDame0_4.txt
+vec_len: 4 m_vec: 81433 m: 325732 n: 32 k: 325729
+Using WMMA 
+vectorSparse SpMM runtime 1.20101 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/out.web-NotreDame0_8.txt
+vec_len: 8 m_vec: 40717 m: 325736 n: 32 k: 325729
+Using WMMA 
+vectorSparse SpMM runtime 1.33277 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/strided0_2.txt
+vec_len: 2 m_vec: 2048 m: 4096 n: 32 k: 4096
+Using WMMA 
+vectorSparse SpMM runtime 0.0946056 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/strided0_4.txt
+vec_len: 4 m_vec: 1024 m: 4096 n: 32 k: 4096
+Using WMMA 
+vectorSparse SpMM runtime 0.11949 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/strided0_8.txt
+vec_len: 8 m_vec: 512 m: 4096 n: 32 k: 4096
+Using WMMA 
+vectorSparse SpMM runtime 0.187894 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/logsparse0_2.txt
+vec_len: 2 m_vec: 2048 m: 4096 n: 32 k: 4096
+Using WMMA 
+vectorSparse SpMM runtime 0.022638 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/logsparse0_4.txt
+vec_len: 4 m_vec: 1024 m: 4096 n: 32 k: 4096
+Using WMMA 
+vectorSparse SpMM runtime 0.030582 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/logsparse0_8.txt
+vec_len: 8 m_vec: 512 m: 4096 n: 32 k: 4096
+Using WMMA 
+vectorSparse SpMM runtime 0.047456 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/out.web-NotreDame0_2.txt
+vec_len: 2 m_vec: 162865 m: 325730 n: 64 k: 325729
+Using WMMA 
+vectorSparse SpMM runtime 0.900805 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/out.web-NotreDame0_4.txt
+vec_len: 4 m_vec: 81433 m: 325732 n: 64 k: 325729
+Using WMMA 
+vectorSparse SpMM runtime 1.24805 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/out.web-NotreDame0_8.txt
+vec_len: 8 m_vec: 40717 m: 325736 n: 64 k: 325729
+Using WMMA 
+vectorSparse SpMM runtime 1.37148 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/strided0_2.txt
+vec_len: 2 m_vec: 2048 m: 4096 n: 64 k: 4096
+Using WMMA 
+vectorSparse SpMM runtime 0.0990797 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/strided0_4.txt
+vec_len: 4 m_vec: 1024 m: 4096 n: 64 k: 4096
+Using WMMA 
+vectorSparse SpMM runtime 0.12209 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/strided0_8.txt
+vec_len: 8 m_vec: 512 m: 4096 n: 64 k: 4096
+Using WMMA 
+vectorSparse SpMM runtime 0.190697 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/logsparse0_2.txt
+vec_len: 2 m_vec: 2048 m: 4096 n: 64 k: 4096
+Using WMMA 
+vectorSparse SpMM runtime 0.022822 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/logsparse0_4.txt
+vec_len: 4 m_vec: 1024 m: 4096 n: 64 k: 4096
+Using WMMA 
+vectorSparse SpMM runtime 0.031482 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/logsparse0_8.txt
+vec_len: 8 m_vec: 512 m: 4096 n: 64 k: 4096
+Using WMMA 
+vectorSparse SpMM runtime 0.0482461 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/out.web-NotreDame0_2.txt
+vec_len: 2 m_vec: 162865 m: 325730 n: 128 k: 325729
+Using WMMA 
+vectorSparse SpMM runtime 1.21161 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/out.web-NotreDame0_4.txt
+vec_len: 4 m_vec: 81433 m: 325732 n: 128 k: 325729
+Using WMMA 
+vectorSparse SpMM runtime 1.48538 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/out.web-NotreDame0_8.txt
+vec_len: 8 m_vec: 40717 m: 325736 n: 128 k: 325729
+Using WMMA 
+vectorSparse SpMM runtime 1.57664 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/strided0_2.txt
+vec_len: 2 m_vec: 2048 m: 4096 n: 128 k: 4096
+Using WMMA 
+vectorSparse SpMM runtime 0.187377 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/strided0_4.txt
+vec_len: 4 m_vec: 1024 m: 4096 n: 128 k: 4096
+Using WMMA 
+vectorSparse SpMM runtime 0.161397 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/strided0_8.txt
+vec_len: 8 m_vec: 512 m: 4096 n: 128 k: 4096
+Using WMMA 
+vectorSparse SpMM runtime 0.222279 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/logsparse0_2.txt
+vec_len: 2 m_vec: 2048 m: 4096 n: 128 k: 4096
+Using WMMA 
+vectorSparse SpMM runtime 0.0381958 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/logsparse0_4.txt
+vec_len: 4 m_vec: 1024 m: 4096 n: 128 k: 4096
+Using WMMA 
+vectorSparse SpMM runtime 0.039678 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/logsparse0_8.txt
+vec_len: 8 m_vec: 512 m: 4096 n: 128 k: 4096
+Using WMMA 
+vectorSparse SpMM runtime 0.0543678 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/out.web-NotreDame0_2.txt
+vec_len: 2 m_vec: 162865 m: 325730 n: 256 k: 325729
+Using WMMA 
+vectorSparse SpMM runtime 1.86236 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/out.web-NotreDame0_4.txt
+vec_len: 4 m_vec: 81433 m: 325732 n: 256 k: 325729
+Using WMMA 
+vectorSparse SpMM runtime 1.9769 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/out.web-NotreDame0_8.txt
+vec_len: 8 m_vec: 40717 m: 325736 n: 256 k: 325729
+Using WMMA 
+vectorSparse SpMM runtime 2.07461 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/strided0_2.txt
+vec_len: 2 m_vec: 2048 m: 4096 n: 256 k: 4096
+Using WMMA 
+vectorSparse SpMM runtime 0.330591 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/strided0_4.txt
+vec_len: 4 m_vec: 1024 m: 4096 n: 256 k: 4096
+Using WMMA 
+vectorSparse SpMM runtime 0.309967 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/strided0_8.txt
+vec_len: 8 m_vec: 512 m: 4096 n: 256 k: 4096
+Using WMMA 
+vectorSparse SpMM runtime 0.314477 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/logsparse0_2.txt
+vec_len: 2 m_vec: 2048 m: 4096 n: 256 k: 4096
+Using WMMA 
+vectorSparse SpMM runtime 0.0631579 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/logsparse0_4.txt
+vec_len: 4 m_vec: 1024 m: 4096 n: 256 k: 4096
+Using WMMA 
+vectorSparse SpMM runtime 0.07208 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/logsparse0_8.txt
+vec_len: 8 m_vec: 512 m: 4096 n: 256 k: 4096
+Using WMMA 
+vectorSparse SpMM runtime 0.0764999 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/out.web-NotreDame0_2.txt
+vec_len: 2 m_vec: 162865 m: 325730 n: 512 k: 325729
+Using WMMA 
+vectorSparse SpMM runtime 3.12026 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/out.web-NotreDame0_4.txt
+vec_len: 4 m_vec: 81433 m: 325732 n: 512 k: 325729
+Using WMMA 
+vectorSparse SpMM runtime 3.02781 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/out.web-NotreDame0_8.txt
+vec_len: 8 m_vec: 40717 m: 325736 n: 512 k: 325729
+Using WMMA 
+vectorSparse SpMM runtime 3.01631 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/strided0_2.txt
+vec_len: 2 m_vec: 2048 m: 4096 n: 512 k: 4096
+Using WMMA 
+vectorSparse SpMM runtime 0.63905 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/strided0_4.txt
+vec_len: 4 m_vec: 1024 m: 4096 n: 512 k: 4096
+Using WMMA 
+vectorSparse SpMM runtime 0.577931 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/strided0_8.txt
+vec_len: 8 m_vec: 512 m: 4096 n: 512 k: 4096
+Using WMMA 
+vectorSparse SpMM runtime 0.613163 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/logsparse0_2.txt
+vec_len: 2 m_vec: 2048 m: 4096 n: 512 k: 4096
+Using WMMA 
+vectorSparse SpMM runtime 0.116844 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/logsparse0_4.txt
+vec_len: 4 m_vec: 1024 m: 4096 n: 512 k: 4096
+Using WMMA 
+vectorSparse SpMM runtime 0.129278 ms
+
+Sparse matrix: /homes/jfangak/sparsetir-artifact/spmm/data_for_Magicube/logsparse0_8.txt
+vec_len: 8 m_vec: 512 m: 4096 n: 512 k: 4096
+Using WMMA 
+vectorSparse SpMM runtime 0.140632 ms
+
