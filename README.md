@@ -49,7 +49,7 @@ SDDMM: the script to run experiments on SDDMM
 
 
 
-nvcc.py:	replace the nvcc.py in SparseTIR with this nvcc.py to generate CUDA code correctly
+nvcc.py:	replace the file sparsetir-artifact/3rdparty/SparseTIR/python/tvm/contrib/nvcc.py in SparseTIR with this nvcc.py to generate CUDA code correctly
 
 codegen_c.cc:   replace the file sparsetir-artifact/3rdparty/SparseTIR/src/target/source/codegen_c.cc with this codegen_c.cc file and recompile SparseTIR in the container
 
