@@ -43,6 +43,10 @@ SDDMM: the script to run experiments on SDDMM
  
 - ~~bench_sddmm_for_test.py:	help functions~~
 
+- SDDMMbench_our_method.py: test different versions of our method.
+
+- SDDMM*.py files: test different baselines.
+
 
 
 nvcc.py:	replace the nvcc.py in SparseTIR with this nvcc.py to generate CUDA code correctly
@@ -52,6 +56,10 @@ codegen_c.cc:   replace the file sparsetir-artifact/3rdparty/SparseTIR/src/targe
 
 ## How to run the experiments:
 
-Enter the Docker container of [sparsetir-artifact](https://github.com/uwsampl/sparsetir-artifact/tree/main), and directly run the scripts in SPMM and SDDMM
+1. Enter the Docker container of [sparsetir-artifact](https://github.com/uwsampl/sparsetir-artifact/tree/main).
+
+2. Replace "nvcc.py" and "codegen_c.cc" with the corresponding files in this repository, and recompile SparseTIR.
+  
+3. Run the scripts in SPMM and SDDMM.
 
 
