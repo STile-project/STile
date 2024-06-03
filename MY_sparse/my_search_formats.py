@@ -1,4 +1,4 @@
- # This file is about searching the best format combination for a given sparse operator. 
+# This file is about searching the best format combination for a given sparse operator. 
 # import gen_formats
 # from importlib import reload
 # gen_formats = reload(gen_formats)
@@ -14,11 +14,6 @@ import my_fuse_formats
 import os
 # my_cost_model = reload(my_cost_model)
 
-# supporse we already know the cost of each computation tile
-# we can temporarily assume we know the concrete implementation of a compute tile.
-# cand_ops, cost_dict, tot_kernels_to_measure = gen_cand_compute_tiles(cand_ops, log_file="log_hub/log.py", cuda_i = 3, sub_op_rng=[-1, float('inf')])
-
-
 
 
 
@@ -26,33 +21,6 @@ import os
 global_op_id = 0
 
 
-
-
-
-
-
-def update_position_space_for_ops(sub_ops, selected_tile):
-
-	op = selected_tile.op
-	if op.op_type == 'spmm':
-		unfold_covered_csr = transform_covered_position_space_to_ori_space(selected_tile)
-		# 
-		for sub_op in sub_ops:
-
-			tmp_csr = unfold_covered_csr[sub_op.idx_values_list[0][0],:][:,sub_op.idx_values_list[0][2]]
-			if get_template_str(sub_op) == 'sparse_template_ell':
-				tmp_csr = tmp_csr[sub_op.hyb_new_rows[0],:]
-			
-
-			sub_op.position_space_update = sub_op.position_space_update - tmp_csr.multiply(sub_op.position_space_update)
-
-			sub_op.position_space_update = sub_op.position_space_update.tocsr()
-
-			sub_op.position_space_update.eliminate_zeros()
-
-			# if get_template_str(sub_op) == 'TensorCore_template':
-			# 	if sub_op.position_space_update[48,16]==0:
-			# 		print("\nWHEN UPDATE BY BEST TILE\n", selected_tile.get_key(), tmp_csr[48,16], sub_op.position_space_update[48,16])
 
 
 
@@ -80,7 +48,7 @@ def merge_csrs_TC_tile(sorted_tiles):
 	last_row = 0
 	for cnt, i in enumerate(i_poses):
 		# print(i)
-
+		# 因为我们在local search的时候允许每行的withdraw选项有不同的tile shape，所以此处要为每一行分别确定tile sizes
 		(_, I), (_, J), (_, K) = sorted_tiles[ splits[cnt] ].tile_sizes
 		ks = np.concatenate([range(int(K*pos[2]), min(int(K*(pos[2]+1)), len(op.k_vals[i]) )) for pos in poses[ splits[cnt]:splits[cnt+1] ] ])
 		csr = op.position_space_update[ I*i:I*(i+1), :][:, op.k_vals[i][ks] ]
@@ -100,8 +68,11 @@ def merge_csrs_TC_tile(sorted_tiles):
 
 	ind_i = np.argsort(op.idx_values_list[0][0])
 
-
+	# 把unfold_covered_csr还原回原始op的in1的矩阵坐标
 	return csr[ind_i,:]
+
+
+
 
 
 
@@ -128,7 +99,7 @@ def merge_csrs_1D_SDDMM_tile(sorted_tiles):
 	ind_i = np.argsort(op.idx_values_list[0][0])
 	ind_j = np.argsort(op.idx_values_list[0][2])
 
-
+	# 把unfold_covered_csr还原回原始op的in1的矩阵坐标
 	return csr[ind_i,:][:,ind_j]
 
 
@@ -137,18 +108,23 @@ def merge_csrs_1D_SDDMM_tile(sorted_tiles):
 
 
 
-def update_position_space_for_ops_given_tiles(sub_ops, selected_tiles):
 
+def update_position_space_for_ops_given_tiles(sub_ops, selected_tiles):
+	'''
+		根据一组select tile的position space when selected来更新该op的position space。
+		这里我们采用的是scipy sparse csr matrix 的数据结构。
+	'''
 	if len(selected_tiles) == 0:
 		return
 
 	op = selected_tiles[0].op
 	if op.op_type in ['spmm', 'sddmm']:
 		# =======================================================================================
-
+		# 换一个更快的写法求unfold_covered_csr们的和
+		# 计算dummy_tile的position_space_when_selected
 		unfold_covered_csr = None
 		if get_template_str(op) in ['TensorCore_template', 'TC_sddmm']:
-			sorted_tiles = sorted(selected_tiles, key=lambda t: t.tile_pos) 
+			sorted_tiles = sorted(selected_tiles, key=lambda t: t.tile_pos) # 把tile按i轴位置排序 
 			unfold_covered_csr = merge_csrs_TC_tile(sorted_tiles)
 			print("dummy_csr.nnz: ", unfold_covered_csr.nnz)
 		elif get_template_str(op) == 'sparse_template_ell' :
@@ -158,7 +134,7 @@ def update_position_space_for_ops_given_tiles(sub_ops, selected_tiles):
 					(None, op.position_space_update.shape[1])), (0, 0, 0), selected_tiles[0].params)
 			dummy_indptr = np.zeros( op.position_space_update.shape[0] + 1 )
 			tot, last_row = 0, 0
-			sorted_tiles = sorted(selected_tiles, key=lambda t: t.tile_pos) 
+			sorted_tiles = sorted(selected_tiles, key=lambda t: t.tile_pos) # 把tile按i轴位置排序 
 			for t in sorted_tiles:
 				dummy_indptr[ last_row:t.tile_i_rng[0]+1 ] = tot
 				dummy_indptr[ t.tile_i_rng[0]:t.tile_i_rng[1]+2 ] = t.position_space_when_selected.indptr + tot
@@ -173,17 +149,17 @@ def update_position_space_for_ops_given_tiles(sub_ops, selected_tiles):
 			dummy_tile.position_space_when_selected = dummy_csr
 			unfold_covered_csr = transform_covered_position_space_to_ori_space(dummy_tile)
 		elif get_template_str(op) == '1D_sddmm':
-			sorted_tiles = sorted(selected_tiles, key=lambda t: t.tile_pos) 
+			sorted_tiles = sorted(selected_tiles, key=lambda t: t.tile_pos) # 把tile按i轴位置排序 
 			unfold_covered_csr = merge_csrs_1D_SDDMM_tile(sorted_tiles)
 			print("dummy_csr.nnz: ", unfold_covered_csr.nnz)
 
-
+		# 考虑到withdraw的情况，有的时候仅仅是减少了某行的cost，而没有新增cover的点
 		assert (unfold_covered_csr.nnz == 0) or (max(unfold_covered_csr.data) == 1)
 		print(f"unfold_covered_csr: {unfold_covered_csr.nnz}")
 		# 
-
+		# NOTE: 我们这里有一个假设，即我们所处理的所有position space里面的元素的可能值都只有0和1，不包含该矩阵原本的元素值。
 		for sub_op in sub_ops:
-
+			# 需要再把unfold_covered_csr转化成和sub_op的position space相一致的坐标的矩阵
 			tmp_csr = unfold_covered_csr[sub_op.idx_values_list[0][0],:][:,sub_op.idx_values_list[0][2]]
 			if get_template_str(sub_op) == 'sparse_template_ell':
 				# tmp_csr = tmp_csr[sub_op.hyb_new_rows[0],:]
@@ -194,20 +170,34 @@ def update_position_space_for_ops_given_tiles(sub_ops, selected_tiles):
 						(data, indices, indptr), 
 						shape=sub_op.position_space_update.shape)
 
-
+			# elif get_template_str(sub_op) == '1D_sddmm':
+			# 	# 这个template也涉及到折叠，所以也需要还原一下折叠后的tmp_csr
+			# 	# 但是好像很难做到啊应该怎么还原折叠？感觉需要一个矩阵来标记原有的每个nonzero对应的行号，这样可以把折叠后的还原，但是原始的还是不能得到还原的
+			# 	# easy可以先还原成未折叠的，然后令tmpcsr中的元素对应位置值为-1，然后还原成折叠后的矩阵，然后所有元素加上2，再整除2，即可得到更新之后的矩阵。
+			# 	data = (sub_op.position_space[0]+sub_op.position_space_update).data//2
+			# 	csr = sub_op.inps[0][sub_op.idx_values_list[0][0],:][:,sub_op.idx_values_list[0][2]]
+			# 	csr0 = scipy.sparse.csr_matrix((data, sub_op.position_space[0].indices, csr.indptr), shape=csr.shape)
+			# 	csr1 = scipy.sparse.csr_matrix((sub_op.position_space[0].data, sub_op.position_space[0].indices, csr.indptr), shape=csr.shape)
+				
+			# 	data = (tmp_csr.multiply(csr0) + csr1).data//2
+			# 	tmp_csr = scipy.sparse.csr_matrix(
+			# 		(data, sub_op.position_space[0].indices, sub_op.position_space[0].indptr), 
+			# 		shape=sub_op.position_space[0].shape)
 
 
 			print(f"before update: {sub_op.position_space_update.nnz}")
 			sub_op.position_space_update = sub_op.position_space_update - tmp_csr.multiply(sub_op.position_space_update)
 			print(sub_op.position_space_update.nnz)
-
+			# 似乎更新之后，sub_op.position_space_update里面的0也会被同时清除，无所谓了
+			# sub_op.position_space_update = sub_op.position_space_update - tmp_csr.multiply(sub_op.position_space_update)
 
 			sub_op.position_space_update = sub_op.position_space_update.tocsr()
-
+			# 更新每个sub_op的position_space_update，之后还需要把里面新增的zeros全部都eliminate掉
 			sub_op.position_space_update.eliminate_zeros()
 
 			if get_template_str(sub_op) == '1D_sddmm':
-
+				# 需要更新nnz_update_1D，nnz_data_1D
+				# 其实并不需要保证position space update的indices是sorted的
 				# sub_op.position_space_update.has_sorted_indices = False
 				# sub_op.position_space_update.sort_indices()
 				csr = (sub_op.position_space[0]+sub_op.position_space_update).tocsr()
@@ -219,6 +209,10 @@ def update_position_space_for_ops_given_tiles(sub_ops, selected_tiles):
 					sub_op.nnz_data_1D, 
 					np.arange(0, len(sub_op.nnz_data_1D), sub_op.max_bucket_size)
 					)
+
+
+
+
 
 
 
@@ -244,24 +238,6 @@ def update_op_after_tile_selection(op):
 
 
 
-
-
-
-
-
-def estimate_tile_costs(tiles):
-	'''
-	Estimate the tile costs based on the roofline model.
-	'''
-	for tile in tiles:
-		_, tile_sizes, tile_pos, params = tile.get_key(as_dict_key=False)
-		tp = my_cost_model.cost_tb(tile.op, tile_sizes, tile_pos, params)
-		cost = my_cost_model.compute_cost_tb(tile.op, tile_sizes, tile_pos, params) / tp
-		tile.pred_cost = cost
-		tile.set_pred_avg_cost()
-
-
-
 def update_tile_after_selection(selected_tile):
 	'''
 	Update the information of a tile after it is selected.
@@ -273,7 +249,7 @@ def update_tile_after_selection(selected_tile):
 	# print("THE NNZ UNCOVERED: ", selected_tile.nnz_when_selected)
 	
 	# directly update the uncovered_position_space of selected_tile
-
+	# 这两行的操作其实可以不要
 	selected_tile.uncovered_position_space = None
 	selected_tile.nnz_uncovered = 0	
 
@@ -283,10 +259,12 @@ def update_tile_after_selection(selected_tile):
 
 
 
+
 def greedy_search_use_cost_model_lower_bound(op, dsize, run_params, max_bucket_size, cache_set, kernel_tile_size_options,
 	only_TC, only_ELL, 
 	penalty, TC_k_notsorted,
 	reorder_k_by_nnz = True,
+	max_level_num = float('inf'),
 	max_avg_cost_diff = float('inf'), use_faster_tuner = False, log_file="log_hub/log.py", cuda_i = 3, 
 	dtype = "float16", dtype_str = '"float16"', zerotype = "T.float16(0)"):
 	'''
@@ -296,7 +274,12 @@ def greedy_search_use_cost_model_lower_bound(op, dsize, run_params, max_bucket_s
 	Output:
 		the selected tiles.
 	'''
+	# 需要注意的一点是，我们的greedy是对单个tile中被新cover的element的平均cost而言的，所以每选择完一个tile之后，其他所有tile对应的单element cost都需要更新。
+
+	# 这个dict里的值需要提前设置好。但是里面应该填什么呢？填GFLOPS吗，还是真实的cost，还是暂时不考虑tensor core？感觉得直接比cost，因为tensor core的operation density和其余template的不是相同量级（或者说单位）的
 	# tensor_core_cost_dict = dict()
+
+	no_selected_tile_round = 0
 
 	os.environ['MyFileID'] = str(cuda_i)
 	if dtype == "float16":
@@ -308,14 +291,14 @@ def greedy_search_use_cost_model_lower_bound(op, dsize, run_params, max_bucket_s
 
 	is_tb_tile = True
 
-	tuning_hub = dict() #
+	tuning_hub = dict() # 存储tuning的结果，当遇到tile_size 和 sub_op都一样的tile的时候，可以不必tuning，而直接复用已有结果
 
 	# 1. get level 1 possible sub_ops
 	global global_op_id
 	cand_ops, global_op_id = gen_candidate_formats(op, max_bucket_size, kernel_tile_size_options, TC_k_notsorted,
 		reorder_k_by_nnz = reorder_k_by_nnz, op_id_start = 0, gen_TC_formats = (not only_ELL))
 	
-
+	# TODO: 暂时先不管TC tiles，对于TC tiles，我们需要为其建立一个以nnz为key的index，方便我们快速搜索nnz最多的TC tile
 
 
 	# 2. greedily select tiles
@@ -334,7 +317,7 @@ def greedy_search_use_cost_model_lower_bound(op, dsize, run_params, max_bucket_s
 	tile_dict = dict()
 	nnzs_dict, pos_is_dict, costs_dict = dict(), dict(), dict()
 
-
+	# 我们暂时不考虑Tensor core tiles  TODO！！！！
 	all_subops, next_level_subops, all_TC_ops = list(), list(), list()
 	for sub_op in cand_ops:
 		gen_position_space_for_area(sub_op, 0)
@@ -344,7 +327,8 @@ def greedy_search_use_cost_model_lower_bound(op, dsize, run_params, max_bucket_s
 			continue
 
 		# ====================
-
+		# FOR DEBUG: 暂时先舍弃CSR format
+		# continue
 		if (sub_op.op_type == 'spmm') and (get_template_str(sub_op) != 'sparse_template_ell'):
 			continue
 		# ====================
@@ -353,7 +337,7 @@ def greedy_search_use_cost_model_lower_bound(op, dsize, run_params, max_bucket_s
 		all_subops.append(sub_op)
 
 
-
+	# 也需要为new_op准备position space
 	new_op.position_space = dict()
 	gen_position_space_for_area(new_op, 0)
 	
@@ -377,13 +361,26 @@ def greedy_search_use_cost_model_lower_bound(op, dsize, run_params, max_bucket_s
 		print(f"BEST POSSIBLE ELL: {best_possible_ELL}")
 
 
+	# 不管有没有TC op，ELL做local search都需要有reverse_idx_TC_op_row，所以放到可能设置all_TC_ops之前计算改变量
+	# 为了支持withdraw做准备
+	# reverse_idx_TC_op_row = None
+	# if len(all_TC_ops) > 0:
+	# 	reverse_idx_TC_op_row = np.argsort(all_TC_ops[0].idx_values_list[0][0])
+
+
+	# 需要一个数据结构来记录每个TC row都涉及到哪些被选择的tile，方便进行withdraw
+	# 但是我们不会实时把selected tiles列表里的tile进行清除，而是最后再这样做？也不好做啊。
+	# 我们可以只记录tile在selected_tiles里面的编号，然后在最后根据这些编号进行删减。
+	# 这个数据结构里面只存完全在某个TC row里的tile，覆盖范围只有一部分交叉的ELL tile不被算在里面。
 	TC_row_num = math.ceil(op.inps[0].shape[0] / 16)
 	TC_row_tile_dict = {i:list() for i in range(TC_row_num)}
-	TC_row_costs = np.full(TC_row_num, 0.0) 
+	TC_row_costs = np.full(TC_row_num, 0.0) # 此处写成0而非0.0的话，np会自动生成正数array，导致结果错误。
 	TC_is = np.full(op.inps[0].shape[0], False)
 
-
-	if len(all_TC_ops) > 0:
+	# 先在可以不考虑ELL tile的时候单独搜一遍TC tile，默认只会有一个TC op
+	# if len(all_TC_ops) > 0:
+	# <jingzhi>@revision: speed up pure TC search: only do the following only TC search when there are both TC and ELL ops. ->performance is bad, delete it
+	if (len(all_TC_ops) > 0) and ((not only_TC) and (not only_ELL)):
 		selected_tiles = my_branch_and_bound.search_TC_tiles_only_by_rows(
 			all_TC_ops[0], dsize, is_tb_tile, best_possible_ELL, ori_tot_nnz, all_TC_ops, all_subops, new_op, max_avg_cost_diff, 
 			TC_row_tile_dict, TC_row_costs, penalty, max_bucket_size, TC_is)
@@ -391,7 +388,7 @@ def greedy_search_use_cost_model_lower_bound(op, dsize, run_params, max_bucket_s
 		if op.op_type in ['spmm', 'sddmm']:
 			tot_nnz = all_TC_ops[0].position_space_update.nnz * op.idx_lens[1]
 
-
+		# 在生成完TC tile之后也需要generate next level tiles
 		if (os.environ['single_level']!='True'):
 			new_op = update_op_after_tile_selection(new_op)
 
@@ -403,12 +400,36 @@ def greedy_search_use_cost_model_lower_bound(op, dsize, run_params, max_bucket_s
 				global_op_id, new_op, max_bucket_size, kernel_tile_size_options, TC_k_notsorted,
 				reorder_k_by_nnz = reorder_k_by_nnz, 
 				is_tb_tile = is_tb_tile)
-
+			# 尝试一下每次都只从next level tiles中找tile，而不保留之前的tile
 			all_subops = next_level_subops
 			next_level_subops = list()
 			tile_dict = dict()
 			nnzs_dict, pos_is_dict, costs_dict = dict(), dict(), dict()
+		# 
+	# <jingzhi>@revision: speed up the pure TC search for SDDMM by directly generating all the sparse tiles
+	elif only_TC and (op.op_type == 'sddmm'):
+		tile_sizes = list(all_TC_ops[0].blk_nums.keys())[0]
+		params = {"mma_shape_str":"m16n16k16"}
+		for blk_row_i in range(TC_row_num):
+			non_empty_tile_nums = all_TC_ops[0].blk_nums[tile_sizes][blk_row_i]
+			good_poses = [(int(blk_row_i), 0, i) for i in range(int(non_empty_tile_nums))]
+			if all_TC_ops[0].TC_k_notsorted:
+				good_poses = [(int(blk_row_i), 0, i) for i in all_TC_ops[0].blk_ks[tile_sizes][blk_row_i] ]
 
+			good_tiles = [ComputeTile(all_TC_ops[0], tile_sizes, tile_pos, params, not_init_nnz=True) for tile_pos in good_poses]
+			for t in good_tiles:
+				t.is_atomic_tile = False
+				t.pred_cost = 1
+				t.cost = 1
+				t.best_tile_sizes = t.tile_sizes
+				t.best_params = t.params
+				# 此时的uncovered_position_space应该是正确的。	We do not need position_space_when_selected
+				# t.position_space_when_selected = t.uncovered_position_space
+				t.nnz_when_selected = 0
+			selected_tiles = selected_tiles + good_tiles
+		selected_tiles[0].nnz_when_selected = op.inps[0].getnnz() * selected_tiles[0].j_num
+		selected_tiles[0].nnz = op.inps[0].getnnz()
+		tot_nnz = 0
 
 
 	while True:
@@ -419,7 +440,7 @@ def greedy_search_use_cost_model_lower_bound(op, dsize, run_params, max_bucket_s
 		selected_tile = None
 		good_tiles = list()
 
-
+		# 打算舍弃这个变量，在做local search的时候只根据预先设定的比例来做
 		second_best_pred_avg_cost = None
 
 		# consider TC tiles========================
@@ -431,18 +452,18 @@ def greedy_search_use_cost_model_lower_bound(op, dsize, run_params, max_bucket_s
 			# if best_tile_key_TC[2][2] == 1:
 			# 	return all_TC_ops
 
-
+			# 此处做一个简化，即我们暂时只考虑只有TC tile的情况。
 			params = {"mma_shape_str":"m16n16k16"}
 			# if best_tile_key_TC[1] == (16, 32, 32):
 			# 	params = {"mma_shape_str":"m8n32k16"}
 			is_atomic_tile = best_tile_key_TC[3]
-
+			# 我们可能返回同一行的多个TC tile
 			for tile_pos in best_tile_key_TC[2]:
 				selected_tile = ComputeTile(cand_ops[best_tile_key_TC[0]], best_tile_key_TC[1], tile_pos, params)
 				if is_atomic_tile or (op.op_type=='sddmm'):
-
+					# 因为我们支持整行withdraw地选择整行TC tile，所以只对atomic tile用最新position space来确定其覆盖范围
 					selected_tile.update_nnz_uncovered()
-				selected_tile.pred_cost = best_cost_TC * selected_tile.nnz_uncovered 
+				selected_tile.pred_cost = best_cost_TC * selected_tile.nnz_uncovered  # 在返回多个tile时，这个数据已经不准了
 				selected_tile.cost = 1
 				selected_tile.best_tile_sizes = selected_tile.tile_sizes
 				selected_tile.best_params = selected_tile.params
@@ -458,7 +479,7 @@ def greedy_search_use_cost_model_lower_bound(op, dsize, run_params, max_bucket_s
 		# selected_tile.set_pred_avg_cost()
 		# ==========================================
 
-
+		# init_avg_cost 用来加速ELL tile的搜索
 		init_avg_cost = float('inf')
 		# if selected_tile != None:
 		# 	init_avg_cost = selected_tile.pred_avg_cost
@@ -466,7 +487,9 @@ def greedy_search_use_cost_model_lower_bound(op, dsize, run_params, max_bucket_s
 		if len(good_tiles) > 0:
 			init_avg_cost = good_tiles[0].pred_avg_cost
 
-
+		# 暂时把selected tile存在selected TC tile里，因为ELL tile选出来的时候可能measure不通过，不过一般不太可能这样，之后也可以考虑去掉
+		# selected_TC_tile = selected_tile
+		# 直接把good tiles全存在selected_tile 和 selected_TC_tile 里面，从此以后，这两个变量就是列表而非单个tile了。
 		selected_tile = good_tiles
 		selected_TC_tile = good_tiles
 
@@ -475,11 +498,11 @@ def greedy_search_use_cost_model_lower_bound(op, dsize, run_params, max_bucket_s
 
 		while True:	
 
-
+			# 首先判断之前找到的TC tile（如果有）的avg cost是不是比ELL的最好的情况还要好，如果是，直接跳出循环
 			if init_avg_cost < best_possible_ELL:
 				break
 
-
+			# 一直找，直到找到一个cost是有效值的tile 
 			if len(all_subops) == 0:
 				selected_tile = selected_TC_tile
 				break
@@ -490,7 +513,9 @@ def greedy_search_use_cost_model_lower_bound(op, dsize, run_params, max_bucket_s
 				nnzs_dict, pos_is_dict, costs_dict,
 				best_pred_avg_cost = init_avg_cost)
 			
-
+			# if best_tile_key == None:
+			# 	return all_subops, tile_dict, dsize, ori_tot_nnz, SM_num, max_bucket_size
+			# 此处其实有可能找不到best_tile_key，因为我们设置了initial avg cost
 			if best_tile_key != None:
 				selected_tile = tile_dict[best_tile_key]
 				init_avg_cost = selected_tile.pred_avg_cost
@@ -507,12 +532,17 @@ def greedy_search_use_cost_model_lower_bound(op, dsize, run_params, max_bucket_s
 					nnzs_dict, pos_is_dict, costs_dict,
 					best_pred_avg_cost = init_avg_cost)
 				if best_tile_key != None:
-
+					# 说明一定知道找到了一个avg cost更小的next level的tile
+					# update second_best_pred_avg_cost
+					# 其实此处更新second_best_pred_avg_cost是有误的，但是因为我们不用second_best_pred_avg_cost了，所以无所谓
 					second_best_pred_avg_cost = min(init_avg_cost, \
 						second_best_pred_avg_cost, second_best_pred_avg_cost_next_level)
 					# 
 					selected_tile = tile_dict_next_level[best_tile_key]
-					level_num += 1
+
+					# <jingzhi>@response: 在response阶段修改。因为我们已经不再保留之前的level的tile，所以level_num修改为在生成新tiles的时候更新，而不是在这里更新。
+					# level_num += 1
+
 					all_subops = all_subops + next_level_subops
 					next_level_subops = list()					
 
@@ -533,7 +563,7 @@ def greedy_search_use_cost_model_lower_bound(op, dsize, run_params, max_bucket_s
 			# return [selected_tile]
 			# =============
 
-
+			# 如果selected tile不是ELL tile，直接停止循环
 			if selected_tile == selected_TC_tile:
 				break
 
@@ -544,7 +574,7 @@ def greedy_search_use_cost_model_lower_bound(op, dsize, run_params, max_bucket_s
 				log_file=log_file, cuda_i = cuda_i, 
 				dtype = dtype, dtype_str = dtype_str, zerotype = zerotype)
 			
-
+			# 我们已经取消返回error tile了，所以下面的这个判断已经失效-----------
 			if error_tile != None:
 				return error_tile, tile_dict
 			# return error_tile, tile_dict
@@ -555,15 +585,52 @@ def greedy_search_use_cost_model_lower_bound(op, dsize, run_params, max_bucket_s
 				selected_tile = selected_TC_tile
 
 
+		# consider TC tiles========================
+		# if len(all_TC_ops)!=0:
+		# 	best_tile_key_TC, best_nnz_TC = my_branch_and_bound.search_best_TC_tile(all_TC_ops, dsize)
+		# 	# 此处做一个简化，即我们暂时只考虑只有TC tile的情况。
+		# 	params = {"mma_shape_str":"m16n16k16"}
+		# 	if TC_tile_sizes == (8, 32, 16):
+		# 		params = {"mma_shape_str":"m8n32k16"}
+		# 	selected_tile = ComputeTile(cand_ops[best_tile_key_TC[0]], best_tile_key_TC[1], best_tile_key_TC[2], params)
+		# 	selected_tile.update_nnz_uncovered()
+		# 	selected_tile.pred_cost = 1
+		# 	selected_tile.cost = 1
+		# 	selected_tile.best_tile_sizes = selected_tile.tile_sizes
+		# 	selected_tile.best_params = selected_tile.params
 
+		# # selected_tile.set_pred_avg_cost()
+		# ==========================================
 
 		if selected_tile != selected_TC_tile:
 			selected_tile = [selected_tile]
 
 
 		if len(selected_tile) == 0:
-			return op, all_subops, tile_dict, dsize, ori_tot_nnz, SM_num, max_bucket_size, init_avg_cost, next_level_subops
+			no_selected_tile_round+=1
+			if no_selected_tile_round == 2:
+				# there should not be two continuous rounds where no tiles are selected.
+				return op, all_subops, tile_dict, dsize, ori_tot_nnz, SM_num, max_bucket_size, init_avg_cost, next_level_subops
+			# 
+			# return op, all_subops, tile_dict, dsize, ori_tot_nnz, SM_num, max_bucket_size, init_avg_cost, next_level_subops
+			new_op = update_op_after_tile_selection(new_op)
 
+			print(f"new op nnz: {new_op.position_space_update.getnnz()}")
+
+			# =============================
+			next_level_subops, global_op_id = my_branch_and_bound.gen_full_next_level_subops(
+				TC_is,
+				global_op_id, new_op, max_bucket_size, kernel_tile_size_options, TC_k_notsorted,
+				reorder_k_by_nnz = reorder_k_by_nnz, 
+				is_tb_tile = is_tb_tile)
+			# 尝试一下每次都只从next level tiles中找tile，而不保留之前的tile
+			all_subops = next_level_subops
+			next_level_subops = list()
+			tile_dict = dict()
+			nnzs_dict, pos_is_dict, costs_dict = dict(), dict(), dict()
+			continue
+
+		no_selected_tile_round = 0
 
 		# print("selected tile avg_cost and pred_avg_cost: ", selected_tile.avg_cost, selected_tile.pred_avg_cost)
 		print("selected tile avg_cost and pred_avg_cost: ", selected_tile[0].avg_cost, selected_tile[0].pred_avg_cost)
@@ -584,10 +651,40 @@ def greedy_search_use_cost_model_lower_bound(op, dsize, run_params, max_bucket_s
 
 		best_pred_avg_cost = selected_tile[0].pred_avg_cost
 
+		# 等到做完了local search之后一起更新，其实只需要更新good tiles即可=====================
+		# update selected_tile infor
+		# for tile in selected_tile:
+		# 	update_tile_after_selection(tile)
+		# selected_tiles = selected_tiles + selected_tile
+		# =====================================================
 
+		# =============For DEBUG
+		# if len(selected_tiles)>3:
+		# 	return selected_tiles
+		# =============
+
+		# # 更新selected_position_space 
+		# my_branch_and_bound.update_covered_position_space(selected_tile, selected_position_space)
+
+		# update the sub_ops' position_space_update
+		# update_position_space_for_ops(all_subops, selected_tile)
+		# update_position_space_for_ops(all_TC_ops, selected_tile)
+		# update_position_space_for_ops([new_op], selected_tile)
+
+		# 等到做完了local search之后一起更新=====================
+		# update_position_space_for_ops_given_tiles(all_subops+all_TC_ops+[new_op], selected_tile)
+		# =====================================================
 
 		round_i+=1
 		
+		# print(f"Total nnz left: {tot_nnz/op.idx_lens[1]}")
+		# # print(f"Select tile nnz: {selected_tile.nnz_when_selected/op.idx_lens[1]}")
+		# print(f"Select tile nnz: { sum([t.nnz_when_selected/t.j_num for t in selected_tile]) }")
+		# if sum([t.nnz_when_selected for t in selected_tile]) == 0: # selected_tile.nnz_when_selected == 0:
+		# 	# print(f"selected_tile.avg_cost: {selected_tile.avg_cost}")
+		# 	print("selected_tile nnz_uncovered is 0 when selected.")
+		# 	print(selected_tile[0].get_key())
+		# 	return all_subops, next_level_subops, selected_tiles, tile_dict, new_op
 
 
 		print(f"Select tile nnz: { sum([t.nnz_uncovered/t.j_num for t in selected_tile]) }")
@@ -599,6 +696,12 @@ def greedy_search_use_cost_model_lower_bound(op, dsize, run_params, max_bucket_s
 
 		print(f"Already select {round_i} round tiles")
 
+		# update
+		# 调整为local search之后再统一更新，否则结果会不准
+		# tot_nnz = tot_nnz - sum([t.nnz_when_selected / t.j_num for t in selected_tile]) * op.idx_lens[1]
+		# print(f"tot_nnz now: {tot_nnz/op.idx_lens[1]}")
+		# if tot_nnz <= 0:
+		# 	break
 
 
 		# ================try to find good tiles around the selected tile=============================================
@@ -617,6 +720,23 @@ def greedy_search_use_cost_model_lower_bound(op, dsize, run_params, max_bucket_s
 			penalty, TC_is, 
 			max_avg_cost_diff = max_avg_cost_diff)
 
+		# will select each tile in good_tiles----------------------
+		# error_tile = my_fuse_formats.measure_tiles(op, good_tiles, tuning_hub, 
+		# 	log_file=log_file, cuda_i = cuda_i, 
+		# 	dtype = dtype, dtype_str = dtype_str, zerotype = zerotype)
+		# good_tiles = [t for t in good_tiles if t.cost != float('inf')]
+		# 改为不对local search出来的tile进行measure，而是直接设置他们measure之后应该具备的参数
+		
+		# 直接去掉这部分，改为在生成good tile的时候直接对这些参数赋值
+		# for t in good_tiles:
+		# 	t.cost = selected_tile[0].cost
+		# 	t.best_tile_sizes = selected_tile[0].best_tile_sizes
+		# 	t.best_params = selected_tile[0].best_params
+
+		# 	# FOR DEBUG---------------
+		# 	if t.pred_cost == None:
+		# 		t.pred_cost = selected_tile[0].pred_cost
+			# ------------------------
 
 		
 		# update selected_tile infor
@@ -626,8 +746,16 @@ def greedy_search_use_cost_model_lower_bound(op, dsize, run_params, max_bucket_s
 
 		selected_tiles = selected_tiles + good_tiles
 
-		try:
+		# # 更新selected_position_space 
+		# my_branch_and_bound.update_covered_position_space(selected_tile, selected_position_space)
 
+		# update the sub_ops' position_space_update
+		# update_position_space_for_ops(all_subops, selected_tile)
+		# update_position_space_for_ops_given_tiles(all_TC_ops, good_tiles)
+		# update_position_space_for_ops_given_tiles(all_subops+all_TC_ops+[new_op], good_tiles)
+		try:
+			# 要一口气处理所有op，因为TC good tile的csr是从op的position space中直接提取的，而不是整合tile的position space
+			# 但是因为good tile中一定会包含selected tile，所以可以不写selected_tile
 			update_position_space_for_ops_given_tiles(all_subops+all_TC_ops+[new_op], good_tiles)
 			# update_position_space_for_ops_given_tiles(all_TC_ops, good_tiles)
 			print("finish update ops")
@@ -647,13 +775,19 @@ def greedy_search_use_cost_model_lower_bound(op, dsize, run_params, max_bucket_s
 
 
 		# try to find next level formats
-		next_level_condition = (level_num < float('inf')) and (get_template_str(selected_tile[0].op) in ["TensorCore_template", "TC_sddmm"])
+		# <jingzhi>@response: support any level num limitation
+		assert (max_level_num>1 and os.environ['single_level']=='False') or (max_level_num==1 and os.environ['single_level']=='True'), 'Wrong level num setting.'
+		# next_level_condition = (level_num < float('inf')) and (get_template_str(selected_tile[0].op) in ["TensorCore_template", "TC_sddmm"])
+		next_level_condition = (level_num < max_level_num) and (get_template_str(selected_tile[0].op) in ["TensorCore_template", "TC_sddmm"])
 		if os.environ['single_level']=='True':
 			next_level_condition = (level_num < 1)
 
 		# if (level_num < float('inf')) and (get_template_str(selected_tile[0].op)=="TensorCore_template"): # 2:
 		# if (level_num < 1): # 2:
 		if next_level_condition:
+			# <jingzhi>@response: we only update the level_num when we really generate new level tiles
+			level_num += 1
+
 			# return new_op, selected_tile
 
 			# first update the position space of new_op ==> has been processed together with other ops
@@ -670,29 +804,33 @@ def greedy_search_use_cost_model_lower_bound(op, dsize, run_params, max_bucket_s
 				global_op_id, new_op, max_bucket_size, kernel_tile_size_options, TC_k_notsorted,
 				reorder_k_by_nnz = reorder_k_by_nnz, 
 				is_tb_tile = is_tb_tile)
-
+			# 尝试一下每次都只从next level tiles中找tile，而不保留之前的tile
 			all_subops = next_level_subops
 			next_level_subops = list()
 			tile_dict = dict()
 			nnzs_dict, pos_is_dict, costs_dict = dict(), dict(), dict()
 			# =============================
 
+			# 以下是原有函数，暂时注释掉-----------
+			# next_level_subops, global_op_id = my_branch_and_bound.gen_next_level_subops(
+			# 	global_op_id, new_op, run_params, cand_ops, 
+			# 	max_bucket_size = max_bucket_size, is_tb_tile = is_tb_tile)
 
+			# 我们没有必要再加上tensor core based 的next level的tile，因为tensor core based的没有next level。因为其不能reorder index。
+			# 但是其实只是不能reorder index i
 
-	return selected_tiles, TC_row_tile_dict, TC_row_costs, reverse_idx_TC_op_row
+			# 必须要保证每个sub_op都设置了相应的position space
+			# 暂时不考虑TC tiles
+			# 其实不需要这样，因为在gen_next_level_subops里面已经调用了gen_position_space_for_area了。
+			# tmp_subops = list()
+			# for sub_op in next_level_subops:
+			# 	if (get_template_str(sub_op) == 'TensorCore_template'):
+			# 		continue
+			# 	gen_position_space_for_area(sub_op, 0)
+			# 	tmp_subops.append(sub_op)
+			# next_level_subops = tmp_subops
 
-
-def save_selected_tiles(selected_tiles, file_name):
-	with open(file_name, 'a') as f:
-		f.write('NEW ROUND\n')
-		for tile in selected_tiles:
-			data = {'info': tile.get_key(), 'op': tile.op.get_key(), 
-			'best_tile_sizes': tile.best_tile_sizes,
-			'best_params': tile.best_params,
-			'cost': tile.cost, 'nnz': int(tile.nnz_when_selected)}
-			json.dump(data, f)
-			f.write('\n')
-		f.write('\n\n')
+	return selected_tiles, TC_row_tile_dict, TC_row_costs, reverse_idx_TC_op_row, level_num
 
 
 
@@ -742,8 +880,15 @@ def estimate_TC_tile_penalty(op, dsize, run_params, max_bucket_size, cache_set, 
 	# max_avg_cost_diff = float('inf'), 
 	use_faster_tuner = False, log_file="log_hub/log.py", cuda_i = 3, 
 	dtype = "float16", dtype_str = '"float16"', zerotype = "T.float16(0)"):
+	# 用来估计TC tile在优化后能达到满载性能的百分之几；感觉是不是能和TC tile的有效密度相关
+	# 应该不是，因为密度分布可能不均匀；可以先从全ELL tile开始，判断有哪些TC行有选择TC的可能，根据密度来判断？
+	# 可以比较全ELL tile方案和全TC tile 方案在每个TC行的最好avg cost，以此估计最终含TC行的数量。
+	'''
+	此处的参数和 greedy_search_use_cost_model_lower_bound 函数一样，但是少了 only_TC, only_ELL, max_avg_cost_diff。
+	'''
 	penalty = 1
 
+	# 感觉这个地方的算法有点问题，不应该设置max_avg_cost_diff = float('inf')，因为这样得到的结果可能并不是最好的pure TC format
 	max_avg_cost_diff = 0.2 # float('inf')
 	only_TC, only_ELL = True, False
 	selected_tiles, TC_row_tile_dict, TC_row_costs, reverse_idx_TC_op_row = greedy_search_use_cost_model_lower_bound(
@@ -760,6 +905,7 @@ def estimate_TC_tile_penalty(op, dsize, run_params, max_bucket_size, cache_set, 
 	selected_tiles_TC = my_branch_and_bound.post_process_for_withdraw(op, selected_tiles, TC_row_tile_dict, TC_row_costs, reverse_idx_TC_op_row)
 	
 	# 
+	# 对于ELL tiles而言，设置max_avg_cost_diff = float('inf') 没关系，因为搜索空间里的ELL 的cover范围没什么重叠，即pure ELL format唯一。
 	max_avg_cost_diff = float('inf')
 	only_TC, only_ELL = False, True
 	op.position_space_update = op.inps[0].copy()
@@ -826,9 +972,10 @@ def estimate_max_bucket_size(op):
 	thread_i = 8 # Suppose 8 tile i indices are bound to thread idx
 	SM_num = 108
 
+	# 此处最小的max bucket size选择为4，而不是2，因为在citeseer上自动找到为2，但是可能引起的atomic次数过多，反倒不如设成4的时候效果好。
 	cand_workloads = [8*(2**i) for i in range(2, 6)][::-1]
 	for cand in cand_workloads:
-		if op.inps[0].nnz / (cand/2) / SM_num >= 0.5*blk_num_per_SM: 
+		if op.inps[0].nnz / (cand/2) / SM_num >= 0.5*blk_num_per_SM: # 此处用0.5因为我们观察到occupancy是0.5的时候已经能达到较高效果。
 			return cand//thread_i
 	# return the minimum cand anyway
 	return cand//thread_i
@@ -857,6 +1004,26 @@ def get_TC_tile_for_benchmark(tile_sizes, op,
 		os.environ['MydtypeIn'] = 'float'
 		os.environ['MydtypeOut'] = 'float'
 
+	# global global_op_id
+	# cand_ops, global_op_id = gen_candidate_formats(op, max_bucket_size, kernel_tile_size_options, TC_k_notsorted,
+	# 	reorder_k_by_nnz = reorder_k_by_nnz, op_id_start = 0)
+
+	# TC_op = None
+	# for sub_op in cand_ops:
+	# 	if (get_template_str(sub_op) in ['TC_sddmm']):
+	# 		gen_position_space_for_area(sub_op, 0)
+	# 		print(f"sub_op {sub_op.op_id}  initial nnz: {sub_op.position_space_update.nnz}", flush=True)
+	# 		TC_op = sub_op
+	# 		break
+
+	# TC_row_num = math.ceil(TC_op.position_space_update.shape[0] / tile_sizes[0][1])
+	# good_poses = list()
+	# if TC_op.TC_k_notsorted:
+	# 	good_poses = [ (i, 0, j) for i in range(TC_row_num) for j in TC_op.blk_ks[tile_sizes][i] ]
+	# else:
+	# 	good_poses = [ (i, 0, j) for i in range(TC_row_num) for j in range(TC_op.blk_nums[tile_sizes][i]) ]
+
+	# print(len(good_poses), good_poses[:2])
 	
 	TC_op = op
 	TC_op.loop_protocals = {0: 'uuu'}
@@ -937,5 +1104,6 @@ def get_pure_TC_formats(tile_sizes, op,
 		t.best_params = t.params
 		t.position_space_when_selected = t.uncovered_position_space
 		t.nnz_when_selected = t.nnz_uncovered
+		# 此时的uncovered_position_space应该是正确的。
 
 	return good_tiles

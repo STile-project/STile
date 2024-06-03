@@ -7,6 +7,53 @@ from sparsetir_artifact import profile_tvm_ms
 from my_wmmas1 import *
 # from my_wmmas2 import *
 
+
+# <jingzhi>@response: profile memory usage
+import time
+from dgl import DGLError
+
+# <jingzhi>@response: profile memory usage
+# this function is from sparsetir/graphiler/utils/bench
+# this function does not work because we will not release the gpu memory after we call the net.
+def mem_bench(net, net_params, repeat=1000):
+    try:
+        # with profile(activities=[ProfilerActivity.CUDA], schedule=schedule(wait=0, warmup=10, active=100), record_shapes=True) as prof:
+        #     for _ in range(100):
+        #         net(*net_params)
+        #         prof.step()
+        # print(prof.key_averages())
+        # warm up
+        for i in range(5):
+            net(*net_params)
+        torch.cuda.synchronize()
+        memory_offset = torch.cuda.memory_allocated()
+        torch.cuda.reset_peak_memory_stats()
+
+        start_time = time.time()
+        for i in range(repeat):
+            net(*net_params)
+        torch.cuda.synchronize()
+
+        elapsed_time = (time.time() - start_time) / repeat * 1000
+        print("elapsed time: {} ms/infer".format(elapsed_time))
+        
+        max_mem_consumption = (
+            torch.cuda.max_memory_allocated() - memory_offset) / 1048576
+        print(torch.cuda.max_memory_allocated(), memory_offset, torch.cuda.max_memory_allocated() - memory_offset)
+        print("intermediate data memory usage: {} MB".format(max_mem_consumption))
+        return max_mem_consumption
+        
+    except (RuntimeError, DGLError) as e:
+        print(e)
+        print("{} OOM".format(tag))
+        return None
+    except BaseException as e:
+        print(e)
+        raise
+
+
+
+
 def get_C_store_atomics(formats):
     '''
     Compute the C_store atomics for the given formats.
@@ -16,84 +63,66 @@ def get_C_store_atomics(formats):
         template_str, tile_sizes, params = fmt
         params = json.loads(params)
         if template_str == "TensorCore_template":
-
+            # continue
+            # 默认没有unroll C的存储
+            # mma_n = parse_mma_shape(params["mma_shape_str"])[1]
+            # C_store_atomics = C_store_atomics + [params['real_atomic']] * (tile_sizes[1][1] // mma_n)
             C_store_atomics.append(params['real_atomic'])
             continue
         if params['real_atomic']:
             if params['use_implicit_unroll']:
                 C_store_atomics.append(params['real_atomic'])
             else:
-
+                # 我们在csr和ELL的schedule中，只会对j1和ki轴进行explicit unroll，然后默认每计算完一个output point，就存储到C中一次
                 C_store_atomics = C_store_atomics + [params['real_atomic']] * tile_sizes[1][1]
     return C_store_atomics
 
 
 
 def comp_SMEM_padding_pattern(op_type, tile_sizes, dsize):
-
+    '''
+    这个函数用来计算避免shared memory的bank conflict时所需要进行的padding。
+    tile_sizes: 是具体的tile sizes, 包含了每个线程的workload的信息。
+    OUTPUT: (每隔多少行进行一次padding, 每次padding多少个单位, 这个SMEM的column数是多少)
+    '''
     warp_size = 32
     bank_width = 32
     bank_num = 32
     if op_type == 'spmm':
-        thread_j = tile_sizes[1][2] 
+        thread_j = tile_sizes[1][2] # 我们假定thread_j 一定能整除32或者是32的倍数。因为假定所有tile size都是2的指数。
         i_num_per_warp = math.ceil(warp_size/thread_j)
         if i_num_per_warp == 1:
-
-            return (1, 0, math.prod(tile_sizes[2][1:])) 
-        second_bank_i = dsize * tile_sizes[2][1] // bank_width 
+            # 不会有bank conflict
+            return (1, 0, math.prod(tile_sizes[2][1:])) # i.e., 在每一行后面padding 0个单位
+        second_bank_i = dsize * tile_sizes[2][1] // bank_width # the bank id of the first element in the second row
         if second_bank_i == 0:
-
+            # 说明两行落在同一个bank里，比如一行一个float16的情况。此时我们要在每一行尾部进行padding。
             pad_num = (bank_width - dsize * tile_sizes[2][1]) // dsize
             return (1, pad_num, math.prod(tile_sizes[2][1:]))
         else:
-            
-            
-            
-            i_conflict_num = int(math.ceil(bank_num/second_bank_i)) 
+            # 说明相邻的两行读取同一个k的位置的元素的时候不会在同一个bank里（且是同一个以bank width 为单位的地址里）
+            # 我们假定tile k一定是2的指数，因此second_bank_i一定也是2的指数
+            # 我们需要找出最少多少行的同一个元素会落在同一个bank里
+            i_conflict_num = int(math.ceil(bank_num/second_bank_i)) # 当second_bank_i > bank_num的时候，相邻两行在同一个bank
             if i_conflict_num >= i_num_per_warp:
-
+                # 不会有bank conflict的问题
                 return (1, 0, math.prod(tile_sizes[2][1:]))
             else:
                 return (i_conflict_num, bank_width//dsize, math.prod(tile_sizes[2][1:])) # 在每i_conflict_num行后pad一个bank_width的宽度
 
 
 
-def get_atomic_rows_TC_tiles(selected_tiles):
-    '''
-        Get the output rows which are accessed by the TC tiles in selected_tiles. Unit is one sub-kernel.
-    '''
-    def get_key(tile):
-        # get the key of a TC tile
-        key = json.dumps((tuple([tuple(i) for i in tile.best_tile_sizes]), tile.best_params, tile.op.op_id))
-        return key
-    # 
-    TC_tiles = [t for t in selected_tiles if get_template_str(t.op) == 'TensorCore_template']
-    # group TC tiles by its key
-    TC_keys = [get_key(t) for t in TC_tiles]
-    sorted_idx = np.argsort(TC_keys)
-
-    keys, counts = np.unique(TC_keys, return_counts=True) # keys will be sorted
-    rows = list()
-    last = 0
-    for num in counts:
-        TC_is = sorted_idx[last : last + num]
-
-        row_set = set(np.concatenate([TC_tiles[i].op.idx_values_list[0][0][ TC_tiles[i].tile_i_rng[0]:TC_tiles[i].tile_i_rng[1]+1 ] \
-                                    for i in TC_is]))
-        rows = rows + list(row_set)
-        last = last + num
-    return rows
 
 
 
 
 
-
+# 尝试加快这个函数，is_atomic直接利用tile里存的信息
 def get_formats_from_selected_tiles(selected_tiles, cache_set, dsize, set_atomic = None):
     '''
     selected_tiles: the selected tiles.
     '''
-
+    # 是不是在找key上花的时间太多了
 
     formats = dict()
     if selected_tiles[0].op.op_type in ['spmm', 'sddmm']:
@@ -110,17 +139,23 @@ def get_formats_from_selected_tiles(selected_tiles, cache_set, dsize, set_atomic
             if set_atomic != None:
                 params['real_atomic'] = set_atomic
 
-
+            # 我们不希望在schedule函数中采用sparsetir目前的atomic add的技术，因为有bug
             params['atomic'] = False
 
             params["idx_reordered"] = tile.op.idx_reordered[0]
 
+            # FOR DEBUG 看是不是unroll分配了太多c local
+            # params["use_implicit_unroll"] = False #True
 
+            # 设置tile是否要用shared memory来cache inputs
             params['SMEM_in1'] = False
             if 'A' in cache_set:
                 params['SMEM_in1'] = True
 
-
+            # 对于TC tile，需要保证一起tune的tile是来自同一个op的，因为我们需要一个block计算多个tile
+            # if template_str == "TensorCore_template":
+            # 已经不需要这个了，因为我们只会有一个TC op
+            # params['op_id'] = tile.op.op_id
 
             key = None
             if get_template_str(tile.op) == '1D_sddmm':
@@ -162,6 +197,15 @@ def get_formats_from_selected_tiles(selected_tiles, cache_set, dsize, set_atomic
 
 
 
+
+
+
+# ==========================================================================
+# Below is about scheduling the hybrid template
+
+
+
+
 def schedule_csr(sch, func_str, tile_sizes, params):
     '''
     sch is returned by the fused function, and we schedule sch.
@@ -190,24 +234,25 @@ def schedule_csr(sch, func_str, tile_sizes, params):
     # tile index k into only two levels --> there is no need to tile k because we do not consider cache read here
     # ki0, ki1 = sch.split(ki, tile_sizes[2]) 
 
-
+    # ki放在最后的目的在于，schedule的时候，cache write计算出来的loop范围总是会变大，这样虽然对结果没有影响，但是可能在atomic的时候会浪费时间
     # sch.reorder(j0,j2,i_out, j1, ki)
     sch.reorder(i0, j0, i2, j2, i1, j1)
     # sch.reorder(ki)
 
     # sch.reorder(j0,j2, ki, j1)
 
-
+    # cache write stage 【此处做了修改之前的写法是没有cache write的】--------------------------------------
     # print(" params['atomic']",  params['atomic'])
     if params['atomic']:
         sch.annotate(blk1, "atomic", True)
-
+    # 此处修改为默认进行cache write
     write_blk = sch.cache_write(blk1, 0, "local") # sch.cache_write(blk1, 0, "local")
         # sch.reverse_compute_at(write_blk, i_out, True)
     # write_blk = sch.cache_write(blk1, 0, "local") # sch.cache_write(blk1, 0, "local")
     # # print("after cache_write")
     # # print(sch.mod.script())
 
+    # # 一个可能的失败的原因，write_blk只有两个axis，但是j2所在的blk1有四个axis，即j0, j2, ki, j1，是不是需要我们也让write_blk有四个axis就行了？好像不是这个原因，axis的数量只和C的维度有关。待会试一试这个
 
 
     # sch.reverse_compute_at(write_blk, j1, True)
@@ -233,10 +278,12 @@ def schedule_csr(sch, func_str, tile_sizes, params):
     if use_implicit_unroll:
         sch.annotate(j1, "pragma_unroll_explicit", 0)
 
+    # 此处做了修改，对i_out也unroll了
     # sch.unroll(i_out)
     # if use_implicit_unroll:
     #     sch.annotate(i_out, "pragma_unroll_explicit", 0)
 
+    # sch.unroll(ki) # 这个地方也做了修改，原来是被注释掉了的. 还是得注释掉，因为cannot unroll non-constant loop
     if use_implicit_unroll:
         sch.annotate(ki, "pragma_unroll_explicit", 0)
 
@@ -245,9 +292,66 @@ def schedule_csr(sch, func_str, tile_sizes, params):
     # init_blk = sch.decompose_reduction(blk1, j2)
     init_blk = sch.decompose_reduction(blk1, ki)
 
+    # print(sch.mod.script())
+
+
+    # 似乎init_blk里面的axis的个数并不会变，这个修改完之后，就不会出现dataptr == null这个error了
+    # print("#axis of init_blk: ", len(sch.get_loops(init_blk)))
+    
+    # print("before scheduling init_blk")
+    # print(sch.mod.script())
+    
+    # 把j移到i的block内之后应该就不用再设置initblk的并行了---
+    # ax0, ax1, ax2 = sch.get_loops(init_blk)[-3:]
+    # sch.bind(ax0, "threadIdx.x")
+    # sch.unroll(ax1)
+    # sch.unroll(ax2)
+    # # print("*"*50)
+    # # print(sch.mod.script())
+    # if use_implicit_unroll:
+    #     sch.annotate(ax1, "pragma_unroll_explicit", 0)
+
+    # if tile_sizes[1][1]>1 and tile_sizes[1][2]>1:
+    #     print("both > 1")
+    #     ax0, ax1 = sch.get_loops(init_blk)[-3:-1]
+    #     sch.bind(ax0, "threadIdx.x")
+    #     sch.unroll(ax1)
+    #     # print("*"*50)
+    #     # print(sch.mod.script())
+    #     if use_implicit_unroll:
+    #         sch.annotate(ax1, "pragma_unroll_explicit", 0)
+    # elif tile_sizes[1][1]>1:
+    #     print("j1 > 1")
+    #     ax0 = sch.get_loops(init_blk)[-2]
+    #     sch.bind(ax0, "threadIdx.x")
+    # elif tile_sizes[1][2]>1:
+    #     print("j2 > 1")
+    #     ax1 = sch.get_loops(init_blk)[-2]
+    #     sch.unroll(ax1)
+    #     if use_implicit_unroll:
+    #         sch.annotate(ax1, "pragma_unroll_explicit", 0)
+    
+    # print(len(sch.get_loops(init_blk)))
+    # sch.bind(ax0, "threadIdx.x")
+    # sch.unroll(ax1)
+    # # print("*"*50)
+    # # print(sch.mod.script())
+    # if use_implicit_unroll:
+    #     sch.annotate(ax1, "pragma_unroll_explicit", 0)
+    # print("finish scheduling")
+    # print(sch.mod.script())
 
 
 
+
+
+
+
+
+
+# 将在这个函数里同时处理有无shared memory，有无cache write的情况
+# 默认real atomic的时候要进行cache write，否则不cache write
+# 是否使用shared memory要通过params来控制
 def schedule_ell(op_type, sch, func_str, tile_sizes, params, in1_shared_str, write_blk_str):
     '''
     sch is returned by the fused function, and we schedule sch.
@@ -268,7 +372,8 @@ def schedule_ell(op_type, sch, func_str, tile_sizes, params, in1_shared_str, wri
         write_blk = sch.get_block(f"{write_blk_str}")
 
 
-
+    # !!!此处修改为，我们只依靠atomic来判断，事实上，在我们fix cuda bug的时候，我们只依靠real_atomic这个参数来判断
+    # 其实这个判断已经没有用处了，因为我们会在cuda代码处对何时应该做atomic进行设置
     if params['atomic']:
         sch.annotate(write_blk, "atomic", True)
     # sch.reverse_compute_at(write_blk, j1, True)
@@ -308,21 +413,24 @@ def schedule_ell(op_type, sch, func_str, tile_sizes, params, in1_shared_str, wri
         ax0, ax1 = sch.split(i_iter, [None, tile_sizes[0][-1]*tile_sizes[1][-1]])
         sch.unroll(ax0)
         ax1, ax2 = sch.split(ax1, [None, 32])
-        # ax1, ax2 = sch.split(ax1, [None, 32*4]) 
+        # ax1, ax2 = sch.split(ax1, [None, 32*4]) # 为了配合TC tile的线程数
         sch.bind(ax2, "threadIdx.x")
         sch.bind(ax1, "threadIdx.y")
 
     sch.bind(fused_ij0, "blockIdx.x")
 
-
+    # 我们要把thread分成x和y两部分
     ax0, ax1 = sch.split(fused_ij2, [None, 32])
     # ax0, ax1 = sch.split(fused_ij2, [None, 32 * 4])
     sch.bind(ax1, "threadIdx.x")
     sch.bind(ax0, "threadIdx.y")
                     
-
+    # it seems we do not need to explicitly parallelize the initialization blow-------
+    # again, 做这个步骤会出错，暂时先不做
     # # parallel initialization as computation
     init_blk = sch.decompose_reduction(blk0, ki)
+
+
 
 
 
@@ -340,7 +448,20 @@ def parse_mma_shape(mma_shape_str: str):
 
 
 
+
+# 下面的这个版本是加上了cache write 并且先把tensor core的计算结果存储在shared memory里，在atomic地加回global memory里的
+# 我们的schedule是参考Sparsetir的，即不把feature轴也bind给threadidx.y，这样，我们也就不需要对A进行shared memory的cache read了。
+# 下面的这个schedule是针对我们已经把所有cache read/write的stage都显式地定义出来的情况下这样做的。
+# 这个是最终使用的版本，不允许对block_num i 的维度进一步tiling，引入更多thread
 def schedule_tc(op_type, sch, feat_size, func_str, tile_sizes, params, fmt_i):
+    '''
+    此处的tile_sizes对应的是dbsrmm中的block size, 并不一定是wmma的单位workload, 比如此处的tile size可以是32*32: [i, k]两个维度
+    一下的schedule完全参考dbsrmm里的代码。
+    '''
+    # if not(params['idx_reordered'][0] or params['real_atomic']):
+    #     # 此处不需要cache write
+    #     schedule_tc_no_cachewrite(sch, feat_size, func_str, tile_sizes, params)
+    #     return
     use_C_shared = params['idx_reordered'][0] or params['real_atomic']
 
 
@@ -435,7 +556,8 @@ def schedule_tc(op_type, sch, feat_size, func_str, tile_sizes, params, fmt_i):
     # ax = sch.fuse(ax0, ax1, ax2)
     warp_size = 32
     vector_length = 4
-
+    # warp_size = 32 * 4 # 假设我们在此处设置thread总数为128，看看效果如何
+    # vector_length = 2 # 4 配合thread设置成128时，把vectorize设置成2
     ax0, ax1, ax2, ax3 = sch.split(ax, [None, tile_sizes[0][1]//mma_m, warp_size, vector_length])
     sch.unroll(ax0)
     sch.bind(ax1, "threadIdx.y")
@@ -447,8 +569,8 @@ def schedule_tc(op_type, sch, feat_size, func_str, tile_sizes, params, fmt_i):
     )
 
 
-    if use_C_shared:
-
+    if use_C_shared: # params['idx_reordered'][0] or params['real_atomic']:
+        # 默认C_shared只会被用在当i也被reorder了或者需要atomicAdd的情况
         C_shared = sch.get_block(f"C_shared{fmt_i}")
         ax0, ax1 = sch.get_loops(C_shared)[-2:]
         ax = sch.fuse(ax0, ax1)
@@ -464,8 +586,16 @@ def schedule_tc(op_type, sch, feat_size, func_str, tile_sizes, params, fmt_i):
 
 
 
+# 这个是在TC op的k轴不reorder，因此我们不会先使用shared memory来load b的情况。
 def schedule_tc_knotsorted(op_type, sch, feat_size, func_str, tile_sizes, params, fmt_i):
-
+    '''
+    此处的tile_sizes对应的是dbsrmm中的block size, 并不一定是wmma的单位workload, 比如此处的tile size可以是32*32: [i, k]两个维度
+    一下的schedule完全参考dbsrmm里的代码。
+    '''
+    # if not(params['idx_reordered'][0] or params['real_atomic']):
+    #     # 此处不需要cache write
+    #     schedule_tc_no_cachewrite(sch, feat_size, func_str, tile_sizes, params)
+    #     return
     use_C_shared = params['idx_reordered'][0] or params['real_atomic']
 
 
@@ -554,14 +684,27 @@ def schedule_tc_knotsorted(op_type, sch, feat_size, func_str, tile_sizes, params
     sch.tensorize(sch.get_loops(blk_inner)[-3], f"wmma_{mma_shape_str}_sync{name_tail}")
 
 
-
+    # ax0, ax1 = sch.get_loops(B_shared)[-2:]
+    # ax = sch.fuse(ax0, ax1)
+    # # ax0, ax1, ax2 = sch.get_loops(B_shared)[-3:]
+    # # ax = sch.fuse(ax0, ax1, ax2)
+    # warp_size = 32
+    # vector_length = 4
+    # # warp_size = 32 * 4 # 假设我们在此处设置thread总数为128，看看效果如何
+    # # vector_length = 2 # 4 配合thread设置成128时，把vectorize设置成2
+    # ax0, ax1, ax2, ax3 = sch.split(ax, [None, tile_sizes[0][1]//mma_m, warp_size, vector_length])
+    # sch.unroll(ax0)
+    # sch.bind(ax1, "threadIdx.y")
+    # sch.bind(ax2, "threadIdx.x")
+    # sch.vectorize(ax3)
+    # print(sch.mod.script())
     sch.tensorize(
         sch.get_loops(init_blk)[-2], f"wmma_{mma_shape_str}_fill{name_tail}"
     )
 
 
     if use_C_shared: # params['idx_reordered'][0] or params['real_atomic']:
-
+        # 默认C_shared只会被用在当i也被reorder了或者需要atomicAdd的情况
         C_shared = sch.get_block(f"C_shared{fmt_i}")
         ax0, ax1 = sch.get_loops(C_shared)[-2:]
         ax = sch.fuse(ax0, ax1)
@@ -584,8 +727,12 @@ def schedule_tc_knotsorted(op_type, sch, feat_size, func_str, tile_sizes, params
 
 
 
-def schedule_1D_SDDMM_noremap_good(op_type, sch, func_str, params):
 
+# 对于SDDMM的1D tile的schedule
+def schedule_1D_SDDMM_noremap_good(op_type, sch, func_str, params):
+    '''
+    参考sparsetir里面的代码
+    '''
     ty = params['ty']
     tx = params['tx']
     vec_size = params['vec_size']
@@ -624,7 +771,7 @@ def schedule_1D_SDDMM_noremap_good(op_type, sch, func_str, params):
     # schedule write C
     sch.reverse_compute_at(write_C, joi, True)
     ax0, ax1 = sch.get_loops(write_C)[-2:]
-    sch.vectorize(ax1) 
+    sch.vectorize(ax1) # 这个地方如果要remap的话，可能就vectorize不了了。
     
     # schedule rf
     sch.bind(kio, "threadIdx.x")
@@ -649,8 +796,19 @@ def schedule_1D_SDDMM_noremap_good(op_type, sch, func_str, params):
 
 
 
-def schedule_1D_SDDMM_noremap(op_type, sch, func_str, params, blk_num):
 
+
+
+
+
+# 对于SDDMM的1D tile的schedule
+# 这个版本尝试把thread y和thread x都fuse在一起.
+# 下面这个版本可以成功编译，但是会遇到无法正确生成warp shuffle的代码的问题，所以我们目前的解决方案是使用原来的thread y 和thread x分开的代码先得到一个好的cuda，再修改它，然后再nvcc里面一键替换
+# 这个版本没有rfactor，可以避免在生成初始代码的时候遇到的一些bug（比如占用shared memory的名字）
+def schedule_1D_SDDMM_noremap(op_type, sch, func_str, params, blk_num):
+    '''
+    参考sparsetir里面的代码
+    '''
     ty = params['ty']
     tx = params['tx']
     vec_size = params['vec_size']
@@ -660,7 +818,7 @@ def schedule_1D_SDDMM_noremap(op_type, sch, func_str, params, blk_num):
     blk = sch.get_block(f"{func_str}0")
     j, k = sch.get_loops(blk)
     # ko, kio, kii = sch.split(k, [None, tx, vec_size])
-    # rf_blk = sch.rfactor(kio, 1) 
+    # rf_blk = sch.rfactor(kio, 1) # 这里的factor_axis = 1因为我们的C只有1维
     # j = sch.get_loops(rf_blk)[0]
     # joo, joi, ji = sch.split(j, [None, ty, group_size])
     joo, joi, ji = sch.split(j, [blk_num, tx*ty, None])
@@ -708,11 +866,11 @@ def schedule_1D_SDDMM_noremap(op_type, sch, func_str, params, blk_num):
 
     # print(sch.mod.script())
 
-
+    # 为了任何情况：是否有TC tile，是否顺序在TC tile之前，param为别的设置，下都能成功编译，我们去掉write C这个stage
     # # schedule write C
     sch.reverse_compute_at(write_C, ji, True)
     # # ax0, ax1 = sch.get_loops(write_C)[-2:]
-    # # sch.vectorize(ax1) 
+    # # sch.vectorize(ax1) # 这个地方如果要remap的话，可能就vectorize不了了。
     # sch.bind(sch.get_loops(write_C)[-1], "threadIdx.x")
 
     # print("AFTER SCHEDULE WRITE C")
@@ -752,8 +910,12 @@ def schedule_1D_SDDMM_noremap(op_type, sch, func_str, params, blk_num):
 
 
 
+# 对于SDDMM的1D tile的schedule
+# 这个版本是支持write back的时候remap的
 def schedule_1D_SDDMM_remap(op_type, sch, func_str, params):
-
+    '''
+    参考sparsetir里面的代码
+    '''
     ty = params['ty']
     tx = params['tx']
     vec_size = params['vec_size']
@@ -764,7 +926,7 @@ def schedule_1D_SDDMM_remap(op_type, sch, func_str, params):
     j, k = sch.get_loops(blk)
     ko, kio, kii = sch.split(k, [None, tx, vec_size])
     write_C = sch.reverse_cache_write(blk, 0, "local")
-    rf_blk = sch.rfactor(kio, 1) 
+    rf_blk = sch.rfactor(kio, 1) # 这里的factor_axis = 1因为我们的C只有1维
     j = sch.get_loops(rf_blk)[0]
     joo, joi, ji = sch.split(j, [None, ty, group_size])
     sch.bind(joo, "blockIdx.x")
@@ -793,7 +955,7 @@ def schedule_1D_SDDMM_remap(op_type, sch, func_str, params):
     # schedule write C
     sch.reverse_compute_at(write_C, joi, True)
     ax0, ax1 = sch.get_loops(write_C)[-2:]
-    # sch.vectorize(ax1) 
+    # sch.vectorize(ax1) # 这个地方如果要remap的话，可能就vectorize不了了。
     
     # schedule rf
     sch.bind(kio, "threadIdx.x")
@@ -824,7 +986,11 @@ def schedule_1D_SDDMM(op_type, sch, func_str, params, only1D, blk_num):
 
 
 
-
+# 对于SDDMM的TC tile的schedule
+# 这个版本的schedule的一些信息：
+#   1. 主要还是参考magiccube里面的写法，每个TC tile对应一个thread block，然后这个thread block里面可以有不同数量的warp，每个warp也不一定就只负责wmma限定的workload。
+#   2. 会对A和B都使用shared memory，对A是因为data reuse + 可能的reorder；对B是因为j轴的sparse。
+#   3. wmma里面的fragment b必须是column-major的，才能保证结果的正确性。
 def schedule_TC_SDDMM(op_type, sch, func_str, tile_sizes, params):
 
     # print(sch.mod.script())
@@ -838,8 +1004,8 @@ def schedule_TC_SDDMM(op_type, sch, func_str, tile_sizes, params):
     blk = sch.get_block(f"{func_str}0")
     bnum = sch.get_loops(sch.get_block(f"{func_str[:len('tcsddmm')]}_out{func_str[len('tcsddmm'):]}0"))[0]
     m, n, k = sch.get_loops(blk)
-    ko, kio, kii = sch.split(k, [None, tile_sizes[1][1]//mma_k, mma_k]) 
-
+    ko, kio, kii = sch.split(k, [None, tile_sizes[1][1]//mma_k, mma_k]) # 因为我们之前调整了SDDMM的idx 顺序，所以k轴的tile size其实应该对应tile_sizes[1]
+    # 要不要默认TC tile的row number 一定和mma_m相同？暂时认为是相同的好了。因为magiccube和TC-GNN都是这么设置的。
     n0, n1, n2 = sch.split(n, [None, warp_num, mma_n])
 
     sch.reorder(n1, ko, kio, n0, m, n2, kii)
@@ -849,11 +1015,11 @@ def schedule_TC_SDDMM(op_type, sch, func_str, tile_sizes, params):
 
     # print(sch.mod.script())
 
-    read_A = sch.reverse_cache_read(blk, 0, "shared")  
-    read_B = sch.reverse_cache_read(blk, 2, "shared")  
-    A_wmma = sch.reverse_cache_read(blk, 0, "wmma.matrix_a") 
-    B_wmma = sch.reverse_cache_read(blk, 2, "wmma.matrix_b") 
-    C_wmma = sch.cache_write(blk, 0, "wmma.accumulator") 
+    read_A = sch.reverse_cache_read(blk, 0, "shared")  #此处buffer id还需要确定
+    read_B = sch.reverse_cache_read(blk, 2, "shared")  #此处buffer id还需要确定
+    A_wmma = sch.reverse_cache_read(blk, 0, "wmma.matrix_a") #此处buffer id还需要确定
+    B_wmma = sch.reverse_cache_read(blk, 2, "wmma.matrix_b") #此处buffer id还需要确定
+    C_wmma = sch.cache_write(blk, 0, "wmma.accumulator") #此处buffer id还需要确定
 
     # print(sch.mod.script())
 
@@ -902,7 +1068,7 @@ def schedule_TC_SDDMM(op_type, sch, func_str, tile_sizes, params):
     sch.unroll(ax2)
     # tensorize
     # print(sch.mod.script())
-    sch.hide_buffer_access(blk, "read", [2, 4])  
+    sch.hide_buffer_access(blk, "read", [2, 4])   # 此处的buffer id还需要确定
     sch.tensorize(sch.get_loops(A_wmma)[-2], "wmma_{}_load_a_shared".format(mma_shape_str))
 
     if os.environ['REMAP'] == 'True':
@@ -913,7 +1079,7 @@ def schedule_TC_SDDMM(op_type, sch, func_str, tile_sizes, params):
     sch.tensorize(sch.get_loops(B_wmma)[-2], "wmma_{}_load_b_shared_colmajor".format(mma_shape_str))
     sch.tensorize(sch.get_loops(blk)[-3], "wmma_{}_sync_ijk".format(mma_shape_str))
     sch.tensorize(
-        sch.get_loops(init_blk)[-2], "wmma_{}_fill".format(mma_shape_str) )
+        sch.get_loops(init_blk)[-2], "wmma_{}_fill".format(mma_shape_str) ) # block name还需要再确定
 
 
     if os.environ['REMAP'] != 'True':
@@ -928,6 +1094,11 @@ def schedule_TC_SDDMM(op_type, sch, func_str, tile_sizes, params):
     sch.bind(ax1, "threadIdx.y")
     sch.bind(ax2, "threadIdx.x")
     # print(sch.mod.script())
+
+
+# =============================================
+# 在schedule之前，还需要设置必须的input parameter，然后得到初始的sch变量
+
 
 
 
@@ -979,6 +1150,10 @@ def gen_definitions_csr(fmt_i, dtype, zerotype):
     '''
 
     return parameters_csr, idx_definitions_csr, buffer_definitions_csr, comp_statements_csr
+
+
+
+
 
 
 
@@ -1066,7 +1241,21 @@ def gen_definitions_ell(fmt_i, dtype, zerotype, params, tile_sizes, dsize):
                 A_shared[vi{' + voffset' if v_iter!='' else ''}] = A{fmt_i}[vinum, vi]
                 # A_shared[voffset] = A{fmt_i}[vinum, vi]'''
 
-
+    # if params['SMEM_in1']:
+    #     comp_statements_ell = comp_statements_ell + f'''
+    #     for i_grp{fmt_i} in T.serial({math.prod(tile_sizes[0][1:])//pad_pattern[0]}):
+    #         for i_grp_i{fmt_i} in T.serial({pad_pattern[0]}):
+    #             for ki{fmt_i} in T.serial(nnz_cols{fmt_i}):
+    #                 with T.block("ellmm_shared{fmt_i}0"):
+    #                     vinum, vjnum = T.axis.remap("SS", [inum{fmt_i}, jnum{fmt_i}])
+    #                     vi = T.axis.spatial(m_blk{fmt_i}*nnz_cols{fmt_i}, i_grp{fmt_i}*{pad_pattern[0]}*nnz_cols{fmt_i}+i_grp_i{fmt_i}*nnz_cols{fmt_i}+ki{fmt_i})
+    #                     voffset = T.axis.spatial(m_blk{fmt_i}*nnz_cols{fmt_i}+{math.prod(tile_sizes[0][1:])//pad_pattern[0]*pad_pattern[1]}, i_grp{fmt_i}*{pad_pattern[0]}*nnz_cols{fmt_i}+i_grp_i{fmt_i}*nnz_cols{fmt_i}+ki{fmt_i}+i_grp{fmt_i}*{pad_pattern[1]})
+    #                     # {v_iter}
+    #                     # T.reads(A{fmt_i}[vinum, vi])
+    #                     # T.writes(A_shared[vi])
+    #                     T.block_attr({{"sparse":True}})
+    #                     # A_shared[vi{' + voffset' if v_iter!='' else ''}] = A{fmt_i}[vinum, vi]
+    #                     A_shared[voffset] = A{fmt_i}[vinum, vi]'''
 
     comp_statements_ell = comp_statements_ell + f'''
         for iblk{fmt_i}, jblk{fmt_i} in T.grid(m_blk{fmt_i}, n_blk{fmt_i}):
@@ -1187,7 +1376,21 @@ def gen_definitions_ell_batchspmm(fmt_i, dtype, zerotype, params, tile_sizes, ds
                 A_shared[vi{' + voffset' if v_iter!='' else ''}] = A{fmt_i}[vbatch, vinum, vi]
                 # A_shared[voffset] = A{fmt_i}[vinum, vi]'''
 
-
+    # if params['SMEM_in1']:
+    #     comp_statements_ell = comp_statements_ell + f'''
+    #     for i_grp{fmt_i} in T.serial({math.prod(tile_sizes[0][1:])//pad_pattern[0]}):
+    #         for i_grp_i{fmt_i} in T.serial({pad_pattern[0]}):
+    #             for ki{fmt_i} in T.serial(nnz_cols{fmt_i}):
+    #                 with T.block("ellmm_shared{fmt_i}0"):
+    #                     vinum, vjnum = T.axis.remap("SS", [inum{fmt_i}, jnum{fmt_i}])
+    #                     vi = T.axis.spatial(m_blk{fmt_i}*nnz_cols{fmt_i}, i_grp{fmt_i}*{pad_pattern[0]}*nnz_cols{fmt_i}+i_grp_i{fmt_i}*nnz_cols{fmt_i}+ki{fmt_i})
+    #                     voffset = T.axis.spatial(m_blk{fmt_i}*nnz_cols{fmt_i}+{math.prod(tile_sizes[0][1:])//pad_pattern[0]*pad_pattern[1]}, i_grp{fmt_i}*{pad_pattern[0]}*nnz_cols{fmt_i}+i_grp_i{fmt_i}*nnz_cols{fmt_i}+ki{fmt_i}+i_grp{fmt_i}*{pad_pattern[1]})
+    #                     # {v_iter}
+    #                     # T.reads(A{fmt_i}[vinum, vi])
+    #                     # T.writes(A_shared[vi])
+    #                     T.block_attr({{"sparse":True}})
+    #                     # A_shared[vi{' + voffset' if v_iter!='' else ''}] = A{fmt_i}[vinum, vi]
+    #                     A_shared[voffset] = A{fmt_i}[vinum, vi]'''
 
     comp_statements_ell = comp_statements_ell + f'''
         for iblk{fmt_i}, jblk{fmt_i} in T.grid(m_blk{fmt_i}, n_blk{fmt_i}):
@@ -1227,6 +1430,17 @@ def gen_definitions_ell_batchspmm(fmt_i, dtype, zerotype, params, tile_sizes, ds
 
 
 
+
+
+
+
+
+
+
+
+# 暂时完全和TC-SPMM一样，只支持reorder i和k。每次计算一个TC tile的工作量。
+# 支持cache write
+# 为了能够成功编译，此处我们手写出所有应该有的优化阶段。
 def gen_definitions_tc(fmt_i, dtype, zerotype, mma_m, mma_n, mma_k, params):
 
     use_C_shared = params['idx_reordered'][0] or params['real_atomic']
@@ -1273,7 +1487,7 @@ def gen_definitions_tc(fmt_i, dtype, zerotype, mma_m, mma_n, mma_k, params):
     '''
 
 
-
+    # TODO: 不确定这个地方的C的layout改写成 两个维度行不行？试试
     comp_statements_tc0 = f'''
     for io, jo in T.grid(mb{fmt_i}, fb{fmt_i}):
         with T.block("tcspmm{fmt_i}0"):
@@ -1430,6 +1644,157 @@ def gen_definitions_tc(fmt_i, dtype, zerotype, mma_m, mma_n, mma_k, params):
                             C[v1 + vi, v2 + vj] = C_shared_wmma_accumulator{fmt_i}[vi, vj]
     '''
 
+    #     comp_statements_tc = f'''
+    # for io, jo in T.grid(mb{fmt_i}, fb{fmt_i}):
+    #     with T.block("tcspmm{fmt_i}0"):
+    #         vio, vjo = T.axis.remap("SS", [io, jo])
+    #         T.block_attr({{"sparse":True}})
+    #         {f'C_shared{fmt_i} = T.alloc_buffer([m_tot, n_tot], dtype={dtype}, scope="shared")' if use_C_shared else ''}
+    #         C_shared_wmma_accumulator{fmt_i} = T.alloc_buffer([m_tot, n_tot], dtype={dtype}, scope="wmma.accumulator")
+    #         A{fmt_i}_wmma_matrix_a = T.alloc_buffer([nnzb{fmt_i}, tile_size{fmt_i}, group_size{fmt_i}], dtype={dtype}, scope="wmma.matrix_a")
+    #         B_shared{fmt_i} = T.alloc_buffer([k_tot, n_tot], dtype={dtype}, scope="shared")
+    #         B_shared_wmma_matrix_b{fmt_i} = T.alloc_buffer([k_tot, n_tot], dtype={dtype}, scope="wmma.matrix_b")
+    #         for ax in T.unroll(1):
+    #             with T.block("tcspmm{fmt_i}1_init_oo"):
+    #                 v0 = T.axis.spatial(m_tot, I_indices{fmt_i}[vio] * tile_size{fmt_i})
+    #                 v1 = T.axis.spatial(n_tot, vjo * funit{fmt_i})
+    #                 for ii, ji in T.grid(tile_size{fmt_i}, funit{fmt_i}):
+    #                     with T.block("tcspmm{fmt_i}1_init"):
+    #                         vii, vji = T.axis.remap("SS", [ii, ji])
+    #                         # v2 = T.axis.spatial(m_tot, v0 + ii)
+    #                         # v3 = T.axis.spatial(n_tot, vjo * funit{fmt_i} + ji)
+    #                         T.block_attr({{"sparse":True}})
+    #                         C_shared_wmma_accumulator{fmt_i}[v0 + vii, v1 + vji] = {zerotype}
+    #         for ko in T.serial(KO_indptr{fmt_i}[vio + 1] - KO_indptr{fmt_i}[vio]):
+    #             for ii_0 in T.thread_binding(tile_size{fmt_i}//{mma_m}, thread="threadIdx.y"):
+    #                 # for ax_00 in T.unroll(1):
+    #                 #     with T.block("A{fmt_i}_wmma.matrix_a_oo"):
+    #                 #         v0 = T.axis.spatial(nnzb{fmt_i}, KO_indptr{fmt_i}[vio] + ko)
+    #                 #         for ax0, ax1 in T.grid({mma_m}, group_size{fmt_i}):
+    #                 #             with T.block("A{fmt_i}_wmma.matrix_a"):
+    #                 #                 v1 = T.axis.spatial(tile_size{fmt_i}, ii_0 * {mma_m} + ax0)
+    #                 #                 v2 = T.axis.spatial(group_size{fmt_i}, ax1)
+    #                 #                 T.block_attr({{"sparse":True}})
+    #                 #                 A{fmt_i}_wmma_matrix_a[v0, v1, v2] = A{fmt_i}[v0, v1, v2]
+    #                 for ax1_0 in T.unroll(group_size{fmt_i} // {mma_k}):
+    #                     with T.block("A{fmt_i}_wmma.matrix_a_ooo"):
+    #                         v0 = T.axis.spatial(nnzb{fmt_i}, KO_indptr{fmt_i}[vio] + ko)
+    #                         v1 = T.axis.spatial(tile_size{fmt_i}, ii_0 * {mma_m})
+    #                         v2 = T.axis.spatial(group_size{fmt_i}, ax1_0 * {mma_k})
+    #                         for ax1_00 in T.unroll(1):
+    #                             with T.block("A{fmt_i}_wmma.matrix_a_oo"):
+    #                                 for ax0, ax1_1 in T.grid({mma_m}, {mma_k}):
+    #                                     with T.block("A{fmt_i}_wmma.matrix_a"):
+    #                                         v3, v4 = T.axis.remap("SS", [ax0, ax1_1])
+    #                                         # v1 = T.axis.spatial({mma_m}, ii_0 * {mma_m} + ax0)
+    #                                         # v2 = T.axis.spatial(group_size{fmt_i}, ax1)
+    #                                         T.block_attr({{"sparse":True}})
+    #                                         A{fmt_i}_wmma_matrix_a[v0, v1+v3, v2+v4] = A{fmt_i}[v0, v1+v3, v2+v4]
+    #                 for ji_0 in T.serial(funit{fmt_i} // {mma_n}):
+    #                     for ax0, ax1 in T.grid(group_size{fmt_i}, {mma_n}):
+    #                         with T.block("B_shared{fmt_i}"):
+    #                             # v0, v1 = T.axis.remap("SS", [ko, ax0])
+    #                             # 
+    #                             v0 = T.axis.spatial(k_tot, KI_indices{fmt_i}[KO_indptr{fmt_i}[vio] + ko, ax0])
+    #                             v1 = T.axis.spatial(n_tot, vjo * funit{fmt_i} + ji_0 * {mma_n} + ax1)
+    #                             T.block_attr({{"sparse":True}})
+    #                             B_shared{fmt_i}[v0, v1] = B[v0, v1]
+    #                     for ki_0 in T.serial(group_size{fmt_i} // {mma_k}):
+    #                         for ax_00 in T.unroll(1):
+    #                             with T.block("B_shared_wmma{fmt_i}.matrix_b_oo"):
+    #                                 v0 = T.axis.spatial(nnzb{fmt_i}, KO_indptr{fmt_i}[vio] + ko)
+    #                                 for ax0, ax1 in T.grid({mma_k}, {mma_n}):
+    #                                     with T.block("B_shared_wmma{fmt_i}.matrix_b"):
+    #                                         v1 = T.axis.spatial(k_tot, KI_indices{fmt_i}[v0, ki_0 * {mma_k} + ax0])
+    #                                         v2 = T.axis.spatial(n_tot, vjo * funit{fmt_i} + ji_0 * {mma_n} + ax1)
+    #                                         T.block_attr({{"sparse":True}})
+    #                                         B_shared_wmma_matrix_b{fmt_i}[v1, v2] = B_shared{fmt_i}[v1, v2]
+    #                         for ax_00 in T.unroll(1):
+    #                             with T.block("tcspmm{fmt_i}1_update_oo"):
+    #                                 v1 = T.axis.reduce(nnzb{fmt_i}, KO_indptr{fmt_i}[vio] + ko)
+    #                                 v2 = T.axis.spatial(m_tot, I_indices{fmt_i}[vio] * tile_size{fmt_i})
+    #                                 v3 = T.axis.reduce(group_size{fmt_i}, ki_0 * {mma_k})
+    #                                 v4 = T.axis.spatial(funit{fmt_i}, vjo * funit{fmt_i} + ji_0 * {mma_n})
+    #                                 v5 = T.axis.spatial(tile_size{fmt_i}, ii_0 * {mma_m})
+    #                                 for ii_1, ki_1, ji_1 in T.grid({mma_m}, {mma_k}, {mma_n}):
+    #                                     with T.block("tcspmm{fmt_i}1_update"):
+    #                                         # vko = T.axis.reduce(KO_indptr{fmt_i}[vio + 1] - KO_indptr{fmt_i}[vio], ko)
+    #                                         # vii = T.axis.spatial(tile_size{fmt_i}, ii_0 * {mma_m} + ii_1)
+    #                                         # vki = T.axis.reduce(group_size{fmt_i}, ki_0 * {mma_k} + ki_1)
+    #                                         # vji = T.axis.spatial(funit{fmt_i}, ji_0 * {mma_n} + ji_1)
+    #                                         vii = T.axis.spatial({mma_m}, ii_1)
+    #                                         vki = T.axis.reduce({mma_k}, ki_1)
+    #                                         vji = T.axis.spatial({mma_n}, ji_1)
+    #                                         T.block_attr({{"sparse":True}})
+    #                                         C_shared_wmma_accumulator{fmt_i}[v2+v5+vii, v4+vji] = C_shared_wmma_accumulator{fmt_i}[v2+v5+vii, v4+vji] + A{fmt_i}_wmma_matrix_a[v1, v5+vii, v3+vki] * B_shared_wmma_matrix_b{fmt_i}[KI_indices{fmt_i}[v1, v3+vki], v4+vji]
+    #                         # 
+    #         # for ax000 in T.unroll(1):
+    #         #     with T.block("C_shared_wmma{fmt_i}.accumulator_oo"):
+    #         #         v1 = T.axis.spatial(m_tot, I_indices{fmt_i}[vio] * tile_size{fmt_i})
+    #         #         v2 = T.axis.spatial(n_tot, vjo * funit{fmt_i})                  
+    #         #         for ax0, ax1 in T.grid(tile_size{fmt_i}, funit{fmt_i}):
+    #         #             with T.block("C_shared_wmma{fmt_i}.accumulator"):
+    #         #                 vi, vj = T.axis.remap("SS", [ax0, ax1])
+    #         #                 T.block_attr({{"sparse":True}})
+    #         #                 C[v1 + vi, v2 + vj] = C_shared_wmma_accumulator{fmt_i}[vi, vj]
+
+    #         for ax0 in T.thread_binding(tile_size{fmt_i}//{mma_m}, thread="threadIdx.y"):
+    #             for ax1 in T.unroll(funit{fmt_i} // {mma_n}):
+    #                 with T.block("C_shared_wmma{fmt_i}.accumulator_ooo"):
+    #                     v1 = T.axis.spatial(m_tot, I_indices{fmt_i}[vio] * tile_size{fmt_i} + ax0 * {mma_m})
+    #                     v2 = T.axis.spatial(n_tot, vjo * funit{fmt_i} + ax1 * {mma_n})
+    #                     for ax000 in T.unroll(1):
+    #                         with T.block("C_shared_wmma{fmt_i}.accumulator_oo"):
+    #                             for ax2, ax3 in T.grid({mma_m}, {mma_n}):
+    #                                 with T.block("C_shared_wmma{fmt_i}.accumulator"):
+    #                                     vi, vj = T.axis.remap("SS", [ax2, ax3])
+    #                                     # vi = T.axis.spatial(m_tot, v1 + ax2)
+    #                                     # vj = T.axis.spatial(n_tot, v2 + ax3)
+    #                                     T.block_attr({{"sparse":True}})
+    #                                     C[v1 + vi, v2 + vj] = C_shared_wmma_accumulator{fmt_i}[v1 + vi, v2 + vj]
+    # '''
+
+
+        # 如果在i轴没有reorder或者为使用atomicAdd，那区别就是C的index表达式不同
+    #     comp_statements_tc = comp_statements_tc + f'''
+    #         for ax0 in T.thread_binding(tile_size{fmt_i}//{mma_m}, thread="threadIdx.y"):
+    #             for ax1 in T.serial(funit{fmt_i} // {mma_n}):
+    #                 with T.block("C_shared_wmma{fmt_i}.accumulator_ooo"):
+    #                     v1 = T.axis.spatial(m_tot, I_indices{fmt_i}[vio] * tile_size{fmt_i} + ax0 * {mma_m})
+    #                     v2 = T.axis.spatial(n_tot, vjo * funit{fmt_i} + ax1 * {mma_n})
+    #                     for ax000 in T.unroll(1):
+    #                         with T.block("C_shared_wmma{fmt_i}.accumulator_oo"):
+    #                             for ax2, ax3 in T.grid({mma_m}, {mma_n}):
+    #                                 with T.block("C_shared_wmma{fmt_i}.accumulator"):
+    #                                     vi, vj = T.axis.remap("SS", [ax2, ax3])
+    #                                     T.block_attr({{"sparse":True}})
+    #                                     C[v1 + vi, v2 + vj] = C_shared_wmma_accumulator{fmt_i}[vi, vj]
+    #         # for ax000 in T.unroll(1):
+    #         #     with T.block("C_shared_wmma{fmt_i}.accumulator_oo"):
+    #         #         v1 = T.axis.spatial(m_tot, I_indices{fmt_i}[vio] * tile_size{fmt_i})
+    #         #         v2 = T.axis.spatial(n_tot, vjo * funit{fmt_i})                  
+    #         #         for ax0, ax1 in T.grid(tile_size{fmt_i}, funit{fmt_i}):
+    #         #             with T.block("C_shared_wmma{fmt_i}.accumulator"):
+    #         #                 vi, vj = T.axis.remap("SS", [ax0, ax1])
+    #         #                 T.block_attr({{"sparse":True}})
+    #         #                 C[v1 + vi, v2 + vj] = C_shared_wmma_accumulator{fmt_i}[vi, vj]
+    # '''
+
+
+    #     comp_statements_tc = f'''
+    # for io, jo in T.grid(mb{fmt_i}, fb{fmt_i}):
+    #     with T.block("tcspmm{fmt_i}0"):
+    #         vio, vjo = T.axis.remap("SS", [io, jo])
+    #         T.block_attr({{"sparse":True}})
+    #         for ko, ii, ki, ji in T.grid(KO_indptr{fmt_i}[vio + 1] - KO_indptr{fmt_i}[vio], tile_size{fmt_i}, group_size{fmt_i}, funit{fmt_i}):
+    #             with T.block("tcspmm{fmt_i}1"):
+    #                 vko, vii, vki, vji = T.axis.remap("RSRS", [ko, ii, ki, ji])
+    #                 T.block_attr({{"sparse":True}})
+    #                 with T.init():
+    #                     C[I_indices{fmt_i}[vio]*tile_size{fmt_i}+vii, vjo*funit{fmt_i}+vji] = {zerotype}
+    #                 C[I_indices{fmt_i}[vio]*tile_size{fmt_i}+vii, vjo*funit{fmt_i}+vji] = C[I_indices{fmt_i}[vio]*tile_size{fmt_i}+vii, vjo*funit{fmt_i}+vji] + A{fmt_i}[KO_indptr{fmt_i}[vio] + vko, vii, vki] * B[KI_indices{fmt_i}[KO_indptr{fmt_i}[vio] + vko, vki], vjo*funit{fmt_i}+vji]
+
+    # '''
 
     return parameters_tc, idx_definitions_tc, buffer_definitions_tc, comp_statements_tc
 
@@ -1486,7 +1851,7 @@ def gen_definitions_tc_batchspmm(fmt_i, dtype, zerotype, mma_m, mma_n, mma_k, pa
     '''
 
 
-
+    # TODO: 不确定这个地方的C的layout改写成 两个维度行不行？试试
     comp_statements_tc0 = f'''
     for batch, io, jo in T.grid({batch_num}, mb{fmt_i}, fb{fmt_i}):
         with T.block("tcspmm{fmt_i}0"):
@@ -1648,6 +2013,9 @@ def gen_definitions_tc_batchspmm(fmt_i, dtype, zerotype, mma_m, mma_n, mma_k, pa
 
 
 
+
+# 这个版本的定义用于 k轴没有被sorted的情况，也就不需要b shared了
+# load B 无法tensorize
 def gen_definitions_tc_batchspmm_knotsorted(fmt_i, dtype, zerotype, mma_m, mma_n, mma_k, params, batch_num):
 
     use_C_shared = params['idx_reordered'][0] or params['real_atomic']
@@ -1696,7 +2064,7 @@ def gen_definitions_tc_batchspmm_knotsorted(fmt_i, dtype, zerotype, mma_m, mma_n
     '''
 
 
-
+    # TODO: 不确定这个地方的C的layout改写成 两个维度行不行？试试
     comp_statements_tc0 = f'''
     for batch, io, jo in T.grid({batch_num}, mb{fmt_i}, fb{fmt_i}):
         with T.block("tcspmm{fmt_i}0"):
@@ -1888,6 +2256,10 @@ def gen_definitions_tc_batchspmm_knotsorted(fmt_i, dtype, zerotype, mma_m, mma_n
 
 
 
+
+
+
+# SDDMM 的 1D tile
 def gen_definitions_1D_SDDMM(fmt_i, dtype, zerotype):
 
     parameters_tc = f'''
@@ -1908,7 +2280,7 @@ def gen_definitions_1D_SDDMM(fmt_i, dtype, zerotype):
 
     '''
 
-
+    # 默认会对最终C的结果重映射，因为默认最后找到的是hybrid模式，一部分nnz会被TC tile 覆盖。
     comp_statements_tc = f'''
     for j, k in T.grid(nnz{fmt_i}, k_tot):
         with T.block("sddmm{fmt_i}0"):
@@ -1947,6 +2319,8 @@ def gen_definitions_1D_SDDMM(fmt_i, dtype, zerotype):
 
 
 
+
+
 def gen_definitions_tc_SDDMM(fmt_i, dtype, zerotype, mma_m, mma_n, mma_k, params):
 
     parameters_tc = f'''
@@ -1978,6 +2352,12 @@ def gen_definitions_tc_SDDMM(fmt_i, dtype, zerotype, mma_m, mma_n, mma_k, params
     '''
 
 
+    # 涉及到的buffer
+    # I_indices{fmt_i}  J_indices{fmt_i}  Indptr{fmt_i} IndicesDense{fmt_i}  Indices{fmt_i}
+    # A, B, C, C_shared
+
+
+    # 每个TC block对应一个thread block，或者我们可以把若干个TC block合并成一个thread block，具体得看之后的benchmark的结果
     comp_statements_tc = f'''
     for bnum in T.serial(nnzb{fmt_i}):
         with T.block("tcsddmm_out{fmt_i}0"):
@@ -2042,6 +2422,7 @@ def gen_definitions_tc_SDDMM(fmt_i, dtype, zerotype, mma_m, mma_n, mma_k, params
 
 
 
+# 加了两个input： a_ell, ell_nnz_tot
 def gen_fused_definitions(parameters, idx_definitions, buffer_definitions, comp_statements, cache_reads, dtype, cache_set):
     template = f'''@T.prim_func
 def my_fusedFormats(
@@ -2134,6 +2515,7 @@ def my_fusedFormats(
 
 
 
+# 加了两个input： a_ell, ell_nnz_tot
 def gen_fused_definitions_sddmm(parameters, idx_definitions, buffer_definitions, comp_statements, cache_reads, dtype, cache_set):
     template = f'''@T.prim_func
 def my_fusedFormats(
@@ -2176,6 +2558,7 @@ def my_fusedFormats(
 
     '''
     return template
+
 
 
 
@@ -2281,6 +2664,9 @@ def get_padded_j_TC(ori_j_len, mma_n):
 
 
 
+
+
+
 def set_params_BSPMM(func, formats, dsize):
     '''
         Prepare the parameters for the fused kernel.
@@ -2373,7 +2759,7 @@ def set_params_BSPMM(func, formats, dsize):
             tile_size, group_size = fmt[1][0][1], fmt[1][2][1]
 
             # mb = math.ceil(tiles[0].op.idx_lens[0] / tile_size)
-
+            # 此处考虑类似dbsrmm里的mb，即把空行压缩掉了
             mb = len(set([t.tile_pos[0] for t in tiles]))
 
             nb = math.ceil(tiles[0].op.idx_lens[2] / group_size)
@@ -2383,7 +2769,7 @@ def set_params_BSPMM(func, formats, dsize):
             mma_n = parse_mma_shape(json.loads(fmt[2])["mma_shape_str"])[1]
             feat_size = get_padded_j_TC(feat_size, mma_n)
             
-
+            # funit是被tile_sizes决定的，此处的写法有问题
             # funit = min(2, feat_size // mma_n) * mma_n
             funit = fmt[1][1][1]
             fb = feat_size//funit
@@ -2404,9 +2790,9 @@ def set_params_BSPMM(func, formats, dsize):
             params_dict[T] = int(tile_size)
             params_dict[G] = int(group_size)
 
-            params_start = params_start + 11 
+            params_start = params_start + 11 # 10 如果我们使用了cachewrite+ shared memory
 
-
+            # 这个地方写错了，应该考虑的是是否可能有额外的padding
             # max_i = max( max_i, mb * tile_size )
             max_i = max( max_i, math.ceil(tiles[0].op.idx_lens[0]/tile_size)*tile_size )
 
@@ -2416,7 +2802,7 @@ def set_params_BSPMM(func, formats, dsize):
 
             params = json.loads(fmt[-1])
             if params['idx_reordered'][0] or params['real_atomic']:
-
+                # 默认当i没有被reorder的时候并且不atomicAdd，不使用C_shared
                 if TC_out_SMEM == None:
                     TC_out_SMEM = tile_size * funit
                 else:
@@ -2426,7 +2812,7 @@ def set_params_BSPMM(func, formats, dsize):
 
 
     # set m_tot, n_tot, k_tot
-    max_i = max( max_i, tiles[0].op.idx_lens[0]+1 ) 
+    max_i = max( max_i, tiles[0].op.idx_lens[0]+1 ) # 此处的这个调整是因为我们有时候会修改和whole_row TC tile交叉的ELL tile的output范围
     max_j = max( max_j, tiles[0].op.idx_lens[1] )
 
     M_TOT, N_TOT, K_TOT, MAX_SHARED = func.params[2:6] # [2:5]
@@ -2438,7 +2824,7 @@ def set_params_BSPMM(func, formats, dsize):
     print(max_i, max_j, tiles[0].op.idx_lens[2], a_ell_offset)
 
 
-
+    # 需要把a_ell_offset也存到json文件里面使得我们在fix cuda bug的时候可以处理
     with open(f"A_ell_max_shared{os.environ['MyFileID']}.json", 'w') as f:
         json.dump((a_ell_offset, TC_out_SMEM), f)
 
@@ -2452,6 +2838,8 @@ def set_params_BSPMM(func, formats, dsize):
     # print(mod.script())
 
 
+    # 因为对于ELL的function定义中我们已经写成了lower完sparse iter之后的形式，再运行这一函数会造成segment fault，所以此处需要修改
+    # mod = lower_sparse_iter(mod)
     
     # print(mod.script())
 
@@ -2482,14 +2870,14 @@ def set_params_BSDDMM(func, formats, dsize):
             max_bucket_size = json.loads(fmt[2])['max_bucket_size']
             nnz = len(tiles) * max_bucket_size
 
-
+            # 因为我们可能会允许在parameter tuning的时候改变max_bucket_size，所以之前计算nnz的时候有问题
             nnz = sum([t.nnz for t in tiles])
             real_max_bucket_size = json.loads(fmt[2])['ty']*json.loads(fmt[2])['group_size']
             nnz = math.ceil(nnz/real_max_bucket_size)*real_max_bucket_size
 
-
+            # params_dict[NNZ] = math.ceil(int(nnz)/max_bucket_size) * max_bucket_size # 我们会默认把1D tile pad完整
             params_dict[NNZ] = nnz
-
+            # params_dict[NNZ] = math.ceil(int(nnz)/fmt[1][0]) * fmt[1][0] # 我们会默认把1D tile pad完整
 
             if os.environ['REMAP'] == 'True':
                 params_start = params_start + 4
@@ -2497,9 +2885,10 @@ def set_params_BSDDMM(func, formats, dsize):
                 params_start = params_start + 5
 
         elif fmt[0] == "TC_sddmm":
-            mb, nb = fmt[1][0][1], fmt[1][2][1] 
+            mb, nb = fmt[1][0][1], fmt[1][2][1] # nb = fmt[1][2][1]因为我们调整了sddmm op中的idx 顺序： i, k, j  为了利用spmm里面已有的代码
             nnzb = len(tiles)
-
+            # nnz = sum([t.nnz_when_selected//t.j_num for t in tiles])
+            # 与SPMM不同，此处我们直接计算原始nnz的结果，因为最后在计算的时候我们也不会重新调整tile之间重复覆盖的nnz
             nnz = sum([t.nnz for t in tiles])
 
             NNZB, MB, NB, NNZ = func.params[params_start:params_start+4]
@@ -2519,10 +2908,16 @@ def set_params_BSDDMM(func, formats, dsize):
                 params_start = params_start + 10
                 C_SMEM = max(C_SMEM, 0)
             else:
-                params_start = params_start + 9 
+                params_start = params_start + 9 # 10 如果我们使用了cachewrite+ shared memory
                 C_SMEM = max(C_SMEM, mb*nb)
 
-
+            # params = json.loads(fmt[-1])
+            # if params['idx_reordered'][0] or params['real_atomic']:
+            #     # 默认当i没有被reorder的时候并且不atomicAdd，不使用C_shared
+            #     if TC_out_SMEM == None:
+            #         TC_out_SMEM = tile_size * funit
+            #     else:
+            #         TC_out_SMEM = max(TC_out_SMEM, tile_size * funit)
 
 
 
@@ -2531,7 +2926,7 @@ def set_params_BSDDMM(func, formats, dsize):
     params_dict[M_TOT] = int(tiles[0].op.idx_lens[0])
     params_dict[N_TOT] = int(tiles[0].op.idx_lens[2])
     params_dict[K_TOT] = int(tiles[0].op.idx_lens[1])
-    # params_dict[NNZ_TOT] = int(tiles[0].op.inps[0].nnz+1) 
+    # params_dict[NNZ_TOT] = int(tiles[0].op.inps[0].nnz+1) # 我觉得这个地方可能不太合理，因为可能tiles对应的op的稀疏矩阵已经更新过了
     params_dict[NNZ_TOT] = int(sum([ t.nnz_when_selected//t.j_num for tiles in formats.values() for t in tiles ])) # + 1
 
     os.environ['A_SMEM'] = f"{A_SMEM}"
@@ -2548,6 +2943,9 @@ def set_params_BSDDMM(func, formats, dsize):
     # print(max_i, max_j, tiles[0].op.idx_lens[2], a_ell_offset)
 
 
+    # 需要把a_ell_offset也存到json文件里面使得我们在fix cuda bug的时候可以处理
+    # with open(f"A_ell_max_shared{os.environ['MyFileID']}.json", 'w') as f:
+    #     json.dump((a_ell_offset, TC_out_SMEM), f)
 
 
     # print(type(max_i), type(max_j), type(tiles[0].op.idx_lens[2]))
@@ -2559,6 +2957,8 @@ def set_params_BSDDMM(func, formats, dsize):
     # print(mod.script())
 
 
+    # 因为对于ELL的function定义中我们已经写成了lower完sparse iter之后的形式，再运行这一函数会造成segment fault，所以此处需要修改
+    # mod = lower_sparse_iter(mod)
     
     # print(mod.script())
 
@@ -2690,7 +3090,7 @@ def set_params_measure_one_tile(func, formats, dsize, max_i, max_j, max_k):
             tile_size, group_size = fmt[1][0][1], fmt[1][2][1]
 
             # mb = math.ceil(tiles[0].op.idx_lens[0] / tile_size)
-
+            # 此处考虑类似dbsrmm里的mb，即把空行压缩掉了
             mb = len(set([t.tile_pos[0] for t in tiles])) * repeat_row
 
             nb = math.ceil(tiles[0].op.idx_lens[2] / group_size)
@@ -2700,7 +3100,7 @@ def set_params_measure_one_tile(func, formats, dsize, max_i, max_j, max_k):
             mma_n = parse_mma_shape(json.loads(fmt[2])["mma_shape_str"])[1]
             feat_size = get_padded_j_TC(feat_size, mma_n)
             
-
+            # funit是被tile_sizes决定的，此处的写法有问题
             # funit = min(2, feat_size // mma_n) * mma_n
             funit = fmt[1][1][1]
             fb = feat_size//funit
@@ -2721,7 +3121,7 @@ def set_params_measure_one_tile(func, formats, dsize, max_i, max_j, max_k):
             params_dict[T] = int(tile_size)
             params_dict[G] = int(group_size)
 
-            params_start = params_start + 11 # 10 
+            params_start = params_start + 11 # 10 如果我们使用了cachewrite+ shared memory
 
             # max_i = max( max_i, mb * tile_size )
             # max_j = max( max_j, feat_size )
@@ -2730,7 +3130,7 @@ def set_params_measure_one_tile(func, formats, dsize, max_i, max_j, max_k):
 
             params = json.loads(fmt[-1])
             if params['idx_reordered'][0] or params['real_atomic']:
-
+                # 默认当i没有被reorder的时候并且不atomicAdd，不使用C_shared
                 if TC_out_SMEM == None:
                     TC_out_SMEM = tile_size * funit
                 else:
@@ -2753,7 +3153,7 @@ def set_params_measure_one_tile(func, formats, dsize, max_i, max_j, max_k):
     print(max_i, max_j, tiles[0].op.idx_lens[2], a_ell_offset)
 
 
-
+    # 需要把a_ell_offset也存到json文件里面使得我们在fix cuda bug的时候可以处理
     with open(f"A_ell_max_shared{os.environ['MyFileID']}.json", 'w') as f:
         json.dump((a_ell_offset, TC_out_SMEM), f)
 
@@ -2767,7 +3167,7 @@ def set_params_measure_one_tile(func, formats, dsize, max_i, max_j, max_k):
     # print(mod.script())
 
 
-
+    # 因为对于ELL的function定义中我们已经写成了lower完sparse iter之后的形式，再运行这一函数会造成segment fault，所以此处需要修改
     # mod = lower_sparse_iter(mod)
     
     # print(mod.script())
@@ -2776,6 +3176,7 @@ def set_params_measure_one_tile(func, formats, dsize, max_i, max_j, max_k):
     
     # print(sch.mod.script())
     return sch, (max_i, max_j)
+
 
 
 
@@ -2817,12 +3218,12 @@ def schedule_fused_kernel_and_build_BSPMM(op_type, sch, formats, target, save_to
     print(sch.mod.script())
     mod = tvm.sparse.lower_sparse_buffer(sch.mod)
 
-
+    # RemoveUnusedArgs这个函数在改写了ELL的函数定义之后会报错，很奇怪，暂时先注释掉
     # mod = tvm.tir.transform.RemoveUnusedArgs()(mod)
     # print(sch.mod.script())
 
     if save_to_file:
-
+        # 如果save to file，就不对mod进行build
         with open("mod_before_build.py", 'w') as f:
             f.write("import tvm\n")
             f.write("from tvm.script import tir as T\n")
@@ -2852,7 +3253,7 @@ def schedule_fused_kernel_and_build_BSDDMM(op_type, sch, formats, target, save_t
         if fmt[0] == "1D_sddmm":
             func_str = f'sddmm{i}'
             
-            only1D = True # 
+            only1D = True # 记录是否仅有一种1D tile （有TC tile 或者有别的1D tile类型【当然这种情况现在不可能】，就都为FALSE）
             if len(formats) > 1:
                 # 说明不只有一种1D tile
                 only1D = False
@@ -2867,12 +3268,12 @@ def schedule_fused_kernel_and_build_BSDDMM(op_type, sch, formats, target, save_t
     print(sch.mod.script())
     mod = tvm.sparse.lower_sparse_buffer(sch.mod)
 
-
+    # RemoveUnusedArgs这个函数在改写了ELL的函数定义之后会报错，很奇怪，暂时先注释掉
     # mod = tvm.tir.transform.RemoveUnusedArgs()(mod)
     # print(sch.mod.script())
 
     if save_to_file:
-
+        # 如果save to file，就不对mod进行build
         with open("mod_before_build.py", 'w') as f:
             f.write("import tvm\n")
             f.write("from tvm.script import tir as T\n")
@@ -2911,6 +3312,12 @@ def schedule_fused_kernel_and_build(op_type, sch, formats, target, save_to_file=
 
 
 
+
+# =============================================
+# 还需要准备input数据，以此测量真实的fused kernel的运行时间。
+
+
+
 def prepare_inputs_BSPMM(ori_op, op_type, batch_num, formats, out_shape, dtype, dev):
     '''
     Input:
@@ -2940,7 +3347,7 @@ def prepare_inputs_BSPMM(ori_op, op_type, batch_num, formats, out_shape, dtype, 
                 [tile.op.idx_values_list[0][2][tile.position_space_when_selected.indices] for tile in tiles]
                 )
 
-
+            # TODO: 此处似乎并没有考虑tile在i轴的range可能超出原input范围的情况，感觉还是得padding，比如有2个tile都需要pad i这种情况。
             indices_reordered_i = np.concatenate(
                 [tile.op.idx_values_list[0][0][tile.tile_i_rng[0]:tile.tile_i_rng[1]+1] for tile in tiles]
                 )
@@ -2965,13 +3372,14 @@ def prepare_inputs_BSPMM(ori_op, op_type, batch_num, formats, out_shape, dtype, 
         elif fmt[0] == "sparse_template_ell":
             best_tile_sizes = fmt[1]
             ilen_blk, klen_blk = math.prod(best_tile_sizes[0][1:]), math.prod(best_tile_sizes[2][1:])
-
+            # 先初始化
             a = np.zeros(( ilen_blk * len(tiles), klen_blk))
             indices_k = np.concatenate([
                 np.full((ilen_blk, klen_blk), tile.op.idx_values_list[0][2][0]) 
                 for tile in tiles], axis=0)
 
-
+            # 希望在一开始准备op搜索tile的时候，就pad op到一个regular的shape，从而避免这一步np.full的默认值起作用。 
+            # 因为对于atomic和nonatomic的情况，这个默认值应该不一样。
             indices_reordered_i = np.concatenate([
                 np.full(
                     ilen_blk, 
@@ -3004,7 +3412,7 @@ def prepare_inputs_BSPMM(ori_op, op_type, batch_num, formats, out_shape, dtype, 
             a = np.reshape(a, ( len(tiles), ilen_blk * klen_blk) )
             # indices_k = indices_k.flatten()
 
-            # print(indices_k)
+            # print(indices_k.tolist(), indices_reordered_i, a)
             if op_type == 'batched_spmm':
                 a = np.asarray([a for i in range(batch_num)])
 
@@ -3014,7 +3422,7 @@ def prepare_inputs_BSPMM(ori_op, op_type, batch_num, formats, out_shape, dtype, 
             # a_ells.append(a)
 
         elif fmt[0] == "TensorCore_template":
-
+            # 首先要对tiles排序，因为计算的时候需要获取每个block的坐标，要和indptr一致
             tiles = sorted(tiles, key=lambda tile: tile.tile_pos)
 
             best_tile_sizes = fmt[1]
@@ -3034,7 +3442,7 @@ def prepare_inputs_BSPMM(ori_op, op_type, batch_num, formats, out_shape, dtype, 
             # i_blk_num = math.ceil(ori_op.idx_lens[0] / ilen_blk)
             # poi_is, counts = np.unique([ tile.tile_pos[0] for tile in tiles] + list(range(i_blk_num)), return_counts=True)
             # indptr = np.concatenate( ([0], np.cumsum(counts-1)) )
-
+            # 我们考虑类似dbsrmm中那样，把空行压缩了
             poi_is, counts = np.unique([ tile.tile_pos[0] for tile in tiles], return_counts=True)
             indptr = np.concatenate( ([0], np.cumsum(counts)) )
 
@@ -3063,7 +3471,9 @@ def prepare_inputs_BSPMM(ori_op, op_type, batch_num, formats, out_shape, dtype, 
             # print([len(arg) for arg in [a, indptr, indices]], indptr)
             # indices = indices.flatten()
 
-
+            # 暂时不考虑i的任意reorder
+            # i_indices = np.array([t.tile_pos[0] for t in tiles])
+            # 考虑了i的任意reorder之后：
             params = json.loads(fmt[-1])
             if params['idx_reordered'][0] or params['real_atomic']:
                 i_indices = [
@@ -3082,7 +3492,7 @@ def prepare_inputs_BSPMM(ori_op, op_type, batch_num, formats, out_shape, dtype, 
                 i_indices = np.array(i_indices)
             
             else:
-
+                # 没有reorder i且不使用atomicAdd, i_indices存的其实就是tile 的 position_i
                 i_indices = poi_is
 
             if op_type == 'batched_spmm':
@@ -3096,6 +3506,7 @@ def prepare_inputs_BSPMM(ori_op, op_type, batch_num, formats, out_shape, dtype, 
             # print(args[-1].shape)
 
 
+    # 准备公用的参数
     max_i, max_j = out_shape
     b = None
     if max_j - ori_op.idx_lens[1] > 0:
@@ -3117,7 +3528,11 @@ def prepare_inputs_BSPMM(ori_op, op_type, batch_num, formats, out_shape, dtype, 
 
     args = [to_tvm_array(arg, dtype, dev) for arg in [b, c]] + args
 
+    # 将参数转化为tvm array
+    # args_nd = [tvm.nd.array(np.array(arg).astype(dtype), device=dev) for arg in args]
 
+    # print("FINISH PREPARE INs")
+    # print(args[0].shape)
 
     return args, list()
 
@@ -3143,13 +3558,13 @@ def prepare_inputs_BSDDMM(ori_op, op_type, batch_num, formats, out_shape, dtype,
     # max_i, max_j = -1, -1
 
     c_indices = [list(), list()]
-    params_start = 5 
+    params_start = 5 # 在每种tile的input parameter之前还有5个公共的input
 
     for fmt in formats:
         tiles = formats[fmt]
         if fmt[0] == "1D_sddmm":
 
-
+            # 这些input应该可以直接从tile的信息中获取
             mid_idx = None # the original i index of an non-zero
             j_idx = None # the original j index of an non-zero
             remap = None # the index of an non-zero in the final output
@@ -3161,7 +3576,7 @@ def prepare_inputs_BSDDMM(ori_op, op_type, batch_num, formats, out_shape, dtype,
 
             max_bucket_size = json.loads(fmt[2])['max_bucket_size']
             to_pad = math.ceil(len(mid_idx)/max_bucket_size)*max_bucket_size - len(mid_idx)
-
+            # to_pad的计算之前有问题，因为我们可能会改变max_bucket_size的大小
             real_max_bucket_size = json.loads(fmt[2])['ty']*json.loads(fmt[2])['group_size']
             assert sum([t.nnz for t in tiles]) == len(mid_idx)
             to_pad = math.ceil(len(mid_idx)/real_max_bucket_size)*real_max_bucket_size - len(mid_idx)
@@ -3180,7 +3595,7 @@ def prepare_inputs_BSDDMM(ori_op, op_type, batch_num, formats, out_shape, dtype,
             if os.environ['REMAP']=='False':
                 c = np.zeros(len(remap))
                 args = args + [to_tvm_array(c, dtype, dev)]
-                c_indices[1].append(len(args)-1+params_start) 
+                c_indices[1].append(len(args)-1+params_start) # +3是因为在args头部还有三个parameter未加
 
             # a_ells.append(a)
 
@@ -3195,14 +3610,15 @@ def prepare_inputs_BSDDMM(ori_op, op_type, batch_num, formats, out_shape, dtype,
             i_indices = np.asarray([t.op.idx_values_list[0][0][ t.tile_i_rng[0] : t.tile_i_rng[1]+1 ] for t in tiles])
             # j_indices = np.asarray([t.op.idx_values_list[0][2][t.op.k_vals[t.tile_pos[0]]][ t.tile_k_rng[0] : t.tile_k_rng[1]+1 ] for t in tiles])
             
-
-            indptr = np.cumsum([0]+[t.nnz for t in tiles])
-            # indptr = np.cumsum([0]+[t.nnz_when_selected // t.j_num for t in tiles])
+            # 因为indicesDense和indices都没有把重复覆盖的nnz除去，所以此处应该使用的是原始的nnz而不是nnz_when_selected
+            # <jingzhi>@revision: do not use t.nnz, but use cscs.nnz below
+            # indptr = np.cumsum([0]+[t.nnz for t in tiles]) # the original code adopted which can work
+            # indptr = np.cumsum([0]+[t.nnz_when_selected // t.j_num for t in tiles]) # not used
 
             # coos = [t.position_space_when_selected.tocoo(copy=False) for t in tiles]
             # indicesDense = np.concatenate([np.sort(coo.row*tile_sizes[2][1] + coo.col, axis=None) for coo in coos])
 
-
+            # 为了加快一点速度，此处换一个写法：
             max_pos_i = max([t.tile_pos[0] for t in tiles])
             assert len(set([t.op.op_id for t in tiles])) == 1
             sub_op = tiles[0].op
@@ -3217,6 +3633,10 @@ def prepare_inputs_BSDDMM(ori_op, op_type, batch_num, formats, out_shape, dtype,
             cscs = [nnz_id_matrix_list[t.tile_pos[0]][ :, t.tile_k_rng[0]:t.tile_k_rng[1]+1  ] for t in tiles]
             indicesDense = np.concatenate([ np.repeat(np.arange(csc.shape[1]), csc.getnnz(axis=0)) + csc.indices*tile_sizes[2][1] for csc in cscs])
             indices = np.concatenate([csc.data-1 for csc in cscs])
+            
+            # <jingzhi>@revision: gen indptr based on cscs
+            indptr = np.cumsum([0]+[csc.nnz for csc in cscs])
+
             # 
             # csrs = [t.op.nnz_id_matrix[ t.tile_i_rng[0]:t.tile_i_rng[1]+1, : ][ :, t.op.k_vals[t.tile_pos[0]][ t.tile_k_rng[0]:t.tile_k_rng[1]+1 ]  ].tocsr() for t in tiles]
             # for csr in csrs:
@@ -3233,23 +3653,27 @@ def prepare_inputs_BSDDMM(ori_op, op_type, batch_num, formats, out_shape, dtype,
                 c = np.zeros((len(tiles), tile_sizes[0][1], tile_sizes[2][1]))
                 print(c.shape)
                 args = args + [to_tvm_array(c, dtype, dev)]
-                c_indices[0].append(len(args)-1+params_start) 
+                c_indices[0].append(len(args)-1+params_start) # +3是因为在args头部还有三个parameter未加
 
             # print(args[-1].shape)
 
 
-  
+    # 准备公用的参数
     a = ori_op.inps[1].data
     b = ori_op.inps[2].data#.flatten()
     # c = np.zeros( ori_op.inps[0].nnz )
-
+    # 为了让我们只测一部分selected tiles的时候也能成功运行，所以要和set parameter的时候一致
     c = np.zeros( int(sum([ t.nnz_when_selected//t.j_num for tiles in formats.values() for t in tiles ])) )
 
     args = [to_tvm_array(arg, dtype, dev) for arg in [a, b, c]] + args
 
     args = args[:3]+args[:2]+args[3:]
 
+    # 将参数转化为tvm array
+    # args_nd = [tvm.nd.array(np.array(arg).astype(dtype), device=dev) for arg in args]
 
+    # print("FINISH PREPARE INs")
+    # print(args[0].shape)
 
     return args, c_indices
 
@@ -3326,7 +3750,7 @@ def prepare_inputs_BSDDMM_one_tile(ori_op, op_type, batch_num, formats, out_shap
     # max_i, max_j = -1, -1
 
     c_indices = [list(), list()]
-    params_start = 5 # 
+    params_start = 5 # 在每种tile的input parameter之前还有5个公共的input
 
     for fmt in formats:
         tiles = formats[fmt]
@@ -3339,7 +3763,7 @@ def prepare_inputs_BSDDMM_one_tile(ori_op, op_type, batch_num, formats, out_shap
             indicesDense = None # the index of an non-zero in a flattened TC block: [NNZ]
             indices = None # the index of an non-zero in the final output: [NNZ]
 
-            
+            # 我们现在的策略是fake op的sparse tensor的布局按照行来，有row_window_num行，每一行有row_window_width个block
             row_window_num = len(tiles) // row_window_width
 
             sub_op = tiles[0].op
@@ -3364,11 +3788,12 @@ def prepare_inputs_BSDDMM_one_tile(ori_op, op_type, batch_num, formats, out_shap
                 c = np.zeros((row_window_num*row_window_width, tile_sizes[0][1], tile_sizes[2][1]))
                 print(c.shape)
                 args = args + [to_tvm_array(c, dtype, dev)]
-                c_indices[0].append(len(args)-1+params_start) 
+                c_indices[0].append(len(args)-1+params_start) # +3是因为在args头部还有三个parameter未加
 
             # print(args[-1].shape)
 
 
+    # 准备公用的参数
     a = ori_op.inps[1].data
     b = ori_op.inps[2].data#.flatten()
     # c = np.zeros( ori_op.inps[0].nnz )
@@ -3379,7 +3804,7 @@ def prepare_inputs_BSDDMM_one_tile(ori_op, op_type, batch_num, formats, out_shap
 
     args = args[:3]+args[:2]+args[3:]
 
-
+    # 将参数转化为tvm array
     # args_nd = [tvm.nd.array(np.array(arg).astype(dtype), device=dev) for arg in args]
 
     # print("FINISH PREPARE INs")
@@ -3456,7 +3881,7 @@ def prepare_inputs_measure_one_tile(ori_op, formats, dtype, dev):
                 )
 
 
-
+            # TODO: 此处似乎并没有考虑tile在i轴的range可能超出原input范围的情况，感觉还是得padding，比如有2个tile都需要pad i这种情况。
             indices_reordered_i = np.concatenate(
                 [tile.op.idx_values_list[0][0][tile.tile_i_rng[0]:tile.tile_i_rng[1]+1] - op_i_start + op_i_stride * i for tile in tiles for i in range(repeat_row)]
                 )
@@ -3496,7 +3921,7 @@ def prepare_inputs_measure_one_tile(ori_op, formats, dtype, dev):
 
             best_tile_sizes = fmt[1]
             ilen_blk, klen_blk = math.prod(best_tile_sizes[0][1:]), math.prod(best_tile_sizes[2][1:])
-
+            # 先初始化
             a = np.zeros(( ilen_blk * len(tiles), klen_blk))
             indices_k = np.concatenate([
                 np.full((ilen_blk, klen_blk), tile.op.idx_values_list[0][2][0]) 
@@ -3574,7 +3999,7 @@ def prepare_inputs_measure_one_tile(ori_op, formats, dtype, dev):
 
         elif fmt[0] == "TensorCore_template":
 
-
+            # 首先要对tiles排序，因为计算的时候需要获取每个block的坐标，要和indptr一致
             tiles = sorted(tiles, key=lambda tile: tile.tile_pos)
 
             best_tile_sizes = fmt[1]
@@ -3595,7 +4020,7 @@ def prepare_inputs_measure_one_tile(ori_op, formats, dtype, dev):
             # i_blk_num = math.ceil(ori_op.idx_lens[0] / ilen_blk)
             # poi_is, counts = np.unique([ tile.tile_pos[0] for tile in tiles] + list(range(i_blk_num)), return_counts=True)
             # indptr = np.concatenate( ([0], np.cumsum(counts-1)) )
-
+            # 我们考虑类似dbsrmm中那样，把空行压缩了
             poi_is, counts = np.unique([ tile.tile_pos[0] for tile in tiles], return_counts=True)
             indptr = np.concatenate( ([0], np.cumsum(counts)) )
 
@@ -3618,7 +4043,9 @@ def prepare_inputs_measure_one_tile(ori_op, formats, dtype, dev):
             # print([len(arg) for arg in [a, indptr, indices]], indptr)
             # indices = indices.flatten()
 
-
+            # 暂时不考虑i的任意reorder
+            # i_indices = np.array([t.tile_pos[0] for t in tiles])
+            # 考虑了i的任意reorder之后：
             params = json.loads(fmt[-1])
             if params['idx_reordered'][0] or params['real_atomic']:
                 i_indices = [
@@ -3637,7 +4064,9 @@ def prepare_inputs_measure_one_tile(ori_op, formats, dtype, dev):
                 i_indices = np.array(i_indices)
             
             else:
-
+                # 没有reorder i且不使用atomicAdd, i_indices存的其实就是tile 的 position_i
+                # i_indices = poi_is
+                # 为了方便后面扩展i_indices
                 i_indices = np.array([poi_is])
 
             print(params['idx_reordered'][0] or params['real_atomic'], "i_indices: ", i_indices)
@@ -3682,7 +4111,7 @@ def prepare_inputs_measure_one_tile(ori_op, formats, dtype, dev):
             max_k = np.amax(indices) + 1
 
 
-
+    # 准备公用的参数
     # max_i, max_j = out_shape
 
     # max_i = max(op_i_start + op_i_stride - 1, max_i)
@@ -3706,13 +4135,14 @@ def prepare_inputs_measure_one_tile(ori_op, formats, dtype, dev):
 
     args = [to_tvm_array(arg, dtype, dev) for arg in [b, c]] + args
 
-
+    # 将参数转化为tvm array
     # args_nd = [tvm.nd.array(np.array(arg).astype(dtype), device=dev) for arg in args]
 
     # print("FINISH PREPARE INs")
     # print(args[0].shape)
 
     return args, (max_i, max_j, max_k)
+
 
 
 
@@ -3737,14 +4167,19 @@ def measure_latency_BSPMM(ori_op, op_type, batch_num, f, args_nd, out_shape, dty
     # f = tvm.runtime.module.load_module("f_build")
     # f.time_evaluator(f.entry_name, dev, number=100)
 
+    def to_tvm_array(v, dtype, dev):
+        return tvm.nd.array(np.array(v).astype(dtype), device=dev)
+
     f(*args_nd)
     print("measure result!: ", profile_tvm_ms(f, args_nd))
+    args_nd[1] = to_tvm_array(np.zeros(args_nd[1].shape), dtype, dev)
+    f(*args_nd)
 
     # check accuracy
     try:
         dtype_th = None
         if dtype == 'float16':
-
+            # TODO: 看看是换别的函数来计算，还是更新pytorch版本，因为目前的版本不支持A100，也不支持half精度的sparse.mm函数
             dtype_th = torch.float16 # torch.float32 # torch.float16
         elif dtype == 'float32':
             dtype_th = torch.float32
@@ -3786,6 +4221,9 @@ def measure_latency_BSPMM(ori_op, op_type, batch_num, f, args_nd, out_shape, dty
         # my_res = list(out_nd.numpy().reshape(out_shape)[:ori_op.idx_lens[0] ,:][:,:ori_op.idx_lens[1]])
         # th_res = list(y_golden)
         # for row_i, (i,j) in enumerate(zip(my_res, th_res)):
+        #     # if max(i) > 1e9:
+        #     if (not (i==j).all()) and (min(i)>0):
+        #         print(row_i, i, j)
         #     # if row_i!=0:
         #     #     continue
         #     if list(i) != list(j):
@@ -3807,7 +4245,7 @@ def measure_latency_BSPMM(ori_op, op_type, batch_num, f, args_nd, out_shape, dty
 
 
 def order_output_BSDDMM(c_indices, args_nd, nnz):
-
+    # 如果我们在运算的时候不对结果remap，那比较正确性的时候就需要remap，这个函数用于在比较正确性的时候remap
 
     print(c_indices)
     print([i.numpy().shape for i in args_nd])
@@ -3878,13 +4316,18 @@ def measure_latency_BSDDMM(ori_op, op_type, batch_num, f, args_nd, out_shape, dt
     try:
         dtype_th = None
         if dtype == 'float16':
-
+            # TODO: 看看是换别的函数来计算，还是更新pytorch版本，因为目前的版本不支持A100，也不支持half精度的sparse.mm函数
             dtype_th = torch.float16 # torch.float32 # torch.float16
         elif dtype == 'float32':
             dtype_th = torch.float32
 
+        # g = dgl.graph(('csr', (ori_op.inps[0].indptr, ori_op.inps[0].indices, []))).to(cuda_i)
+        # A = torch.from_numpy(np.array(ori_op.inps[1].data)).to(dtype_th).to(cuda_i)
+        # # 因为我们在准备ori_op.inps[0]的时候对i，j轴的padding不一样，所以此处截取一样的长度，使u_dot_v能正常计算
+        # B = torch.from_numpy(np.array(ori_op.inps[2].data)[:ori_op.idx_lens[0]]).to(dtype_th).to(cuda_i)
+        # c_golden = dgl.ops.u_dot_v(g, A, B)
 
-
+        # 此处计算c_golden有问题，因为不一定是B比A更大，所以更为general的解决方案是直接把g pad成长宽一样的样子
         node_num = max(*(ori_op.inps[0].shape))
         indptr = ori_op.inps[0].indptr
         indptr = np.concatenate([indptr, np.full(node_num+1-len(indptr), indptr[-1]) ])
@@ -3973,7 +4416,7 @@ def measure_latency_one_tile(selected_tile, ori_op, f, args_nd, out_shape, dtype
 
         dtype_th = None
         if dtype == 'float16':
-
+            # TODO: 看看是换别的函数来计算，还是更新pytorch版本，因为目前的版本不支持A100，也不支持half精度的sparse.mm函数
             dtype_th = torch.float16 # torch.float32 # torch.float16
         elif dtype == 'float32':
             dtype_th = torch.float32
@@ -4108,7 +4551,7 @@ def measure_latency_one_tile_more_accurate(selected_tile, ori_op, f, args_nd, ma
 
         dtype_th = None
         if dtype == 'float16':
-
+            # TODO: 看看是换别的函数来计算，还是更新pytorch版本，因为目前的版本不支持A100，也不支持half精度的sparse.mm函数
             dtype_th = torch.float16 # torch.float32 # torch.float16
         elif dtype == 'float32':
             dtype_th = torch.float32
@@ -4177,6 +4620,7 @@ def store_op_def_to_file(filename, op_def_str):
 
 
 
+# 从code中分离出变量声明 和 计算 这两部分的代码，并且直接完成thread y到fuse之后的thread x的替换，这样在nvcc里面就可以直接用了。
 def split_good_1D_CUDA(ori_code, params):
     '''
     params: is the parameters used for 1D tiles
@@ -4210,10 +4654,16 @@ def split_good_1D_CUDA(ori_code, params):
     for line in ori_code[var_end:]:
         new_line = line.replace(ori_tx, new_tx).replace(ori_ty, new_ty)
         if len(new_line) == 0:
-
+            # 我们不存空行
             continue
         computation.append(new_line)
-
+        # 不管下面的这个写法了，我们还是在生成good CUDA for 1D tiles的时候就加上vectorize。
+        # if ('C0' in line) and ('C0_local' in line):
+        #     # 这一行是在把结果从local memory中写回 global memory里
+        #     if 'for' in computation[-2] and (params['tx'] == params['group_size']):
+        #         # 每个线程有多个结果要写回，而且此处没有采用vectorize
+        #         computation = computation[:-2]
+        #         new_line = f"C0[((((int)blockIdx.x) * {int(params['max_bucket_size'])}) + ((int)threadIdx.x))] = C0_local[(((int)threadIdx.x) & 7)];"
 
     assert computation[-1] == '}', f'Check the last non empty line again: {computation[-6:]}EndSymbol'
     computation = computation[:-1]
@@ -4229,7 +4679,7 @@ def split_good_1D_CUDA(ori_code, params):
 
 
 
-
+# 用这个函数来获得功能完好的thread y和thread x还没有被fuse在一起的，sparsetir会生成的1D tiles的CUDA代码。
 def prepare_good_1D_CUDA(ori_op, op_type, batch_num, selected_tiles, cuda_i, cache_set, dsize,
     dtype = "float16", dtype_str = '"float16"', zerotype = "T.float16(0)"):
     '''
@@ -4268,7 +4718,7 @@ def prepare_good_1D_CUDA(ori_op, op_type, batch_num, selected_tiles, cuda_i, cac
         tmp_op_def3 = reload(tmp_op_def3)
         func = tmp_op_def3.my_fusedFormats      
 
-
+    # 以下是原代码---
     # import tmp_op_def
     # tmp_op_def = reload(tmp_op_def)
 
@@ -4285,7 +4735,7 @@ def prepare_good_1D_CUDA(ori_op, op_type, batch_num, selected_tiles, cuda_i, cac
         file.write("\nNEXT IS COMPUTATION CODE\n")
         file.write(computation)
 
-
+    # 这个变量会在nvcc里面用到
     os.environ['has_1d_tile'] = 'True'
 
     # print(f.imported_modules[0].get_source())
@@ -4298,9 +4748,17 @@ def prepare_good_1D_CUDA(ori_op, op_type, batch_num, selected_tiles, cuda_i, cac
 
 
 
+
+
+
+# 接下来是整体的函数
 def measure_seleted_formats(ori_op, op_type, batch_num, selected_tiles, cuda_i, cache_set, dsize, gened_inputs = list(),
     dtype = "float16", dtype_str = '"float16"', zerotype = "T.float16(0)"):
-
+    '''
+    input里面有op_type, batch_num, 其中ori_op.op_type 可能和op_type不一样, 比如我们在做batched spmm的实验的时候, 
+    ori_op.op_type=spmm, op_type=batched spmm。这是因为我们目前的tuning阶段只支持spmm, 暂时先这样实现batched spmm的功能支持。
+    '''
+    # 这个变量会在nvcc里面用到，会在prepare_good_1D_CUDA 获得了good cuda之后变为True
     os.environ['has_1d_tile'] = 'False'
     # os.environ['has_32thread_SDDMM_cuda'] = 'False'
 
@@ -4350,7 +4808,7 @@ def measure_seleted_formats(ori_op, op_type, batch_num, selected_tiles, cuda_i, 
         tmp_op_def3 = reload(tmp_op_def3)
         func = tmp_op_def3.my_fusedFormats      
 
-
+    # 以下是原代码---
     # import tmp_op_def
     # tmp_op_def = reload(tmp_op_def)
 
@@ -4365,7 +4823,7 @@ def measure_seleted_formats(ori_op, op_type, batch_num, selected_tiles, cuda_i, 
     # with open("Check_accuracy.py", 'w') as file:
     #     file.write(f.imported_modules[0].get_source())
 
-
+    # FOR DEBUG 暂时删掉了
     args_nd, c_indices = None, None
     print("len(gened_inputs)", len(gened_inputs))
     if len(gened_inputs) == 0:
@@ -4394,7 +4852,10 @@ def measure_seleted_formats(ori_op, op_type, batch_num, selected_tiles, cuda_i, 
 
 def Benchmark_TC_BSDDMM(ori_op, op_type, batch_num, selected_tiles, cuda_i, cache_set, dsize, row_window_num, row_window_width, 
     dtype = "float16", dtype_str = '"float16"', zerotype = "T.float16(0)"):
-
+    '''
+    input里面有op_type, batch_num, 其中ori_op.op_type 可能和op_type不一样, 比如我们在做batched spmm的实验的时候, 
+    ori_op.op_type=spmm, op_type=batched spmm。这是因为我们目前的tuning阶段只支持spmm, 暂时先这样实现batched spmm的功能支持。
+    '''
 
     # !!NOTE: there will be only one tile in selected_tiles
     os.environ['has_1d_tile'] = 'False'
@@ -4429,7 +4890,7 @@ def Benchmark_TC_BSDDMM(ori_op, op_type, batch_num, selected_tiles, cuda_i, cach
         tmp_op_def3 = reload(tmp_op_def3)
         func = tmp_op_def3.my_fusedFormats      
 
-
+    # 以下是原代码---
     # import tmp_op_def
     # tmp_op_def = reload(tmp_op_def)
 
@@ -4445,7 +4906,7 @@ def Benchmark_TC_BSDDMM(ori_op, op_type, batch_num, selected_tiles, cuda_i, cach
     #     file.write(f.imported_modules[0].get_source())
     print(f.imported_modules[0].get_source())
 
-
+    # FOR DEBUG 暂时删掉了
     args_nd, c_indices = prepare_inputs_BSDDMM_one_tile(ori_op, op_type, batch_num, formats, out_shape, dtype, dev, row_window_width)
     cost = measure_latency(ori_op, op_type, batch_num, f, args_nd, out_shape, dtype, dev, dev_th, cuda_i, c_indices)
 
@@ -4457,6 +4918,7 @@ def Benchmark_TC_BSDDMM(ori_op, op_type, batch_num, selected_tiles, cuda_i, cach
 
 
 
+# 对于单个tile的measure，我们目前只支持spmm这个算子，所以对于batch spmm，我们也会当做spmm来对待。
 def measure_seleted_tile(ori_op, selected_tile, cuda_i, cache_set, dsize,
     dtype = "float16", dtype_str = '"float16"', zerotype = "T.float16(0)"):
     selected_tiles = [selected_tile]
@@ -4493,6 +4955,14 @@ def measure_seleted_tile(ori_op, selected_tile, cuda_i, cache_set, dsize,
         func = tmp_op_def3.my_fusedFormats   
 
 
+    # 以下是原代码---
+    # import tmp_op_def
+    # tmp_op_def = reload(tmp_op_def)
+
+    # # print("before load")
+    # func = tmp_op_def.my_fusedFormats
+
+    # print("before set params")
 
     sch, out_shape = set_params(func, formats, dsize, ori_op.op_type)
 
@@ -4551,7 +5021,7 @@ def measure_seleted_tile_more_accurate(ori_op, selected_tile, cuda_i, cache_set,
 
     # f = schedule_fused_kernel_and_build(sch, formats, target)
     f = schedule_fused_kernel_and_build(ori_op.op_type, sch, formats, target)
-    print(f.imported_modules[0].get_source())
+    # print(f.imported_modules[0].get_source())
     # with open("Check_accuracy.py", 'w') as file:
     #     file.write(f.imported_modules[0].get_source())
 
@@ -4561,6 +5031,11 @@ def measure_seleted_tile_more_accurate(ori_op, selected_tile, cuda_i, cache_set,
     return cost
 
 
+# ====================================================================
+# about tuning tiles faster
+# 虽然根据我们的猜想，一个很快速的tuning方案（对于32 bit的数据来说），固定j轴thread 数量为32，然后变化i轴thread数量使其为128倍数。
+# 但是此处还是决定使用cost based的方法。
+# 找到更有希望成为好的implementation的具体的tile_sizes
 def fast_tile_tuner_BSPMM(tile, dsize, max_bucket_size):
     sub_op = tile.op
     tile_sizes = tile.tile_sizes
@@ -4596,6 +5071,7 @@ def fast_tile_tuner_BSDDMM(tile, dsize, max_bucket_size):
 
 
 def fast_tile_tuner(tile, dsize, max_bucket_size):
+    # 这个函数其实没啥用了，所以我们不再维护这个函数，再搜索tile的过程中也不再单独measure每个tile。
     if tile.op.op_type == 'spmm':
         return fast_tile_tuner_BSPMM(tile, dsize, max_bucket_size)
     elif tile.op.op_type == 'sddmm':
@@ -4613,10 +5089,14 @@ def measure_tiles(ori_op, tiles, tuning_hub, dsize, cache_set,
     NOTE: the input tiles do not have concrete tile sizes and parameters. 
     This function is to find the best tile sizes and the best params for the given tiles.
     '''
-    if ori_op.op_type == 'sddmm':
+    # if ori_op.op_type == 'sddmm':
+    # <jingzhi>@revision: also do not tune ELL tiles: tile.best_tile_sizes = tile.tile_sizes is wrong (wrong tile sizes) for spmm. Anyway, delete it for no improvement on logsparse spmm.
+    if ori_op.op_type in ('sddmm', 'spmm'):
         for tile in tiles:
             tile.cost = 1
             tile.best_tile_sizes = tile.tile_sizes
+            if ori_op.op_type == 'spmm':
+                tile.best_tile_sizes = ([None, tile.tile_sizes[0][1], 1], [None, tile.tile_sizes[1][1]//32, 32], (1, tile.tile_sizes[2][1]))
             tile.best_params = tile.params
             tile.set_avg_cost()
         return
@@ -4663,6 +5143,7 @@ def measure_tiles(ori_op, tiles, tuning_hub, dsize, cache_set,
         tile.nnz_when_selected = tile.nnz_uncovered
 
 
+        # 判断一下这个tile是不是有同样shape 同样sub_op的其他tile已经被measure过了
         can_reuse = False
         reuse_key = json.dumps((sub_op_id, tile_sizes))
         if reuse_key in tuning_hub:
@@ -4685,6 +5166,7 @@ def measure_tiles(ori_op, tiles, tuning_hub, dsize, cache_set,
                         print(f"{tile_sizes, tile_pos, params}")
 
 
+                    # 在测量cost之前还得预处理一下，比如把假装已经选择了这个tile且得到了其best tile sizes 和 best params
                     if (sub_op.loop_protocals[area_i] == 'uuu') and (params['mma_shape_str'] in tensor_core_cost_dict):
                         cost = tensor_core_cost_dict[params['mma_shape_str']]
                     else:
@@ -4733,6 +5215,7 @@ def measure_tiles(ori_op, tiles, tuning_hub, dsize, cache_set,
             tile.pred_cost = float('inf')
             tile.set_pred_avg_cost()
         else:
+            # 当找到valid implementation时，才把结果存到tuning hub中
             if reuse_key not in tuning_hub:
                 tuning_hub[reuse_key] = [best_tile_sizes, best_params]
 
@@ -4743,64 +5226,3 @@ def measure_tiles(ori_op, tiles, tuning_hub, dsize, cache_set,
 
 
 
-def save_mod_and_inputs(ori_op, selected_tiles, cuda_i, cache_set, dsize,
-    dtype = "float16", dtype_str = '"float16"', zerotype = "T.float16(0)",
-    ):
-    formats = get_formats_from_selected_tiles(selected_tiles, cache_set, dsize)
-
-    # dtype = "float16"
-    # dtype_str = '"float16"'
-    # zerotype = "T.float16(0)"
-    target = tvm.target.Target("cuda")
-    dev = tvm.cuda(cuda_i)
-    dev_th = torch.device(f'cuda:{cuda_i}') # None # torch.device(f'cuda:{cuda_i}')
-
-    op_def_str = gen_op_definition(formats, dtype_str, zerotype, cache_set, dsize)
-    # print(op_def_str)
-    store_op_def_to_file("tmp_op_def.py", op_def_str)
-    # exec(op_def_str)
-    import tmp_op_def
-    tmp_op_def = reload(tmp_op_def)
-
-    func = tmp_op_def.my_fusedFormats
-    sch, out_shape = set_params(func, formats, dsize)
-
-    f = schedule_fused_kernel_and_build(sch, formats, target, save_to_file=True)
-    # print(f.imported_modules[0].get_source())
-    # with open("Check_accuracy.py", 'w') as file:
-    #     file.write(f.imported_modules[0].get_source())
-
-    args_nd = prepare_inputs(ori_op, formats, out_shape, dtype, dev)
-
-    with open("args_for_mod.npy", 'wb') as f:
-        for arg in args_nd:
-            np.save(f, arg.numpy())
-
-    with open("args_num.json", 'w') as f:
-        json.dump([len(args_nd), [int(tmp) for tmp in out_shape]], f)
-    # cost = measure_latency(ori_op, f, args_nd, out_shape, dtype, dev, dev_th)
-
-
-
-
-def load_mod_and_inputs(cuda_i):
-    def to_tvm_array(v, dev):
-        return tvm.nd.array(np.array(v), device=dev)
-    # 
-    import mod_before_build
-    mod_before_build = reload(mod_before_build)
-    mod = mod_before_build.Module
-    target = tvm.target.Target("cuda")
-    func = tvm.build(mod, target=target)
-    # 
-    dev = tvm.cuda(cuda_i)
-    args = list()
-    args_num = None
-    with open("args_num.json", 'r') as f:
-        args_num, out_shape = json.load(f)
-    with open("args_for_mod.npy", 'rb') as f:
-        for i in range(args_num):
-            arg = np.load(f)
-            args.append(arg)
-    args_nd = [to_tvm_array(arg, dev) for arg in args]
-    return func, args_nd, out_shape
