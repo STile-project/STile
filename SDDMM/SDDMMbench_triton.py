@@ -196,7 +196,7 @@ def do_profile(name, filename, feat_size):
 
     # feat_size = 512
     block_size = 16
-    block_size = 32 # try 32 for pruned-bert-structured
+    # block_size = 32 # try 32 for pruned-bert-structured
     for data_i in range(tot_num):
         (m, n), mb, nb, indices, indptr, nnzb, blk_index = get_input(name, data_i, feat_size, block_size)
         memory_usage = measure_memory(
