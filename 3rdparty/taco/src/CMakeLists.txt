@@ -1,0 +1,31 @@
+if (TACO_SHARED_LIBRARY)
+  set(TACO_LIBRARY_TYPE SHARED)
+  message("-- Shared library")
+else()
+  set(TACO_LIBRARY_TYPE STATIC)
+  message("-- Static library")
+endif()
+
+set(TACO_SRC_DIRS . parser index_notation lower ir codegen storage error util)
+
+foreach(dir ${TACO_SRC_DIRS})
+  file(GLOB TACO_HEADERS ${TACO_HEADERS} ${dir}/*.h)
+  file(GLOB TACO_HEADERS ${TACO_HEADERS} ${TACO_INCLUDE_DIR}/taco/${dir}/*.h)
+  file(GLOB TACO_SOURCES ${TACO_SOURCES} ${dir}/*.cpp)
+endforeach()
+
+set(TACO_HEADERS ${TACO_HEADERS} ../include/taco/ir_tags.h)
+set(TACO_SOURCES ${TACO_SOURCES} ir_tags.cpp)
+
+add_definitions(${TACO_DEFINITIONS})
+include_directories(${TACO_SRC_DIR})
+add_library(taco ${TACO_LIBRARY_TYPE} ${TACO_HEADERS} ${TACO_SOURCES})
+target_include_directories(taco PRIVATE ${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES})
+target_link_libraries(taco INTERFACE CUDA::cusparse CUDA::cublas CUDA::curand CUDA::cudart)
+install(TARGETS taco DESTINATION lib)
+
+if (LINUX)
+  target_link_libraries(taco PRIVATE ${TACO_LIBRARIES} dl)
+else()
+  target_link_libraries(taco PRIVATE ${TACO_LIBRARIES})
+endif()

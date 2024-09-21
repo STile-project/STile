@@ -849,10 +849,10 @@ def do_profile_sparse_attention(old_dim, csv, filename):
             bsr_weight = csr_weight.tobsr(blocksize=(block_size, block_size))
             x = th.rand(csr_weight.shape[1], dim).half()
             # 
-            # sparsetir_durs = (bench_bsrmm(bsr_weight, x, block_size, filename, count, name, dim))
-            # sparsetir_dbsrmm_durs = (bench_dbsrmm(bsr_weight, x, block_size, filename, count, name, dim))
+            sparsetir_durs = (bench_bsrmm(bsr_weight, x, block_size, filename, count, name, dim))
+            sparsetir_dbsrmm_durs = (bench_dbsrmm(bsr_weight, x, block_size, filename, count, name, dim))
             # # cublas_durs = (bench_cublas(param.data, x, filename, count, name, dim))
-            # cusparse_durs = (bench_cusparse(csr_weight, x, filename, count, name, dim))
+            cusparse_durs = (bench_cusparse(csr_weight, x, filename, count, name, dim))
             # rerun triton when setting block size to 16
             triton_durs = (bench_triton(bsr_weight, x, block_size, filename, count, name, dim))
 

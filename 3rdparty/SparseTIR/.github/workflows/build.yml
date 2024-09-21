@@ -1,0 +1,71 @@
+name: Build
+on:
+  push:
+    branches:
+    - main
+  pull_request:
+    branches:
+    - main
+  # Allow manual trigger.
+  workflow_dispatch:
+jobs:
+  build-docker-image:
+    runs-on: self-hosted
+    outputs:
+      tag: ${{ steps.generate-tag.outputs.tag }}
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        submodules: true
+    
+    - name: Generate Docker image tag
+      id: generate-tag
+      run: |
+        export TAG=sparsetir:$(date +%s)
+        echo "tag=$TAG" >> $GITHUB_OUTPUT
+    
+    - name: Build Docker image
+      run: |
+        DOCKER_BUILDKIT=1 docker build \
+          . \
+          --file docker/Dockerfile.ci_sparsetir_gpu \
+          --tag ${{ steps.generate-tag.outputs.tag }}
+  
+  run-lint:
+    runs-on: self-hosted
+    needs: build-docker-image
+    steps:
+    - name: Run lint
+      id: lint
+      run: docker run ${{ needs.build-docker-image.outputs.tag }} bash tests/scripts/task_lint.sh
+
+  run-tests:
+    runs-on: self-hosted
+    needs: build-docker-image
+    steps:
+    - name: Run tests
+      id: run-tests
+      run: docker run --gpus all ${{ needs.build-docker-image.outputs.tag }} bash tests/scripts/task_python_sparsetir_unittest.sh
+
+  build-doc:
+    runs-on: self-hosted
+    needs: build-docker-image
+    if: ${{ github.ref == 'refs/heads/main' }}
+    steps:
+    - name: Build Documentation
+      id: build-doc
+      run: |
+        docker run -v $(pwd)/../public:/root/sparsetir/public ${{ needs.build-docker-image.outputs.tag }} sphinx-build -b html docs/ public/
+
+  deploy-doc:
+    runs-on: self-hosted
+    needs: build-doc
+    if: ${{ github.ref == 'refs/heads/main' }}
+    steps:
+    - name: Deploy documentation
+      id: deploy-doc
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ../public
+  

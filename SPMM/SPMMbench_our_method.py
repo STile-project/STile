@@ -158,9 +158,12 @@ def get_memory_usage(args_nd):
 
 
 
-def do_profile(op_type, name, feat_size, filename, data_i, bench_cost_model=False, m=4096, patch_size = 2, mask_ratio = 0.75, 
+def _do_profile(
+	result_dict,
+	op_type, name, feat_size, filename, data_i, bench_cost_model=False, m=4096, patch_size = 2, mask_ratio = 0.75, 
 	max_level_num=float('inf'), 
 	only_TC = False, only_ELL=False,
+	no_withdraw = 'False', no_local_search = False,
 	):
 	# name = "reddit" # "proteins" # "arxiv" "pubmed" "citeseer"
 	op = get_op(op_type, data_i, feat_size, name, m=m)
@@ -176,7 +179,7 @@ def do_profile(op_type, name, feat_size, filename, data_i, bench_cost_model=Fals
 	os.environ['single_level'] = use_single_level # 'False' # 'True'
 	TC_k_notsorted = False
 	os.environ['TC_k_notsorted'] = 'False'
-	os.environ['no_withdraw'] = 'False'
+	os.environ['no_withdraw'] = no_withdraw
 	os.environ['REMAP'] = 'False' # 'True' # 'REMAP' is only used for SDDMM operators
 
 
@@ -215,6 +218,10 @@ def do_profile(op_type, name, feat_size, filename, data_i, bench_cost_model=Fals
 	if bench_cost_model:
 		only_TC, only_ELL = False, False
 		max_avg_cost_diff = 0.2
+
+
+	if no_local_search:
+		max_avg_cost_diff = 1e-6
 
 
 	log_file="log_hub/CostModel_pbert_lower_bound_0320_512_1.py"
@@ -329,6 +336,11 @@ def do_profile(op_type, name, feat_size, filename, data_i, bench_cost_model=Fals
 
 
 		print("summary:", results[-1], flush=True )
+		result_dict[(name, data_i, m, tmp_feat_size)] = {
+			'search_time':search_time,
+			'cost':min(cost1, cost2),
+			'mem':memory_costs[0] if cost1 < cost2 else memory_costs[1], 
+			'level_num':level_num}
 
 		# with open('cost_ablation_localSearch.csv', 'a') as f:
 		# with open('cost_added_dataset.csv', 'a') as f:
@@ -340,6 +352,75 @@ def do_profile(op_type, name, feat_size, filename, data_i, bench_cost_model=Fals
 			f.write('\n')
 
 	return  # ----------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+def do_profile(
+	op_type, name, feat_size, filename, data_i, bench_cost_model=False, m=4096, patch_size = 2, mask_ratio = 0.75, 
+	max_level_num=float('inf'), 
+	only_TC = False, only_ELL=False,
+	no_withdraw = 'False', no_local_search = False,
+	):
+	result_dict = dict()
+	if (not only_TC) and (not only_ELL):
+		result_dict_TC_ELL = dict()
+		result_dict_TC = dict()
+		result_dict_ELL = dict()
+		_do_profile(
+			result_dict_TC_ELL,
+			op_type, name, feat_size, filename, data_i, 
+			bench_cost_model=bench_cost_model, m=m, patch_size=patch_size, mask_ratio=mask_ratio, 
+			max_level_num=max_level_num, 
+			only_TC = False, only_ELL=False,
+			no_withdraw = no_withdraw, no_local_search = no_local_search,
+			)
+		_do_profile(
+			result_dict_TC,
+			op_type, name, feat_size, filename, data_i, 
+			bench_cost_model=bench_cost_model, m=m, patch_size=patch_size, mask_ratio=mask_ratio, 
+			max_level_num=max_level_num, 
+			only_TC = True, only_ELL=False,
+			no_withdraw = no_withdraw, no_local_search = no_local_search,
+			)
+		_do_profile(
+			result_dict_ELL,
+			op_type, name, feat_size, filename, data_i, 
+			bench_cost_model=bench_cost_model, m=m, patch_size=patch_size, mask_ratio=mask_ratio, 
+			max_level_num=max_level_num, 
+			only_TC = False, only_ELL=True,
+			no_withdraw = no_withdraw, no_local_search = no_local_search,
+			)
+		result_dict_list = [result_dict_TC_ELL, result_dict_TC, result_dict_ELL]
+		result_dict = {k:{
+			'search_time':result_dict_TC_ELL[k]['search_time'],
+			'cost':[dict_i[k]['cost'] for dict_i in result_dict_list], 
+			'mem':[dict_i[k]['mem'] for dict_i in result_dict_list],
+			'level_num':[dict_i[k]['level_num'] for dict_i in result_dict_list],} \
+				for k in result_dict_TC_ELL}
+		selected = {k:np.argsort(v['cost'])[0] for k, v in result_dict.items()}
+		print(result_dict)
+		print(selected)
+		result_dict = {k:{
+			'search_time':v['search_time'],
+			'cost':v['cost'][selected[k]], 
+			'mem':v['mem'][selected[k]], 
+			'level_num':v['level_num'][selected[k]], }\
+				for k, v in result_dict.items()}
+	else:
+		_do_profile(
+			result_dict,
+			op_type, name, feat_size, filename, data_i, 
+			bench_cost_model=bench_cost_model, m=m, patch_size=patch_size, mask_ratio=mask_ratio, 
+			max_level_num=max_level_num, 
+			only_TC = only_TC, only_ELL=only_ELL,
+			no_withdraw = no_withdraw, no_local_search = no_local_search,
+			)
+	# store the result to file
+	with open(f"processed_"+filename[:-len('json')]+'py', 'a') as f:
+		f.write(f'result_dict.update({result_dict})\n')
+
 
 
 
@@ -558,6 +639,7 @@ op_type = 'spmm'
 names = ['cora', 'citeseer', 'ppi', 'pubmed', 'arxiv', 'proteins', 'reddit', 'out.web-NotreDame'] + ['pruned_bert', 'pruned_bert_unstructured']
 names = ['pruned_bert_unstructured']
 names = ['pruned_bert_unstructured', 'logsparse', 'strided']
+names = ['cora', 'citeseer']
 
 feat_sizes = [32, 512]
 
@@ -565,6 +647,8 @@ filename = "Mem_LevelNum_fp16.json"
 with open(filename, 'a') as file:
 	file.write(f"\n\n\n\nNew Round---------\n")
 
+with open(f"processed_"+filename[:-len('json')]+'py', 'a') as file:
+	file.write(f"result_dict=dict()\n")
 
 for name in names:
 	tot_num = 1

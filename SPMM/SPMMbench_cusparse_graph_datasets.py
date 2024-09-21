@@ -150,6 +150,7 @@ def do_profile(op_type, filename, name, data_i, feat_size, m=4096):
 	with open(filename, 'a') as file:
 		json.dump(['cusparse', op_type, (name, data_i), feat_size, m, ('time', latency), ('mem', memory_usage)], file)
 		file.write('\n')
+	
 
 
 

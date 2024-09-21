@@ -155,7 +155,9 @@ def get_mem_usage_from_args(args_nd):
     return sum([arg.numpy().nbytes for arg in args_nd])/(1024**2)
 
 
-def do_profile(op_type, name, feat_size, filename, data_i, bench_cost_model=False, m=4096, 
+def _do_profile(
+	result_dict,
+	op_type, name, feat_size, filename, data_i, bench_cost_model=False, m=4096, 
 	max_level_num=float('inf'), 
 	only_TC = False, only_ELL=False,
 	):
@@ -352,13 +354,21 @@ def do_profile(op_type, name, feat_size, filename, data_i, bench_cost_model=Fals
 							best_config = (TC_vec, tx, ty, vec_1d, group_size)
 
 
+
+	result_dict[(name, data_i, m, feat_size)] = {
+		'search_time':end_time - start_time,
+		'cost':best_cost,
+		'mem':memory_usage, 
+		'level_num':level_num}
+
+
 	with open(filename, 'a') as file:
 		file.write(json.dumps(["BEST", (name, data_i), ('m', m), feat_size, ('single_level', use_single_level, max_level_num), ('only_TC', only_TC, 'only_ELL', only_ELL), best_config, best_cost]))
 		file.write('\n')
 
 	return
 	# ==============================================================================================================
-	# 以下是之前默认parameter setting的时候的写法。
+	# Below is the code assuming the default parameter setting
 
 
 	for t in selected_tiles:
@@ -386,6 +396,63 @@ def do_profile(op_type, name, feat_size, filename, data_i, bench_cost_model=Fals
 
 
 
+def do_profile(op_type, name, feat_size, filename, data_i, bench_cost_model=False, m=4096, 
+	max_level_num=float('inf'), 
+	only_TC = False, only_ELL=False,
+	):
+	result_dict = dict()
+	if (not only_TC) and (not only_ELL):
+		result_dict_TC_ELL = dict()
+		result_dict_TC = dict()
+		result_dict_1D = dict()
+		_do_profile(
+			result_dict_TC_ELL,
+			op_type, name, feat_size, filename, data_i, 
+			bench_cost_model=bench_cost_model, m=m, 
+			max_level_num=max_level_num, 
+			only_TC = False, only_ELL=False,
+			)
+		_do_profile(
+			result_dict_TC,
+			op_type, name, feat_size, filename, data_i, 
+			bench_cost_model=bench_cost_model, m=m, 
+			max_level_num=max_level_num, 
+			only_TC = True, only_ELL=False,
+			)
+		_do_profile(
+			result_dict_1D,
+			op_type, name, feat_size, filename, data_i, 
+			bench_cost_model=bench_cost_model, m=m,
+			max_level_num=max_level_num, 
+			only_TC = False, only_ELL=True,
+			)
+		result_dict_list = [result_dict_TC_ELL, result_dict_TC, result_dict_1D]
+		result_dict = {k:{
+			'search_time':result_dict_TC_ELL[k]['search_time'],
+			'cost':[dict_i[k]['cost'] for dict_i in result_dict_list], 
+			'mem':[dict_i[k]['mem'] for dict_i in result_dict_list],
+			'level_num':[dict_i[k]['level_num'] for dict_i in result_dict_list],} \
+				for k in result_dict_TC_ELL}
+		selected = {k:np.argsort(v['cost'])[0] for k, v in result_dict.items()}
+		print(result_dict)
+		print(selected)
+		result_dict = {k:{
+			'search_time':v['search_time'],
+			'cost':v['cost'][selected[k]], 
+			'mem':v['mem'][selected[k]], 
+			'level_num':v['level_num'][selected[k]], }\
+				for k, v in result_dict.items()}
+	else:
+		_do_profile(
+			result_dict,
+			op_type, name, feat_size, filename, data_i, 
+			bench_cost_model=bench_cost_model, m=m,  
+			max_level_num=max_level_num, 
+			only_TC = only_TC, only_ELL=only_ELL,
+			)
+	# store the result to file
+	with open(f"processed_"+filename[:-len('json')]+'py', 'a') as f:
+		f.write(f'result_dict.update({result_dict})\n')
 
 
 
@@ -532,6 +599,10 @@ with open(filename, 'a') as file:
 	file.write(f"\n\n\n\nNew Round---------\n")
 
 
+with open(f"processed_"+filename[:-len('json')]+'py', 'a') as file:
+	file.write(f"result_dict=dict()\n")
+
+
 m = 4096
 for name in names:
 	tot_num = 1
@@ -541,7 +612,7 @@ for name in names:
 		for feat_size in feat_sizes:
 			if (name in ['pruned_bert', 'pruned_bert_unstructured']) and (feat_size != 512):
 				continue
-			for max_level_num in [float('inf'), 1, 2, 10, 100, 1000]: # [2, 10, 100, 1000]:
+			for max_level_num in [float('inf')]: #[float('inf'), 1, 2, 10, 100, 1000]: # [2, 10, 100, 1000]:
 				# if (name in ['reddit', 'out.web-NotreDame']) and (max_level_num in [2, 10, 100, 1000]):
 				# 	continue
 

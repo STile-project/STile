@@ -1,0 +1,11 @@
+*.mtx
+*.npz
+*.log
+*.err
+*.csv
+*.pdf
+*.dat
+.vscode/
+*.pyc
+__pycache__/
+*.egg-info/

@@ -1049,9 +1049,13 @@ def load_model(PATH = 'trained_model', param_path = 'preprcess_param.pt'):
 
 
 
-
-MLP_nonatomic, means_nonatomic, std_nonatomic = load_model(PATH = 'trained_model', param_path = 'preprcess_param.pt')
-MLP_atomic, means_atomic, std_atomic = load_model(PATH = 'trained_model_atomic', param_path = 'preprcess_param_atomic.pt')
+trained_model_path_prefix = os.environ['HOME']+'/sparsetir-artifact/MY_sparse/'
+MLP_nonatomic, means_nonatomic, std_nonatomic = load_model(
+	PATH = trained_model_path_prefix+'trained_model', 
+	param_path = trained_model_path_prefix+'preprcess_param.pt')
+MLP_atomic, means_atomic, std_atomic = load_model(
+	PATH = trained_model_path_prefix+'trained_model_atomic', 
+	param_path = trained_model_path_prefix+'preprcess_param_atomic.pt')
 
 
 # <jingzhi>@revision
