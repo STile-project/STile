@@ -27,7 +27,7 @@ parser = argparse.ArgumentParser(description='lauch the spmm benchmarks')
 #parser.add_argument('--preB', type=int, default=8, help="number of bits for B")
 args = parser.parse_args()
 
-dataset_dir = '/homes/jfangak/sparsetir-artifact/spmm' # os.environ.get('dataset_dir')
+dataset_dir = os.environ['HOME']+'/STile/spmm' # os.environ.get('dataset_dir')
 # sparsities = ['50', '70', '80', '90', '95', '98']
 dimNs = [32, 64, 128, 256, 512]
 dimKs = [512]
@@ -39,7 +39,10 @@ for dimN in dimNs:
 
     # matrix_list = open('./eval_matrices/my_spmm.txt', 'r')
     # matrix_list = open('./eval_matrices/my_spmm_pruned_bert.txt', 'r')
-    matrix_list = open('./eval_matrices/my_spmm_extra_datasets.txt', 'r')
+    # matrix_list = open('./eval_matrices/my_spmm_extra_datasets.txt', 'r')
+    # matrix_list = open(os.environ['HOME']+'/STile/spmm/data_for_Magicube'+'/my_spmm.txt', 'r')
+    # matrix_list = open(os.environ['HOME']+'/STile/spmm/data_for_Magicube'+'/my_spmm_pruned_bert.txt', 'r')
+    matrix_list = open(os.environ['HOME']+'/STile/spmm/data_for_Magicube'+'/my_spmm_extra_datasets.txt', 'r')
     lines = matrix_list.readlines()
     for i in range(len(lines)):
     #for i in range(1):
