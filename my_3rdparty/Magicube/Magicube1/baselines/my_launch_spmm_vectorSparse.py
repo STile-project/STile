@@ -27,7 +27,7 @@ parser = argparse.ArgumentParser(description='lauch the spmm benchmarks')
 #parser.add_argument('--preB', type=int, default=8, help="number of bits for B")
 args = parser.parse_args()
 
-dataset_dir = os.environ['HOME']+'/STile/spmm' # os.environ.get('dataset_dir')
+dataset_dir = os.environ['HOME']+'/STile/SPMM' # os.environ.get('dataset_dir')
 # sparsities = ['50', '70', '80', '90', '95', '98']
 dimNs = [32, 64, 128, 256, 512]
 dimKs = [512]
