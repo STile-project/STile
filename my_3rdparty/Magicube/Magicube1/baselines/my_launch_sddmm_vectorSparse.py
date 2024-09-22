@@ -19,7 +19,7 @@ def get_vec_len_from_filename(line):
 
 
 # Args
-parser = argparse.ArgumentParser(description='lauch the spmm benchmarks')
+parser = argparse.ArgumentParser(description='lauch the sddmm benchmarks')
 
 #parser.add_argument('--dimK', type=int, default=256, help="the dimension N of the benchmark")
 #parser.add_argument('--dimV', type=int, default=8, help="vector length")
@@ -28,7 +28,7 @@ parser = argparse.ArgumentParser(description='lauch the spmm benchmarks')
 #parser.add_argument('--preB', type=int, default=8, help="number of bits for B")
 args = parser.parse_args()
 
-dataset_dir = os.environ['HOME']+'/STile/spmm' # os.environ.get('dataset_dir')
+dataset_dir = os.environ['HOME']+'/STile/SPMM' # os.environ.get('dataset_dir')
 # sparsities = ['50', '70', '80', '90', '95', '98']
 dimKs = [32, 64, 128, 256, 512]
 dimKs = [512]
