@@ -41,9 +41,9 @@ for dimK in dimKs:
     # matrix_list = open('./eval_matrices/my_spmm.txt', 'r')
     # matrix_list = open('./eval_matrices/my_spmm_pruned_bert.txt', 'r')
     # matrix_list = open('./eval_matrices/my_spmm_extra_datasets.txt', 'r')
-    # matrix_list = open(os.environ['HOME']+'/STile/spmm/data_for_Magicube'+'/my_spmm.txt', 'r')
-    # matrix_list = open(os.environ['HOME']+'/STile/spmm/data_for_Magicube'+'/my_spmm_pruned_bert.txt', 'r')
-    matrix_list = open(os.environ['HOME']+'/STile/spmm/data_for_Magicube'+'/my_spmm_extra_datasets.txt', 'r')
+    # matrix_list = open(os.environ['HOME']+'/STile/SPMM/data_for_Magicube'+'/my_spmm.txt', 'r')
+    # matrix_list = open(os.environ['HOME']+'/STile/SPMM/data_for_Magicube'+'/my_spmm_pruned_bert.txt', 'r')
+    matrix_list = open(os.environ['HOME']+'/STile/SPMM/data_for_Magicube'+'/my_spmm_extra_datasets.txt', 'r')
     lines = matrix_list.readlines()
     for i in range(len(lines)):
     #for i in range(1):
