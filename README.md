@@ -38,15 +38,15 @@ python3 my_gen_data_for_baselines.py
 ### Example commands to run experiments
 ```bash
 # run STile for SpMM experiments
-cd $HOME/sparsetir-artifact/SPMM
+cd $HOME/STile/SPMM
 python3 SPMMbench_our_method.py > our_method_fp16.log 2> our_method_fp16.err
 
 # run STile for SDDMM experiments
-cd $HOME/sparsetir-artifact/SDDMM
+cd $HOME/STile/SDDMM
 python3 SDDMMbench_our_method.py > our_method_fp16.log 2> our_method_fp16.err
 
 # run VectorSparse for SDDMM experiments
-cd $HOME/sparsetir-artifact/my_3rdparty/Magicube/Magicube1/baselines
+cd $HOME/STile/my_3rdparty/Magicube/Magicube1/baselines
 python3 my_launch_spmm_vectorSparse.py > my_spmm_vectorSparse.txt 2> my_spmm_vectorSparse.err
 python3 my_launch_sddmm_vectorSparse.py > my_sddmm_vectorSparse.txt 2> my_sddmm_vectorSparse.err
 
