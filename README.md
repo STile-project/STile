@@ -1,12 +1,12 @@
 # How to run the experiments:
 
-### Pull a Singularity image from the Docker image of SparseTIR  
+## Pull a Singularity image from the Docker image of SparseTIR  
 ```bash
 singularity pull sparsetir-ae.sif docker://expye/sparsetir-ae:latest
 singularity shell --nv sparsetir-ae.sif
 export PS1='Singularity:\u@\h:\w>'
 ```
-### Compile STile
+## Compile STile
 ```bash
 export HOME=path/of/current_directory
 git clone -b artifact https://github.com/STile-project/STile.git --recursive
@@ -14,7 +14,7 @@ cd $HOME/STile/3rdparty/SparseTIR
 bash docker/install/install_sparsetir_gpu.sh
 ```
 
-### Prepare environment
+## Prepare environment
 ```bash
 cd $HOME/STile
 mkdir my_python_libs
@@ -28,14 +28,14 @@ pip3 install --target=$HOME/STile/my_python_libs numpy==1.24.3
 pip3 install --target=$HOME/STile/my_python_libs dgl==1.1.0+cu117 -f https://data.dgl.ai/wheels/cu117/repo.html
 ```
 
-### Prepare dataset for VectorSparse
+## Prepare dataset for VectorSparse
 ```bash
 cd $HOME/STile/SPMM
 mkdir data_for_Magicube
 python3 my_gen_data_for_baselines.py
 ```
 
-### Example commands to run experiments
+## Example commands to run experiments
 ```bash
 # run STile for SpMM experiments
 cd $HOME/STile/SPMM
