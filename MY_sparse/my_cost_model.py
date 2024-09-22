@@ -1049,7 +1049,7 @@ def load_model(PATH = 'trained_model', param_path = 'preprcess_param.pt'):
 
 
 
-trained_model_path_prefix = os.environ['HOME']+'/sparsetir-artifact/MY_sparse/'
+trained_model_path_prefix = os.environ['HOME']+'/STile/MY_sparse/'
 MLP_nonatomic, means_nonatomic, std_nonatomic = load_model(
 	PATH = trained_model_path_prefix+'trained_model', 
 	param_path = trained_model_path_prefix+'preprcess_param.pt')
